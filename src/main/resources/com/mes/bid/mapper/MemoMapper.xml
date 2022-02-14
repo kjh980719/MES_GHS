@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.app.mapper.MemoMapper">
+
+    <select id="ADMIN_MEMO4_S1_Str" statementType="CALLABLE" parameterType="Map" resultType="Map">
+        {  call ADMIN_MEMO4_S1_Str (
+            #{groupCode}
+            )
+        }
+    </select>
+
+    <insert id="ADMIN_MEMO4_I1_Str" statementType="CALLABLE" parameterType="Map">
+        {  call ADMIN_MEMO4_I1_Str (
+            #{groupCode},
+            #{memo}
+            )
+        }
+    </insert>
+
+    <delete id="ADMIN_MEMO4_D1_Str" statementType="CALLABLE" parameterType="Map">
+        {  call ADMIN_MEMO4_D1_Str (
+            #{groupCode},
+            #{seq}
+            )
+        }
+    </delete>
+
+
+</mapper>

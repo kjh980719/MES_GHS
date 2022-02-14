@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.supervisor.ManagerMapper">
+    <select id="Manager_List_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Manager_List_S1_Str (
+                #{authGroupSeq, jdbcType=INTEGER},
+                #{startDate},
+                #{endDate},
+                #{searchKeyword},
+                #{searchText},
+                #{useYn},
+                #{rowsPerPage},
+                #{currentPage}
+            )
+            }
+    </select>
+    <select id="Manager_List_I1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Manager_List_I1_Str (
+                #{managerId},
+                #{password},
+                #{authGroupSeq},
+                #{managerName},
+                #{managerEmail},
+                #{useYn},
+                #{description},
+                #{loginUserSeq}
+            )
+            }
+    </select>
+    <select id="Manager_List_U1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Manager_List_U1_Str (
+                #{managerSeq},
+                #{managerId},
+                #{changePasswordYn},
+                #{password},
+                #{authGroupSeq},
+                #{managerName},
+                #{managerEmail},
+                #{useYn},
+                #{description},
+                #{loginUserSeq}
+            )
+            }
+    </select>
+    <update id="PRO_List_U1_Str" statementType="CALLABLE" parameterType="HashMap" >
+        update protest set PROD_CD=#{PROD_CD},PROD_NAME=#{PROD_DES},SIZE_FLAG=#{SIZE_FLAG},SIZE_DES=#{SIZE_DES},
+                           UNIT=#{UNIT},PROD_TYPE=#{PROD_TYPE},SET_FLAG =#{SET_FLAG},BAL_FLAG=#{BAL_FLAG},
+                           WH_CD=#{WH_CD}, IN_PRICE=#{IN_PRICE},IN_PRICE_VAT=#{IN_PRICE_VAT},OUT_PRICE=#{OUT_PRICE},OUT_PRICE_VAT=#{OUT_PRICE_VAT},REMARKS_WIN =#{	REMARKS_WIN},
+                           CLASS_CD=#{CLASS_CD},CLASS_CD2=#{CLASS_CD2},CLASS_CD3=#{CLASS_CD3},BAR_CODE =#{BAR_CODE},VAT_YN =#{VAT_YN},TAX =#{TAX},VAT_RATE_BY_BASE_YN =#{VAT_RATE_BY_BASE_YN},
+                           VAT_RATE_BY=#{VAT_RATE_BY},CS_FLAG =#{CS_FLAG},REMARKS=#{REMARKS},INSPECT_TYPE_CD =#{INSPECT_TYPE_CD},INSPECT_STATUS =#{INSPECT_STATUS},
+                           SAMPLE_PERCENT=#{SAMPLE_PERCENT},SAFE_A0001 =#{SAFE_A0001},SAFE_A0002 =#{SAFE_A0002},SAFE_A0003 =#{SAFE_A0003},SAFE_A0004 =#{SAFE_A0004},
+                           SAFE_A0005 =#{SAFE_A0005},SAFE_A0006 =#{SAFE_A0006},SAFE_A0007=#{SAFE_A0007},CSORD_C0001=#{CSORD_C0001},CSORD_TEXT=#{CSORD_TEXT},
+                           CSORD_C0003=#{CSORD_C0003},IN_TERM=#{IN_TERM},MIN_QTY=#{MIN_QTY},CUST=#{CUST},EXCH_RATE=#{EXCH_RATE},DENO_RATE=#{DENO_RATE},OUT_PRICE1=#{OUT_PRICE1},OUT_PRICE1_VAT_YN=#{OUT_PRICE1_VAT_YN},
+                           OUT_PRICE2=#{OUT_PRICE2},OUT_PRICE2_VAT_YN=#{OUT_PRICE2_VAT_YN},OUT_PRICE3=#{OUT_PRICE3},OUT_PRICE3_VAT_YN=#{OUT_PRICE3_VAT_YN},
+                           OUT_PRICE4=#{OUT_PRICE4},OUT_PRICE4_VAT_YN=#{OUT_PRICE4_VAT_YN},OUT_PRICE5=#{OUT_PRICE5},OUT_PRICE5_VAT_YN=#{OUT_PRICE5_VAT_YN},
+                           OUT_PRICE6=#{OUT_PRICE6},OUT_PRICE6_VAT_YN=#{OUT_PRICE6_VAT_YN},OUT_PRICE7=#{OUT_PRICE7},OUT_PRICE7_VAT_YN=#{OUT_PRICE7_VAT_YN},
+                           OUT_PRICE8=#{OUT_PRICE8},OUT_PRICE8_VAT_YN=#{OUT_PRICE8_VAT_YN},OUT_PRICE9=#{OUT_PRICE9},OUT_PRICE9_VAT_YN=#{OUT_PRICE9_VAT_YN},
+                           OUT_PRICE10=#{OUT_PRICE10},OUT_PRICE10_VAT_YN=#{OUT_PRICE10_VAT_YN},OUTSIDE_PRICE=#{OUTSIDE_PRICE},OUTSIDE_PRICE_VAT=#{OUTSIDE_PRICE_VAT},
+                           LABOR_WEIGHT=#{LABOR_WEIGHT},EXPENSES_WEIGHT=#{EXPENSES_WEIGHT},MATERIAL_COST=#{MATERIAL_COST},EXPENSE_COST=#{EXPENSE_COST},
+                           LABOR_COST=#{LABOR_COST},OUT_COST=#{OUT_COST},CONT1=#{CONT1},CONT2=#{CONT2},CONT3=#{CONT3},CONT4=#{CONT4},CONT5=#{CONT5},CONT6=#{CONT6},
+                           NO_USER1=#{NO_USER1},NO_USER2=#{NO_USER2},NO_USER3=#{NO_USER3},NO_USER4=#{NO_USER4},NO_USER5=#{NO_USER5},NO_USER6=#{NO_USER6},
+                           NO_USER7=#{NO_USER7},NO_USER8=#{NO_USER8},NO_USER9=#{NO_USER9},NO_USER10=#{NO_USER10},ITEM_TYPE=#{ITEM_TYPE},SERIAL_TYPE=#{SERIAL_TYPE},
+                           PROD_SELL_TYPE=#{PROD_SELL_TYPE},PROD_WHMOVE_TYPE =#{PROD_WHMOVE_TYPE},QC_BUY_TYPE=#{QC_BUY_TYPE},QC_YN=#{QC_YN} where PROD_CD=#{PROD_CD}</update>
+
+    <update id="updateMemberInfo" parameterType="HashMap">
+        UPDATE MANAGER_LIST
+        SET
+        MANAGER_NAME = #{managerName}
+        ,MANAGER_POSITION = #{managerPosition}
+        ,MANAGER_TEL = #{managerTel}
+        ,MANAGER_EMAIL = #{managerEmail}
+        <if test="password != null">
+            ,password = #{password}
+        </if>
+        WHERE
+        MANAGER_ID = #{managerId} and MANAGER_SEQ = #{managerSeq}
+    </update>
+
+</mapper>

@@ -1,0 +1,96 @@
+@charset "utf-8";
+
+/* jqGrid style */
+.ui-jqgrid .ui-jqgrid-htable th div {
+    height: 40px;
+    background: #f7f7f7;
+    font-size: 12px;
+    font-weight: bold;
+    position:relative;
+    top:10px;
+}
+.ui-jqgrid tr.jqgrow td {
+    border: 0px;
+		padding: 7px 5px;
+    border-bottom: 1px;
+    height: 40px;
+    font-size: 12px;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 0px;
+    background: #f7f7f7;
+}
+
+.ui-widget.ui-widget-content {
+    border: 0px;
+    border-top: 1px solid #494949;
+    font-weight: bold;
+}
+
+.ui-jqgrid-bdiv .ui-state-hover,
+.ui-jqgrid-bdiv .ui-widget-content .ui-state-hover,
+.ui-jqgrid-bdiv .ui-widget-header .ui-state-hover,
+.ui-jqgrid-bdiv .ui-state-focus,
+.ui-jqgrid-bdiv .ui-widget-content .ui-state-focus,
+.ui-jqgrid-bdiv .ui-widget-header .ui-state-focus {
+	background-color: #96FFFF;
+}
+
+.ui-datepicker-trigger {
+    cursor: pointer;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.customPageNumberBtn{
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    padding-top: 4px;
+}
+.customPageMoveBtn{
+    text-align: center;
+}
+
+.customPaginateBar{
+    border: 1px solid #D5D5D5;
+    background-color : rgb(246, 246, 246);
+    background-position-y : 50%;
+    margin-top: -1px;
+    height: 25px;
+}
+
+.mjlink_page{
+    display: inline-block;
+    padding: 3px 6px 2px 5px;
+    margin-right: 1px;
+    border: 1px solid #eaeaea;
+    text-decoration: none;
+}
+.mjlink_page:hover, .mjpaging_comm em.mjlink_page {
+    border:1px solid #cf0d0b;
+    color:#cf0d0b;
+    font-weight:bold;
+}
+
+.ui-jqgrid-bdiv {
+    min-height: 100px;
+    max-height: 600px;
+}
+
+.ui-jqgrid .ui-jqgrid-btable {
+    cursor : pointer;
+}
+
+.col tr:nth-child(odd) {background-color:#EEEEEE;}
+.col tr:nth-child(odd).ui-state-highlight {background-color: #fffa90;}
+.col tr:hover {background-color: #96FFFF;}
+
+.col-box tr:nth-child(odd) {background-color:#EEEEEE;}
+.col-box tr:nth-child(odd).ui-state-highlight {background-color: #fffa90;}
+.col-box tr:hover {background-color: #96FFFF;}
+
+
+/* input */
+
+input,select {height: 32px;padding: 0 8px;border: 1px solid #c1c1c1;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;background-color: #FFF;font-size: 12px;font-family: 'Noto Sans KR',sans-serif;}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.app.mapper.HomeMapper">
+
+    <select id="getTime" resultType="String">
+        SELECT count(*) from cmmn_member_manager
+    </select>
+
+    <select id="getUserInfo" parameterType="String" resultType="mes.security.UserInfo">
+    
+        SELECT 
+	        mgrs_id as id,
+	        mgrs_name as name,
+	        mgrs_pwd as password
+        FROM CMMN_MEMBER_MANAGER 
+        WHERE mgrs_id = #{id}
+    </select>
+	
+	<select id="getManagerList" resultType="Map" parameterType="map">
+    
+        select 
+        count(*) over() as totalCount,
+        mgrs_id,
+        mgrs_name,
+        mgrs_telno,
+        mgrs_permityn,
+        convert(varchar(10), mgrs_register_pnttm, 120) as mgrs_register_pnttm
+        from CMMN_MEMBER_MANAGER ORDER BY mgrs_code DESC
+		OFFSET ((#{currentPage}-1) * #{rowsPerPage}) ROWS FETCH NEXT #{rowsPerPage} ROWS ONLY
+
+    </select> 
+
+</mapper>

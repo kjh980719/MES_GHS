@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.partlist.PartlistMapper">
+    <select id="Partlist_Search_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+		SELECT
+			Sub.*
+		FROM (
+				 SELECT
+					 @ROWNUM := @ROWNUM+1 AS no,
+                    A.PDT_CD,
+                    A.PDT_CODE,
+                    A.PDT_NAME,
+                    IFNULL(A.PDT_STANDARD,''),
+                    COUNT(B.PDT_CD) AS CNT
+				 FROM
+					 SHOP_PRODUCT A
+					 INNER JOIN MES_BOM B ON B.PDT_CD  = A.PDT_CD
+					 ,(SELECT @ROWNUM:=0) R
+				 WHERE
+					 B.BOM_VERSION = A.BOM_BASIC
+				   	 AND B.DELETE_YN = 'N'
+				 GROUP BY B.PDT_CD
+				 ORDER BY A.PDT_CODE ASC
+			 )Sub
+		WHERE Sub.no BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+    </select>
+    
+    
+    <select id="PartlistTotal" parameterType="HashMap" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			(
+				SELECT
+					A.PDT_CD
+				FROM
+					SHOP_PRODUCT A
+						INNER JOIN MES_BOM B ON B.PDT_CD  = A.PDT_CD
+				WHERE
+					B.BOM_VERSION = A.BOM_BASIC
+				AND B.DELETE_YN = 'N'
+				GROUP BY B.PDT_CD
+			)Sub;
+
+    </select>
+    
+     <select id="Partlist_Row_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+       {  
+       		call Partlist_Row_S1_Str(#{PDT_CD})
+       }
+    </select>
+	<select id="Partlist_Row_S2_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+		{
+		call Partlist_Row_S2_Str(#{M_CD})
+		}
+	</select>
+
+    <insert id="Partlist_Create_I1_Str" statementType="CALLABLE" parameterType="HashMap">
+   	    {  
+   	    	call Partlist_Create_I1_Str (#{PDT_CD},#{PDT_NAME},#{M_CD},#{MTR_NAME},#{MTR_STANDARD},#{UNIT},#{BOM})
+        }
+   	   
+    </insert>
+
+	<insert id="Partlist_Create_I2_Str" statementType="CALLABLE" parameterType="HashMap">
+		{
+			call Partlist_Create_I2_Str (#{PDT_CD},#{PDT_NAME},#{M_CD},#{MTR_NAME},#{MTR_STANDARD},#{UNIT},#{BOM},#{BIGO},#{BOM_VERSION},#{BOM_QTY},#{BASIC_YN})
+			}
+
+	</insert>
+
+    
+    <delete id="Partlist_Delete_D1_Str" statementType="CALLABLE" parameterType="HashMap">
+   	    {  
+   	    	call Partlist_Delete_D1_Str (#{PDT_CD})
+        }
+   	   
+    </delete>
+    
+</mapper>

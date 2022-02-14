@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+
+<tiles-definitions>  
+ 
+   <!-- Base Definition -->
+	<definition name="base-definition" template="/WEB-INF/views/tiles/layouts/defaultLayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/tiles/template/defaultHeader.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/tiles/template/defaultMenu.jsp" /> 
+		<put-attribute name="body" value=""/>
+ 		<put-attribute name="footer" value="/WEB-INF/views/tiles/template/defaultFooter.jsp" />
+	</definition>
+
+
+
+	<definition name="/pdf/*" template="/WEB-INF/views/pages/pdf/{1}.jsp">
+	</definition>
+<!-- 	<definition name="/cust/*" template="/WEB-INF/views/pages/cust/{1}.jsp">
+	</definition>
+	<definition name="/pallet/*" template="/WEB-INF/views/pages/pallet/{1}.jsp">
+	</definition>
+	
+	<definition name="/material/*" template="/WEB-INF/views/pages/material/{1}.jsp">
+	</definition>
+	
+	<definition name="/partner/*" template="/WEB-INF/views/pages/partner/{1}.jsp">
+	</definition>
+	
+	<definition name="/product/*" template="/WEB-INF/views/pages/product/{1}.jsp">
+	</definition> -->
+	
+
+
+
+	<definition name="/*/*" extends="base-definition">
+		<put-attribute name="body" value="/WEB-INF/views/pages/{1}/{2}.jsp" />
+	</definition>
+
+	<definition name="/common/memo/*" template="/WEB-INF/views/pages/common/memo/{1}.jsp">
+	</definition>
+
+	<definition name="/c-market/memo/*" template="/WEB-INF/views/pages/common/memo/{1}.jsp">
+	</definition>
+
+	<definition name="/*/*/*" extends="base-definition">
+		<put-attribute name="body" value="/WEB-INF/views/pages/{1}/{2}/{3}.jsp" />
+	</definition>
+
+	<!-- Login Page -->
+	<definition name="/login" template="/WEB-INF/views/pages/login.jsp">
+	</definition>
+
+	<!-- Error Page -->
+	<definition name="/error" extends="base-definition">
+		<put-attribute name="body" value="/WEB-INF/views/pages/common/error.jsp" />
+	</definition>
+
+	<!-- Blank Page for only load css -->
+	<definition name="/common/blank" template="/WEB-INF/views/tiles/template/blank.jsp">
+	</definition>
+
+
+	<definition name="/bid/apiRequestGoods" template="/WEB-INF/views/pages/bid/apiRequestGoods.jsp">
+	</definition>
+	
+	
+	<definition name="empty" template="/WEB-INF/views/tiles/layouts/defaultPopupLayout.jsp">
+        <put-attribute name="content" value=""/>  
+    </definition>
+
+
+	<definition name="empty:/*" extends="empty">
+		<put-attribute name="content" value="/WEB-INF/views/pages/popup/{1}.jsp" />
+    </definition>
+
+</tiles-definitions>

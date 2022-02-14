@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.check.CheckMapper">
+    
+  
+    
+    <select id="IN_Search_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    	call IN_Search_S1_Str(#{REMARKS_WIN},#{M_IN_STATUS},#{BUSINESS_NO},#{startDate},#{endDate},#{rowsPerPage},#{currentPage})
+   }
+    </select>
+    
+    <select id="Material_IN_Row_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    call Material_IN_Row_S1_Str(#{ORDER_CODE})
+   }
+    </select>
+    
+    <select id="Material_IN_Row_S2_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    call Material_IN_Row_S2_Str(#{ORDER_CODE})
+   }</select>
+    
+    <select id="IN_Check_Search_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    	call IN_Check_Search_S1_Str(#{REMARKS_WIN},#{CHECK_YN},#{startDate},#{endDate},#{rowsPerPage},#{currentPage})
+   }
+    </select>
+    
+    <update id="Import_Update_U1_Str" statementType="CALLABLE" parameterType="HashMap">
+    {call Import_Update_U1_Str(#{ORDER_CODE},#{BUSINESS_NO},#{SUPPLY_NAME},#{BIGO},#{INSPECT_TYPE_CD},
+	#{INSPECT_STATUS},#{CHECK_YN},#{CHECK_MANAGER})
+   }
+    </update>
+    
+    <update id="Import_Material_Update_U1_Str" statementType="CALLABLE" parameterType="HashMap">
+    {call Import_Material_Update_U1_Str(#{ORDER_CODE},#{NO},#{CODE},#{PDT_NAME},#{PDT_STANDARD},
+	#{REAL_QTY},#{UNIT})
+   }
+    </update>
+    
+    <insert id="Defect_Insert_I1_Str" statementType="CALLABLE" parameterType="HashMap">
+    {call Defect_Insert_I1_Str(#{ORDER_CODE},#{BUSINESS_NO},#{SUPPLY_NAME}, 
+				#{CODE},#{PDT_NAME},#{PDT_STANDARD},#{UNIT},#{QTY},#{BIGO}) 	
+   }
+    </insert>
+    
+    <update id="Stock_Material_Update_U1_Str" statementType="CALLABLE" parameterType="HashMap">
+    {call Stock_Material_Update_U1_Str(#{CODE},
+	#{REAL_QTY})
+   }
+    </update>
+    
+    <insert id="Stock_Create_I1_Str" statementType="CALLABLE" parameterType="HashMap">
+    {call Stock_Create_I1_Str(#{ORDER_CODE},#{CODE},#{PDT_NAME}, 
+				#{PDT_STANDARD},#{REAL_QTY},#{IN_STORAGE},#{UNIT},#{WRITTEN_BY}) 	
+   }
+    </insert>
+    
+</mapper>

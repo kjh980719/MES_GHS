@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.purchase.PurchaseMapper">
+    
+  
+    
+    <select id="Purchase_Search_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    	call Purchase_Search_S1_Str(#{REMARKS_WIN},#{startDate},#{endDate},#{rowsPerPage},#{currentPage})
+    	
+   }</select>
+
+    
+</mapper>

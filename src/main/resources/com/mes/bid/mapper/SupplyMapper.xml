@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.supply.SupplyMapper">
+    
+    <select id="Supply_Search_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Supply_Search_S1_Str (
+            #{REMARKS_WIN},
+            #{CANCEL},
+            #{currentPage},
+            #{rowsPerPage}
+            )
+        }
+    </select>
+    
+    <select id="SCM_Manager_Search_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call SCM_Manager_Search_S1_Str (
+            #{REMARKS_WIN},
+            #{scm_check_yn},
+            #{currentPage},
+            #{rowsPerPage}
+            )
+        }
+    </select>
+    
+
+    <insert id="Cust_Create_I1_Str" statementType="CALLABLE" parameterType="HashMap">
+    {call Cust_Create_I1_Str(#{BUSINESS_NO},#{CUST_NAME},#{BOSS_NAME},#{UPTAE},#{JONGMOK},#{TEL},#{EMAIL},#{POST_NO},#{ADDR},#{G_GUBUN},#{G_BUSINESS_TYPE},#{G_BUSINESS_CD},#{TAX_REG_ID},#{FAX},#{HP_NO},#{DM_POST},#{DM_ADDR},#{REMARKS_WIN},#{GUBUN},#{FOREIGN_FLAG},#{EXCHANGE_CODE},
+    #{CUST_GROUP1},#{CUST_GROUP2},#{URL_PATH},#{REMARKS},#{OUTORDER_YN},#{IO_CODE_SL_BASE_YN},#{IO_CODE_SL},#{IO_CODE_BY_BASE_YN},#{IO_CODE_BY},#{EMP_CD},#{MANAGE_BOND_NO},#{MANAGE_DEBIT_NO},#{CUST_LIMIT},#{O_RATE},#{I_RATE},#{PRICE_GROUP},#{PRICE_GROUP2},#{CUST_LIMIT_TERM},
+    #{CONT1},#{CONT2},#{CONT3},#{CONT4},#{CONT5},#{CONT6},#{NO_CUST_USER1},#{NO_CUST_USER2},#{NO_CUST_USER3})
+    }
+    </insert>
+    
+    <select id="Cust_EXchange_S1_Str" statementType="CALLABLE" resultType="Map">
+          SELECT EXCHANGE_CODE,EXCHANGE_DES,EXCHANGE_RATE,EXCHANGE_DECIMAL,USE_YN FROM exchange_foreign
+        
+    </select>
+    
+    
+    
+    <select id="Cust_Row_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Cust_Row_S1_Str(#{BUSINESS_NO})
+        }
+    </select>
+    
+    <select id="SCM_Manager_Row_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call SCM_Manager_Row_S1_Str(#{scm_business_no})
+        }
+    </select>
+    
+    <update id="SCM_Manager_Update_U1_Str" statementType="CALLABLE" parameterType="HashMap">
+     {  call SCM_Manager_Update_U1_Str(#{scm_manager_seq},#{scm_business_no},#{scm_cust_name},#{scm_manager_id},#{scm_manager_email},#{scm_manager_name},
+     #{scm_check_yn},#{scm_regist_date})
+        
+	}
+	</update>
+    
+    <select id="getSupplyInfo" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        { 
+         call getSupplyInfo(#{seq})
+        }
+    </select>
+    
+    <select id="idCheck" statementType="CALLABLE" parameterType="HashMap" resultType="Map">	
+          	SELECT
+          		COUNT(scm_manager_id) as cnt
+          	FROM
+          		scm_manager_list
+          	where
+          		scm_manager_id = #{managerId}
+    </select>
+    
+    <select id="create_SCM_Account" statementType="CALLABLE" parameterType="HashMap" >
+        { 
+         call Create_SCM_Account(#{managerId},#{scm_password},#{cust_seq},#{business_no},#{cust_name},#{scm_manager_name})
+        }
+    </select>
+    
+    
+    <select id="getScmManagerList" parameterType="HashMap" resultType="Map">
+		SELECT
+		    A.SCM_MANAGER_SEQ AS scm_manager_seq,
+			A.CUST_SEQ AS cust_seq,
+			A.SCM_MANAGER_ID AS scm_manager_id,
+			IFNULL(A.SCM_MANAGER_NAME,'') AS scm_manager_name,
+			IFNULL(A.SCM_MANAGER_POSITION,'') AS scm_manager_position,
+			IFNULL(A.SCM_MANAGER_DEPARTMENT,'') AS scm_manager_department,
+			IFNULL(A.SCM_MANAGER_TEL,'') AS scm_manager_tel,
+		    IFNULL(A.SCM_MANAGER_EMAIL,'') AS scm_manager_email,
+			A.SCM_USE_YN AS scm_manager_yn,
+		    B.BUSINESS_NO AS business_no,
+		    B.BOSS_NAME AS boss_name,
+		    B.CUST_NAME AS cust_name
+		FROM SCM_MANAGER_LIST A
+		    INNER JOIN CUST B ON A.CUST_SEQ = B.CUST_SEQ
+		WHERE A.CUST_SEQ = #{CUST_SEQ}
+    </select>
+    
+    <select id="getSupplyAccountInfo" parameterType="HashMap" resultType="HashMap">
+		select
+			A.scm_manager_seq,
+			A.scm_manager_id,
+			B.cust_seq,
+			B.cust_name,
+			B.business_no,
+			A.scm_auth_group_seq,
+			A.scm_manager_name,
+			A.scm_manager_email,
+			A.scm_use_yn,
+			A.scm_description,
+			A.scm_regist_date,
+			A.scm_update_date,
+			A.scm_login_date,
+			A.scm_ESNTL_ID,
+			A.scm_manager_tel,
+			A.scm_manager_department,
+			A.scm_manager_position
+			
+		FROM scm_manager_list A, cust B
+		WHERE A.cust_seq = B.cust_seq
+		and A.scm_manager_seq = #{seq}
+    </select>
+    
+    <update id="resetPassword" parameterType="HashMap">
+   		UPDATE scm_manager_list SET scm_password = #{scm_password}
+   		where scm_manager_seq = #{seq}
+	</update>
+    <insert id="SCMManagerInsertAccount" parameterType="HashMap">
+    	insert into scm_manager_list(scm_business_no,scm_auth_group_seq,scm_password,scm_manager_id,scm_manager_name,cust_seq,scm_regist_date,
+		scm_update_date, scm_cust_name,scm_manager_position,
+		scm_manager_department,scm_manager_tel,scm_manager_email,scm_use_yn,scm_delete_yn) values
+		(#{business_no},#{scm_auth_group_seq},
+		#{business_no},
+		#{scm_manager_id},
+		#{scm_manager_name},#{cust_seq},
+		now(),
+		now(),
+		#{cust_name},#{scm_manager_position},
+		#{scm_manager_department},#{scm_manager_tel},
+		#{scm_manager_email},#{scm_use_yn},#{scm_delete_yn});
+    	
+    </insert>	
+    <update id="SCMManagerUpdateAccount" parameterType="HashMap">
+   				UPDATE scm_manager_list SET  scm_business_no = #{business_no}, scm_manager_id= #{scm_manager_id}, scm_manager_name= #{scm_manager_name}, scm_update_date= now(), 
+   				scm_cust_name= #{cust_name}, scm_manager_position= #{scm_manager_position}, scm_manager_department= #{scm_manager_department}, scm_manager_tel= #{scm_manager_tel}, 
+   				scm_manager_email= #{scm_manager_email}, scm_use_yn= #{scm_use_yn}, scm_delete_yn= #{scm_manager_tel} WHERE scm_manager_seq=#{scm_manager_seq};
+	
+    </update>
+    
+</mapper>

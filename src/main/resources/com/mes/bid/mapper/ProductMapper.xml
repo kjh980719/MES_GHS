@@ -1,0 +1,958 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.product.ProductMapper">
+    <select id="Material_Search_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        select
+
+			U.no as no,
+			U.PDT_CD AS PDT_CD,
+			U.PROD_CD AS PROD_CD,
+			U.PROD_DES AS PROD_DES,
+			U.PROD_TYPE as PROD_TYPE,
+			U.SIZE_DES as SIZE_DES,
+            U.CAT_CD as CAT_CD,
+			U.REMARKS_WIN as REMARKS_WIN,
+			U.USE_YN as USE_YN
+		from
+				(SELECT
+					(@ROWNUM:=@ROWNUM+1) as no,
+                    A.PDT_CD AS PDT_CD,
+					A.CODE AS PROD_CD,
+					A.PDT_NAME AS PROD_DES,
+					A.PROD_TYPE AS PROD_TYPE,
+					A.PDT_STANDARD AS SIZE_DES,
+					concat(D.BYCAT_CD,A.DIVISION_SEQ) AS CAT_CD,
+					A.REMARKS_WIN AS REMARKS_WIN,
+					A.USE_YN AS USE_YN
+				FROM (SELECT @ROWNUM:=0) R,shop_prod A
+                  inner join shop_bycategory D
+                    on A.code = D.BYPDT_CD 
+        		where 
+					${sQuery}	
+					order by A.CODE ASC			
+		        ) U
+		WHERE
+			 U.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+	
+    </select>
+    <select id="Material_List_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Material_List_S1_Str (
+
+            #{REMARKS_WIN},
+            #{USE_YN},
+            #{currentPage},
+            #{rowsPerPage}
+            )
+        }
+    </select>
+    
+    <select id="Product_Search_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Product_Search_S1_Str (
+            #{REMARKS_WIN},
+            #{USE_YN},
+            #{CAT_CD},
+            #{DIVISION_SEQ},
+            #{currentPage},
+            #{rowsPerPage}
+            )
+        }
+    </select>
+    
+    <select id="Material_Stock_Search_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Material_Stock_Search_S1_Str (
+            #{REMARKS_WIN},
+            #{startDate},
+            #{endDate},
+            #{currentPage},
+            #{rowsPerPage}
+            )
+        }
+    </select>
+    
+    
+    <select id="Product_Group_CD_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Product_Group_CD_S1_Str()
+        }
+    </select>
+    <select id="Product_Group_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Product_Group_S1_Str()
+        }
+    </select>
+    <select id="Product_CATEGORY__S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Product_CATEGORY__S1_Str()
+        }
+    </select>
+    <insert id="Product_Create_I1_Str" statementType="CALLABLE" parameterType="HashMap">
+    {call Product_Create_i1_Str(#{PROD_CD},#{PROD_DES},#{SIZE_DES},#{SIZE_FLAG},#{UNIT},#{REMARKS},#{PROD_TYPE},#{CSORD_C0001},#{CSORD_TEXT},#{CSORD_C0003},#{ITEM_TYPE},#{SERIAL_TYPE},#{PROD_SELL_TYPE},#{PROD_WHMOVE_TYPE},#{QC_BUY_TYPE},#{QC_YN},#{SET_FLAG},#{BAL_FLAG},#{WH_CD},#{IN_PRICE},#{IN_PRICE_VAT},#{OUT_PRICE},#{OUT_PRICE_VAT},#{REMARKS_WIN},#{BAR_CODE},#{VAT_YN},#{TAX},#{VAT_RATE_BY_BASE_YN},
+	#{VAT_RATE_BY},#{CS_FLAG},#{INSPECT_TYPE_CD},#{INSPECT_STATUS},#{SAMPLE_PERCENT},#{SAFE_A0001},#{SAFE_A0002},#{SAFE_A0003},#{SAFE_A0004},#{SAFE_A0005},#{SAFE_A0006},#{SAFE_A0007},#{IN_TERM},#{MIN_QTY},#{CUST},#{EXCH_RATE},#{DENO_RATE},#{OUT_PRICE1},#{OUT_PRICE1_VAT_YN},#{OUT_PRICE2},#{OUT_PRICE2_VAT_YN},#{OUT_PRICE3},#{OUT_PRICE3_VAT_YN},#{OUT_PRICE4},#{OUT_PRICE4_VAT_YN},#{OUT_PRICE5},#{OUT_PRICE5_VAT_YN},
+	#{OUT_PRICE6},#{OUT_PRICE6_VAT_YN},#{OUT_PRICE7},#{OUT_PRICE7_VAT_YN},#{OUT_PRICE8},#{OUT_PRICE8_VAT_YN},#{OUT_PRICE9},#{OUT_PRICE9_VAT_YN},#{OUT_PRICE10},#{OUT_PRICE10_VAT_YN},#{OUTSIDE_PRICE},#{OUTSIDE_PRICE_VAT},#{LABOR_WEIGHT},#{EXPENSES_WEIGHT},#{MATERIAL_COST},#{EXPENSE_COST},#{LABOR_COST},#{OUT_COST},#{CONT1},#{CONT2},#{CONT3},#{CONT4},#{CONT5},#{CONT6},#{NO_USER1},#{NO_USER2},#{NO_USER3},#{NO_USER4},
+	#{NO_USER5},#{NO_USER6},#{NO_USER7},#{NO_USER8},#{NO_USER9},#{NO_USER10},#{CLASS_CD2},#{CLASS_CD3},#{DIVISION_SEQ},#{USE_YN},#{CAT_CD})
+    }
+    </insert>
+    
+    <update id="Product_Update_U1_Str" statementType="CALLABLE" parameterType="HashMap">
+    {call Product_Update_U1_Str(#{PROD_CD},#{PROD_DES},#{SIZE_DES},#{SIZE_FLAG},#{UNIT},#{REMARKS},#{PROD_TYPE},#{CSORD_C0001},#{CSORD_TEXT},#{CSORD_C0003},#{ITEM_TYPE},#{SERIAL_TYPE},#{PROD_SELL_TYPE},#{PROD_WHMOVE_TYPE},#{QC_BUY_TYPE},#{QC_YN},#{SET_FLAG},#{BAL_FLAG},#{WH_CD},#{IN_PRICE},#{IN_PRICE_VAT},#{OUT_PRICE},#{OUT_PRICE_VAT},#{REMARKS_WIN},#{BAR_CODE},#{VAT_YN},#{TAX},#{VAT_RATE_BY_BASE_YN},
+	#{VAT_RATE_BY},#{CS_FLAG},#{INSPECT_TYPE_CD},#{INSPECT_STATUS},#{SAMPLE_PERCENT},#{SAFE_A0001},#{SAFE_A0002},#{SAFE_A0003},#{SAFE_A0004},#{SAFE_A0005},#{SAFE_A0006},#{SAFE_A0007},#{IN_TERM},#{MIN_QTY},#{CUST},#{EXCH_RATE},#{DENO_RATE},#{OUT_PRICE1},#{OUT_PRICE1_VAT_YN},#{OUT_PRICE2},#{OUT_PRICE2_VAT_YN},#{OUT_PRICE3},#{OUT_PRICE3_VAT_YN},#{OUT_PRICE4},#{OUT_PRICE4_VAT_YN},#{OUT_PRICE5},#{OUT_PRICE5_VAT_YN},
+	#{OUT_PRICE6},#{OUT_PRICE6_VAT_YN},#{OUT_PRICE7},#{OUT_PRICE7_VAT_YN},#{OUT_PRICE8},#{OUT_PRICE8_VAT_YN},#{OUT_PRICE9},#{OUT_PRICE9_VAT_YN},#{OUT_PRICE10},#{OUT_PRICE10_VAT_YN},#{OUTSIDE_PRICE},#{OUTSIDE_PRICE_VAT},#{LABOR_WEIGHT},#{EXPENSES_WEIGHT},#{MATERIAL_COST},#{EXPENSE_COST},#{LABOR_COST},#{OUT_COST},#{CONT1},#{CONT2},#{CONT3},#{CONT4},#{CONT5},#{CONT6},#{NO_USER1},#{NO_USER2},#{NO_USER3},#{NO_USER4},
+	#{NO_USER5},#{NO_USER6},#{NO_USER7},#{NO_USER8},#{NO_USER9},#{NO_USER10},#{CLASS_CD2},#{CLASS_CD3},#{DIVISION_SEQ},#{USE_YN},#{CAT_CD})
+    }
+    </update>
+    
+    <select id="Product_Row_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Product_Row_S1_Str(#{CODE})
+        }
+    </select>
+    
+    <select id="Material_Row_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Material_Row_S1_Str(#{CODE})
+        }
+    </select>
+    <update id="Material_Update_U1_Str" statementType="CALLABLE" parameterType="HashMap">
+    {call Material_Update_U1_Str(#{PROD_CD},#{PROD_DES},#{SIZE_DES},#{SIZE_FLAG},#{UNIT},#{REMARKS},#{PROD_TYPE},#{CSORD_C0001},#{CSORD_TEXT},#{CSORD_C0003},#{ITEM_TYPE},#{SERIAL_TYPE},#{PROD_SELL_TYPE},#{PROD_WHMOVE_TYPE},#{QC_BUY_TYPE},#{QC_YN},#{SET_FLAG},#{BAL_FLAG},#{WH_CD},#{IN_PRICE},#{IN_PRICE_VAT},#{OUT_PRICE},#{OUT_PRICE_VAT},#{REMARKS_WIN},#{BAR_CODE},#{VAT_YN},#{TAX},#{VAT_RATE_BY_BASE_YN},
+	#{VAT_RATE_BY},#{CS_FLAG},#{INSPECT_TYPE_CD},#{INSPECT_STATUS},#{SAMPLE_PERCENT},#{SAFE_A0001},#{SAFE_A0002},#{SAFE_A0003},#{SAFE_A0004},#{SAFE_A0005},#{SAFE_A0006},#{SAFE_A0007},#{IN_TERM},#{MIN_QTY},#{CUST},#{EXCH_RATE},#{DENO_RATE},#{OUT_PRICE1},#{OUT_PRICE1_VAT_YN},#{OUT_PRICE2},#{OUT_PRICE2_VAT_YN},#{OUT_PRICE3},#{OUT_PRICE3_VAT_YN},#{OUT_PRICE4},#{OUT_PRICE4_VAT_YN},#{OUT_PRICE5},#{OUT_PRICE5_VAT_YN},
+	#{OUT_PRICE6},#{OUT_PRICE6_VAT_YN},#{OUT_PRICE7},#{OUT_PRICE7_VAT_YN},#{OUT_PRICE8},#{OUT_PRICE8_VAT_YN},#{OUT_PRICE9},#{OUT_PRICE9_VAT_YN},#{OUT_PRICE10},#{OUT_PRICE10_VAT_YN},#{OUTSIDE_PRICE},#{OUTSIDE_PRICE_VAT},#{LABOR_WEIGHT},#{EXPENSES_WEIGHT},#{MATERIAL_COST},#{EXPENSE_COST},#{LABOR_COST},#{OUT_COST},#{CONT1},#{CONT2},#{CONT3},#{CONT4},#{CONT5},#{CONT6},#{NO_USER1},#{NO_USER2},#{NO_USER3},#{NO_USER4},
+	#{NO_USER5},#{NO_USER6},#{NO_USER7},#{NO_USER8},#{NO_USER9},#{NO_USER10},#{CLASS_CD2},#{CLASS_CD3},#{DIVISION_SEQ},#{USE_YN},#{CAT_CD})
+    }
+    </update>
+    <insert id="Material_Create_I1_Str" statementType="CALLABLE" parameterType="HashMap">
+    {call Material_Create_I1_Str(#{PROD_CD},#{PROD_DES},#{SIZE_DES},#{SIZE_FLAG},#{UNIT},#{REMARKS},#{PROD_TYPE},#{CSORD_C0001},#{CSORD_TEXT},#{CSORD_C0003},#{ITEM_TYPE},#{SERIAL_TYPE},#{PROD_SELL_TYPE},#{PROD_WHMOVE_TYPE},#{QC_BUY_TYPE},#{QC_YN},#{SET_FLAG},#{BAL_FLAG},#{WH_CD},#{IN_PRICE},#{IN_PRICE_VAT},#{OUT_PRICE},#{OUT_PRICE_VAT},#{REMARKS_WIN},#{BAR_CODE},#{VAT_YN},#{TAX},#{VAT_RATE_BY_BASE_YN},
+	#{VAT_RATE_BY},#{CS_FLAG},#{INSPECT_TYPE_CD},#{INSPECT_STATUS},#{SAMPLE_PERCENT},#{SAFE_A0001},#{SAFE_A0002},#{SAFE_A0003},#{SAFE_A0004},#{SAFE_A0005},#{SAFE_A0006},#{SAFE_A0007},#{IN_TERM},#{MIN_QTY},#{CUST},#{EXCH_RATE},#{DENO_RATE},#{OUT_PRICE1},#{OUT_PRICE1_VAT_YN},#{OUT_PRICE2},#{OUT_PRICE2_VAT_YN},#{OUT_PRICE3},#{OUT_PRICE3_VAT_YN},#{OUT_PRICE4},#{OUT_PRICE4_VAT_YN},#{OUT_PRICE5},#{OUT_PRICE5_VAT_YN},
+	#{OUT_PRICE6},#{OUT_PRICE6_VAT_YN},#{OUT_PRICE7},#{OUT_PRICE7_VAT_YN},#{OUT_PRICE8},#{OUT_PRICE8_VAT_YN},#{OUT_PRICE9},#{OUT_PRICE9_VAT_YN},#{OUT_PRICE10},#{OUT_PRICE10_VAT_YN},#{OUTSIDE_PRICE},#{OUTSIDE_PRICE_VAT},#{LABOR_WEIGHT},#{EXPENSES_WEIGHT},#{MATERIAL_COST},#{EXPENSE_COST},#{LABOR_COST},#{OUT_COST},#{CONT1},#{CONT2},#{CONT3},#{CONT4},#{CONT5},#{CONT6},#{NO_USER1},#{NO_USER2},#{NO_USER3},#{NO_USER4},
+	#{NO_USER5},#{NO_USER6},#{NO_USER7},#{NO_USER8},#{NO_USER9},#{NO_USER10},#{CLASS_CD2},#{CLASS_CD3},#{DIVISION_SEQ},#{USE_YN},#{CAT_CD})
+    }
+    </insert>
+    <select id="IoListTotal" statementType="CALLABLE" parameterType="map" resultType="Integer">
+
+        SELECT
+            count(*)
+        FROM MES_INOUTDETAIL B
+                 INNER JOIN MES_INOUTMASTER A ON B.IO_SEQ = A.IO_SEQ
+                 INNER JOIN SHOP_PRODUCT C ON B.PDT_CD = C.PDT_CD
+           , (SELECT @ROWNUM:=0) R
+        WHERE ${sQuery}
+
+    </select>
+    <select id="IoListTotal2" statementType="CALLABLE" parameterType="map" resultType="Integer">
+
+        SELECT
+            count(*)
+        FROM MES_INOUTDETAIL B
+                 INNER JOIN MES_INOUTMASTER A ON B.IO_SEQ = A.IO_SEQ
+                 INNER JOIN STORAGE_CATEGORY C ON B.STORAGE = C.STOR_SEQ
+                 INNER JOIN CUST F ON A.CUST_SEQ = F.CUST_SEQ
+           , (SELECT @ROWNUM:=0) R
+        WHERE ${sQuery}
+
+    </select>
+    <select id="IoList" statementType="CALLABLE" parameterType="map" resultType="Map">
+
+            SELECT
+                   *
+               FROM (
+                        SELECT
+                            @ROWNUM := @ROWNUM+1 AS no
+                            ,k.io_seq
+                            ,k.io_code
+                            ,k.io_code_no
+                            ,k.io_type
+                            ,k.io_type_txt
+                            ,k.io_status
+                            ,k.regist_by
+                            ,k.from_location
+                            ,k.to_location
+                            ,k.from_type
+                            ,k.to_type
+                            ,k.reg_date
+                            ,k.io_date
+                            ,k.pdt_name
+                            ,k.good_qty
+                            ,k.bad_qty
+                        FROM
+                        (
+                        SELECT
+                            A.io_seq,
+                            A.io_code,
+                            CONCAT(A.io_code,'-',B.no) as io_code_no,
+                            A.io_type,
+                            case A.io_type
+                                when 'IN' THEN '입고'
+                                when 'OUT' THEN '출고'
+                                when 'MOVE' THEN '재고이동'
+                            END AS io_type_txt,
+                            A.io_status,
+                            A.regist_by,
+                            B.from_type,
+                            B.to_type,
+                            Convert_Location(B.from_location, B.from_type) as from_location,
+                            Convert_Location(B.to_location, B.to_type) as to_location,
+                            convert(date_format(A.reg_date, '%Y-%m-%d'), char(10)) as reg_date,
+                            convert(date_format(A.io_date, '%Y-%m-%d'), char(10)) as io_date,
+                            B.good_qty,
+                            B.bad_qty,
+                            B.pdt_name
+                            FROM
+                                MES_INOUTDETAIL B
+                                    INNER JOIN MES_INOUTMASTER A ON B.IO_SEQ = A.IO_SEQ
+                                    INNER JOIN SHOP_PRODUCT C ON B.PDT_CD = C.PDT_CD
+                                ,(SELECT @ROWNUM:=0) R
+                            WHERE
+                                ${sQuery}
+                            ORDER BY A.IO_SEQ DESC
+                        ) k
+                )sub
+           WHERE sub.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+    </select>
+    <select id="IoList2" statementType="CALLABLE" parameterType="map" resultType="Map">
+
+        SELECT
+            *
+        FROM (
+                 SELECT
+                     @ROWNUM := @ROWNUM+1 AS no
+                            ,k.io_seq
+                            ,k.io_code
+                            ,k.io_code_no
+                            ,k.cust_seq
+                            ,k.cust_name
+                            ,k.io_type
+                            ,k.io_status
+                            ,k.order_code
+                            ,k.regist_by
+                            ,k.reg_date
+                            ,k.io_date
+                            ,k.pdt_name
+                            ,k.qty
+                            ,k.storage
+                 FROM
+                     (
+                     SELECT
+                     A.io_seq,
+                     A.io_code,
+                     CONCAT(A.io_code,'-',B.no) as io_code_no,
+                     A.cust_seq,
+                     F.cust_name,
+                     A.io_type,
+                     A.io_status,
+                     A.order_code,
+                     A.supply_amount,
+                     A.tax_amount,
+                     A.total_amount,
+                     A.regist_by,
+                     convert(date_format(A.reg_date, '%Y-%m-%d'), char(10)) as reg_date,
+                     convert(date_format(A.in_date, '%Y-%m-%d'), char(10)) as in_date,
+                     convert(date_format(A.out_date, '%Y-%m-%d'), char(10)) as out_date,
+                     B.qty,
+                     B.pdt_name
+                     FROM
+                     MES_INOUTDETAIL B
+                     INNER JOIN MES_INOUTMASTER A ON B.IO_SEQ = A.IO_SEQ
+                     INNER JOIN CUST F ON A.CUST_SEQ = F.CUST_SEQ
+                         ,(SELECT @ROWNUM:=0) R
+                     WHERE
+                     ${sQuery}
+                     ORDER BY A.IO_SEQ DESC
+                     ) k
+             )sub
+        WHERE sub.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+    </select>
+    <select id="Out_Search_S1_Str" statementType="CALLABLE" parameterType="map" resultType="Map">
+        SELECT * FROM (
+                          SELECT
+                              (@ROWNUM:=@ROWNUM+1) as no,
+                              T.FIRST_PDT_NAME AS FIRST_PDT_NAME,
+                              T.ORDER_CODE AS ORDER_CODE,
+                              T.SUPPLY_NAME AS SUPPLY_NAME,
+                              T.BUSINESS_NO AS BUSINESS_NO,
+                              CONVERT(T.M_OUT_DATE,CHAR(10)) AS M_OUT_DATE,
+                              T.M_OUT_SEQ AS M_OUT_SEQ,
+                              T.M_OUT_STATUS AS M_OUT_STATUS
+                          FROM (
+                                   SELECT
+        if((select count(*)-1 from material_out_body B where B.ORDER_CODE = A.ORDER_CODE) > 0,
+           concat((select PDT_NAME from material_out_body B where (B.ORDER_CODE = A.ORDER_CODE) and B.no = 1),' 외 '
+               ,(select count(*)-1 from material_out_body B where B.ORDER_CODE = A.ORDER_CODE),'건'),
+           (select PDT_NAME from material_out_body B where (B.ORDER_CODE = A.ORDER_CODE))) as FIRST_PDT_NAME,
+           A.ORDER_CODE AS ORDER_CODE,
+           A.SUPPLY_NAME AS SUPPLY_NAME,
+           A.BUSINESS_NO AS BUSINESS_NO,
+           CONVERT(A.M_OUT_DATE,CHAR(10)) AS M_OUT_DATE,
+           A.M_OUT_SEQ AS M_OUT_SEQ,
+           A.M_OUT_STATUS AS M_OUT_STATUS
+           FROM material_OUT_header A, (SELECT @ROWNUM:=0) R
+           WHERE ${sQuery} and product_yn = 'Y'
+           and A.M_OUT_DATE BETWEEN #{startDate} AND #{endDate}
+           ORDER BY A.M_OUT_DATE desc, A.M_OUT_SEQ desc
+            )T ${s2Query}
+            )sub WHERE sub.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+    </select>
+    
+    <select id="Material_IN_Row_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    call Material_IN_Row_S1_Str(#{M_IN_SEQ})
+    }
+    </select>
+    
+    <select id="Material_IN_Row_S2_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    call Material_IN_Row_S2_Str(#{M_IN_SEQ})
+    }</select>
+    
+    <update id="IN_Update_U1_Str" statementType="CALLABLE" parameterType="HashMap" >
+    {call IN_Update_U1_Str(#{ORDER_CODE},#{BUSINESS_NO},#{SUPPLY_NAME},#{SUPPLY_MANAGER_NAME},
+    #{SUPPLY_PHONENUMBER},#{M_IN_DATE},#{ORDER_DATE},#{CLOSE_DATE},#{IN_ADDR},#{TAX_AMOUNT},
+    #{FAX_AMOUNT},#{TOTAL_AMOUNT},#{BIGO},#{M_IN_STATUS})
+    }
+    </update>
+
+    <update id="IO_Update_U1_Str" statementType="CALLABLE" parameterType="HashMap" >
+        {
+            call IO_Update_U1_Str(#{io_seq},#{io_date},#{plan_code},#{iManager_seq},#{manager_seq} )
+        }
+    </update>
+    <update id="IO_Update_U2_Str" statementType="CALLABLE" parameterType="HashMap" >
+        {
+            call IO_Update_U2_Str(#{io_seq},#{in_date},#{cust_seq},#{order_code},#{iManager_seq},#{manager_seq} )
+            }
+    </update>
+    <update id="IO_Update_U3_Str" statementType="CALLABLE" parameterType="HashMap" >
+        {
+            call IO_Update_U3_Str(#{io_seq},#{out_date},#{cust_seq},#{order_code},#{iManager_seq},#{manager_seq} )
+            }
+    </update>
+
+    <update id="Out_Update_U1_Str" statementType="CALLABLE" parameterType="HashMap" >
+        {call Out_Update_U1_Str(#{ORDER_CODE},#{BUSINESS_NO},#{SUPPLY_NAME},#{SUPPLY_MANAGER_NAME},
+           #{SUPPLY_PHONENUMBER},#{M_OUT_DATE},#{ORDER_DATE},#{CLOSE_DATE},#{OUT_ADDR},#{SUPPLY_AMOUNT},
+           #{TAX_AMOUNT},#{TOTAL_AMOUNT},#{BIGO},#{M_OUT_STATUS})
+        }
+    </update>
+
+    <update id="IO_UpdateDetail_U1_Str" statementType="CALLABLE" parameterType="HashMap" >
+    {
+        call IO_UpdateDetail_U1_Str(#{io_type},#{io_seq},#{seq},#{pdt_cd},#{pdt_code},#{pdt_name},#{pdt_standard},#{good_qty},#{bad_qty},#{unit},#{from_type},#{from_location},#{to_type},#{to_location},#{bad_reason},#{bigo})
+    }
+    </update>
+
+    <update id="Out_Material_Update_U1_Str" statementType="CALLABLE" parameterType="HashMap" >
+        {call Out_Material_Update_U1_Str(#{ORDER_CODE},#{NO},#{CODE},
+        #{PDT_NAME},#{PDT_STANDARD},#{REAL_QTY},#{UNIT},#{UNIT_PRICE},#{VAT},
+        #{SUPPLY_PRICE},#{OUT_CHECK},#{STORAGE_NAME1},#{STORAGE_NAME2},#{STORAGE_NAME3})
+        }
+    </update>
+    <select id="Defect_Search_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    	call Defect_Search_S1_Str(#{REMARKS_WIN},#{startDate},#{endDate},#{rowsPerPage},#{currentPage})
+    }
+    </select>
+    
+    
+    <select id="Material_Defect_Row_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    	call Material_Defect_Row_S1_Str(#{DEFECT_SEQ})
+    }
+    </select>
+    
+    <update id="Material_Defect_Update_U1_Str" statementType="CALLABLE" parameterType="HashMap">
+    call Material_Defect_Update_U1_Str(#{ORDER_CODE},#{DEFECT_REASON},#{DEFECT_WAY},#{DEFECT_LOCATION}, 
+									   #{REGIST_DATE},#{REGIST_MANAGER},#{REGIST_PHONENUMBER},#{CODE},#{PDT_NAME}, 
+									   #{PDT_STANDARD},#{UNIT},#{QTY},#{BUSINESS_NO},#{SUPPLY_NAME},#{BIGO})
+    
+    </update>
+    
+    <select id="Storage_SelectOption_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    	call Storage_SelectOption_S1_Str(#{STOR_UPPER},#{STOR_DEPTH})
+    }
+    </select>
+    
+    <select id="Storage_SelectOption_S2_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    	call Storage_SelectOption_S2_Str(#{STORAGE_NAME1})
+    }
+    </select>
+    
+    <select id="Storage_SelectOption_S3_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    	call Storage_SelectOption_S3_Str(#{STORAGE_NAME2})
+    }
+    </select>
+    
+    <select id="Material_Stock_Row_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    	call Material_Stock_Row_S1_Str(#{STOCK_SEQ})
+    }
+    </select>
+    
+    <select id="Material_Stock_Storage_Search_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    	call Material_Stock_Storage_Search_S1_Str(#{STORAGE_CODE},#{REMARKS_WIN},#{rowsPerPage},#{currentPage})
+    }
+    </select>
+    
+    <select id="Material_Stock_Storage_Row_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+    {
+    	call Material_Stock_Storage_Row_S1_Str(#{STORAGE_CODE})
+    }
+    </select>
+    
+     <select id="materialListTotal"  parameterType="HashMap" resultType="int">
+       	SELECT
+       	 	COUNT(*) 
+       	from shop_prod A
+					inner join shop_bycategory D
+                    on A.code = D.BYPDT_CD
+       	WHERE ${sQuery}
+			
+
+    </select>
+    
+    <select id="popupPartlistProduct_Search_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        select
+
+			U.no as no,
+			U.PDT_CD AS PDT_CD,
+			U.PROD_CD AS PROD_CD,
+			U.PROD_DES AS PROD_DES,
+			U.PROD_TYPE as PROD_TYPE,
+			U.SIZE_DES as SIZE_DES,
+            U.CAT_CD as CAT_CD,
+			U.REMARKS_WIN as REMARKS_WIN,
+			U.USE_YN as USE_YN
+		from
+				(SELECT
+					(@ROWNUM:=@ROWNUM+1) as no,
+                    A.PDT_CD AS PDT_CD,
+					A.CODE AS PROD_CD,
+					A.PDT_NAME AS PROD_DES,
+					A.PROD_TYPE AS PROD_TYPE,
+					A.PDT_STANDARD AS SIZE_DES,
+					concat(D.BYCAT_CD,A.DIVISION_SEQ) AS CAT_CD,
+					A.REMARKS_WIN AS REMARKS_WIN,
+					A.USE_YN AS USE_YN
+				FROM (SELECT @ROWNUM:=0) R,(SELECT C.* FROM shop_prod C LEFT JOIN (SELECT B.CODE FROM partlist B GROUP BY CODE) E ON C.CODE = E.CODE WHERE E.CODE IS NULL) A
+                  	inner join shop_bycategory D
+                    on A.code = D.BYPDT_CD 
+        		where 
+					${sQuery}	
+					order by A.CODE ASC			
+		        ) U
+		WHERE
+			 U.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+	
+    </select>
+    
+    <select id="popupPartlistProductListTotal"  parameterType="HashMap" resultType="int">
+       	SELECT
+       	 	COUNT(*) 
+       	from (SELECT C.* FROM shop_prod C LEFT JOIN (SELECT B.CODE FROM partlist B GROUP BY CODE) E ON C.CODE = E.CODE WHERE E.CODE IS NULL) A
+                  	inner join shop_bycategory D
+                    on A.code = D.BYPDT_CD 
+       	WHERE ${sQuery}
+			
+
+    </select>
+    
+    <select id="InListTotal"  parameterType="HashMap" resultType="int">
+       SELECT
+			COUNT(*) 
+			FROM (
+				select * from(
+					SELECT 
+						(@ROWNUM:=@ROWNUM+1) as no,
+                        A.ORDER_CODE AS ORDER_CODE,
+						A.SUPPLY_NAME AS SUPPLY_NAME,
+                        A.BUSINESS_NO AS BUSINESS_NO,
+                        CONVERT(A.M_IN_DATE,CHAR(10)) AS M_IN_DATE
+					FROM material_in_header A 
+                    WHERE ${sQuery}
+                      and product_yn = 'Y'
+				) O )T;
+			
+
+    </select>
+
+    <select id="OutListTotal"  parameterType="HashMap" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM (
+                 select * from(
+                                  SELECT
+                                      (@ROWNUM:=@ROWNUM+1) as no,
+                                      A.ORDER_CODE AS ORDER_CODE,
+                                      A.SUPPLY_NAME AS SUPPLY_NAME,
+                                      A.BUSINESS_NO AS BUSINESS_NO,
+                                      CONVERT(A.M_OUT_DATE,CHAR(10)) AS M_OUT_DATE
+                                  FROM material_OUT_header A
+                                  WHERE ${sQuery}
+                                    and product_yn = 'Y'
+                              ) O )T;
+
+
+    </select>
+    
+   	<select id="getIODetailInfo"  parameterType="HashMap" resultType="Map">
+
+        SELECT
+              A.io_seq as io_seq
+             ,A.io_code as io_code
+             ,A.ORDER_CODE as order_code
+             ,A.PLAN_CODE as plan_code
+             ,convert(date_format(A.io_date, '%Y-%m-%d'), char(10)) as io_date
+             ,IFNULL(B.bigo ,'') as bigo
+             ,IFNULL(B.bad_reason ,'') as bad_reason
+             ,IFNULL(A.io_status,'') as io_status
+             ,IFNULL(B.no,'')   as no
+             ,IFNULL(B.pdt_cd,'') as pdt_cd
+             ,IFNULL(B.pdt_code,'') as pdt_code
+             ,IFNULL(B.pdt_name,'') as pdt_name
+             ,IFNULL(B.pdt_standard,'') AS pdt_standard
+             ,IFNULL(B.good_qty,0) as good_qty
+             ,IFNULL(B.bad_qty,0) as bad_qty
+             ,IFNULL(B.unit,'') as unit
+             ,B.from_location as from_location
+             ,B.from_type as from_type
+             ,B.to_location as to_location
+             ,B.to_type as to_type
+             ,Convert_Location(B.from_location, B.from_type) as from_location_txt
+             ,Convert_Location(B.to_location, B.to_type) as to_location_txt
+             ,IFNULL(C.MANAGER_NAME,'') AS managerName
+             ,IFNULL(D.AUTH_GROUP_NAME,'') AS groupName
+             ,IFNULL(A.MANAGER_SEQ,'') AS manager_seq
+             ,IFNULL(C.MANAGER_POSITION,'') AS manager_position
+        FROM mes_inoutmaster A
+            inner join  mes_inoutdetail B on A.io_seq = B.io_seq
+            inner join manager_list C on A.manager_seq = C.manager_seq
+            inner join manager_auth_group D on C.auth_group_seq = D.auth_group_seq
+
+        WHERE  A.io_seq = #{io_seq}
+
+     </select>
+
+    <select id="getIODetailInfo2"  parameterType="HashMap" resultType="Map">
+
+        SELECT
+            A.io_seq as io_seq
+             , A.io_code as io_code
+             ,A.PLAN_CODE as plan_code
+             ,A.ORDER_CODE as order_code
+             ,A.CUST_SEQ as cust_seq
+             ,F.CUST_NAME as cust_name
+             ,convert(date_format(A.in_date, '%Y-%m-%d'), char(10)) as in_date
+             ,convert(date_format(A.out_date, '%Y-%m-%d'), char(10)) as out_date
+             ,IFNULL(TRUNCATE(A.total_amount,0),0) as total_amount
+             ,IFNULL(TRUNCATE(A.supply_amount ,0),0)as supply_amount
+             ,IFNULL(TRUNCATE(A.tax_amount,0),0) as tax_amount
+             ,IFNULL(A.BIGO ,'') as bigo
+             ,IFNULL(A.io_status,'') as io_status
+             ,IFNULL(A.product_line,'') as product_line
+             ,IFNULL(B.no,'')   as no
+             ,IFNULL(B.pdt_cd,'') as pdt_cd
+             ,IFNULL(B.pdt_code,'') as pdt_code
+             ,IFNULL(B.pdt_name,'') as pdt_name
+             ,IFNULL(B.pdt_standard,'') AS pdt_standard
+             ,IFNULL(B.qty,0) as qty
+             ,IFNULL(B.unit,'') as unit
+             ,IFNULL(TRUNCATE(B.unit_price,0),0) as unit_price
+             ,IFNULL(TRUNCATE(B.supply_price,0),0) as supply_price
+             ,IFNULL(TRUNCATE(B.vat,0),0) as vat
+             ,IFNULL(B.storage,'')   as storage
+             ,IFNULL(B.storage_zone,'')   as storage_zone
+            ,IFNULL(B.storage_detail,'')   as storage_detail
+            ,IFNULL(C.MANAGER_NAME,'') AS managerName
+            ,IFNULL(D.AUTH_GROUP_NAME,'') AS groupName
+            ,IFNULL(A.MANAGER_SEQ,'') AS manager_seq
+            ,IFNULL(C.MANAGER_POSITION,'') AS manager_position
+        FROM mes_inoutmaster A
+            inner join  mes_inoutdetail B on A.io_seq = B.io_seq
+            inner join manager_list C on A.manager_seq = C.manager_seq
+            inner join manager_auth_group D on C.auth_group_seq = D.auth_group_seq
+            inner join cust F on A.cust_seq = F.cust_seq
+        WHERE  A.io_seq = #{io_seq}
+
+    </select>
+
+    <select id="OutMaterialInfo"  parameterType="HashMap" resultType="Map">
+
+        SELECT
+            A.M_OUT_SEQ as M_OUT_SEQ
+             ,A.ORDER_CODE as ORDER_CODE
+             ,convert(date_format(A.M_OUT_DATE, '%Y-%m-%d'), char(10)) as M_OUT_DATE
+             ,IFNULL(TRUNCATE(A.TOTAL_AMOUNT,0),0) as TOTAL_AMOUNT
+             ,IFNULL(TRUNCATE(A.SUPPLY_AMOUNT ,0),0)as SUPPLY_AMOUNT
+             ,IFNULL(TRUNCATE(A.TAX_AMOUNT,0),0) as TAX_AMOUNT
+             ,IFNULL(A.BUSINESS_NO,'') as BUSINESS_NO
+             ,IFNULL(A.OUT_ADDR,'') as OUT_ADDR
+             ,IFNULL(A.SUPPLY_NAME,'') as SUPPLY_NAME
+             ,IFNULL(A.BIGO ,'') as BIGO
+             ,IFNULL(A.SUPPLY_MANAGER_NAME,'') as SUPPLY_MANAGER_NAME
+             ,IFNULL(A.SUPPLY_PHONENUMBER,'') as SUPPLY_PHONENUMBER
+             ,IFNULL(A.M_OUT_STATUS,'') as M_OUT_STATUS
+             ,IFNULL(B.NO,'')   as NO
+             ,IFNULL(B.CODE,'') as CODE
+             ,IFNULL(B.PDT_NAME,'') as PDT_NAME
+             ,IFNULL(B.PDT_STANDARD,'') AS PDT_STANDARD
+             ,IFNULL(B.QTY,0) as QTY
+             ,IFNULL(B.UNIT,'') as UNIT
+             ,IFNULL(TRUNCATE(B.UNIT_PRICE,2),0) as UNIT_PRICE
+             ,IFNULL(TRUNCATE(B.SUPPLY_PRICE,0),0) as SUPPLY_PRICE
+             ,IFNULL(TRUNCATE(B.VAT,0),0) as VAT
+             ,IFNULL(B.MATERIAL_SEQ,'')   as MATERIAL_SEQ
+             ,IFNULL(B.M_OUT_SEQ,'')   as M_OUT_SEQ
+             ,IFNULL(B.REAL_QTY,'')   as REAL_QTY
+             ,IFNULL(B.STORAGE_NAME1,'')   as STORAGE_NAME1
+             ,IFNULL(B.STORAGE_NAME2,'')   as STORAGE_NAME2
+             ,IFNULL(B.STORAGE_NAME3,'')   as STORAGE_NAME3
+             ,IFNULL(B.OUT_CHECK,'')   as OUT_CHECK
+        FROM material_out_header A left outer join material_out_body B on A.M_OUT_SEQ = B.M_OUT_SEQ
+        WHERE  A.M_OUT_SEQ = #{M_OUT_SEQ}
+
+    </select>
+
+<!--    <select id="OutMaterialInfo"  parameterType="HashMap" resultType="Map">-->
+
+<!--        SELECT-->
+<!--            A.M_OUT_SEQ as M_OUT_SEQ-->
+<!--             ,A.ORDER_CODE as ORDER_CODE-->
+<!--             ,convert(date_format(A.M_OUT_DATE, '%Y-%m-%d'), char(10)) as M_OUT_DATE-->
+<!--             ,IFNULL(TRUNCATE(A.TOTAL_AMOUNT,0),0) as TOTAL_AMOUNT-->
+<!--             ,IFNULL(TRUNCATE(A.SUPPLY_AMOUNT ,0),0)as SUPPLY_AMOUNT-->
+<!--             ,IFNULL(TRUNCATE(A.TAX_AMOUNT,0),0) as TAX_AMOUNT-->
+<!--             ,IFNULL(A.SUPPLY_NAME,'') as SUPPLY_NAME-->
+<!--             ,IFNULL(A.BIGO ,'') as BIGO-->
+<!--             ,IFNULL(A.SUPPLY_MANAGER_NAME,'') as SUPPLY_MANAGER_NAME-->
+<!--             ,IFNULL(A.SUPPLY_PHONENUMBER,'') as SUPPLY_PHONENUMBER-->
+<!--             ,IFNULL(A.M_OUT_STATUS,'') as M_OUT_STATUS-->
+<!--             ,IFNULL(B.NO,'')   as NO-->
+<!--             ,IFNULL(B.CODE,'') as CODE-->
+<!--             ,IFNULL(B.PDT_NAME,'') as PDT_NAME-->
+<!--             ,IFNULL(B.PDT_STANDARD,'') AS PDT_STANDARD-->
+<!--             ,IFNULL(B.QTY,0) as QTY-->
+<!--             ,IFNULL(B.UNIT,'') as UNIT-->
+<!--             ,IFNULL(TRUNCATE(B.UNIT_PRICE,2),0) as UNIT_PRICE-->
+<!--             ,IFNULL(TRUNCATE(B.SUPPLY_PRICE,0),0) as SUPPLY_PRICE-->
+<!--             ,IFNULL(TRUNCATE(B.VAT,0),0) as VAT-->
+<!--             ,IFNULL(B.MATERIAL_SEQ,'')   as MATERIAL_SEQ-->
+<!--             ,IFNULL(B.M_OUT_SEQ,'')   as M_OUT_SEQ-->
+<!--             ,IFNULL(B.REAL_QTY,'')   as REAL_QTY-->
+<!--             ,IFNULL(B.STORAGE_NAME1,'')   as STORAGE_NAME1-->
+<!--             ,IFNULL(B.STORAGE_NAME2,'')   as STORAGE_NAME2-->
+<!--             ,IFNULL(B.STORAGE_NAME3,'')   as STORAGE_NAME3-->
+<!--             ,IFNULL(B.IN_CHECK,'')   as IN_CHECK-->
+<!--        FROM material_out_header A left outer join material_out_body B on A.M_OUT_SEQ = B.M_OUT_SEQ-->
+<!--        WHERE  A.M_OUT_SEQ = #{M_OUT_SEQ}-->
+
+<!--    </select>-->
+     
+     <insert id="IN_InsertIn_I1_Str"  statementType="CALLABLE" parameterType="HashMap">
+        {
+    	call IN_InsertIn_I1_Str(#{ORDER_SEQ},#{ORDER_CODE},#{M_IN_DATE},#{ORDER_DATE},#{CLOSE_DATE},
+		#{BUSINESS_NO},#{SUPPLY_NAME},#{SUPPLY_MANAGER_NAME}, 
+		#{SUPPLY_PHONENUMBER},#{M_IN_STATUS},#{IN_ADDR},#{BIGO},#{M_IN_STATUS},
+		#{SUPPLY_AMOUNT},#{TAX_AMOUNT},#{TOTAL_AMOUNT})
+		
+    	
+    	}
+     </insert>
+
+    <select id="IO_Insert_I1_Str"  statementType="CALLABLE" parameterType="HashMap" resultType="int">
+        {
+            call IO_Insert_I1_Str(#{io_date},#{io_type},#{plan_code},#{iManager_seq},#{manager_seq})
+        }
+    </select>
+    <select id="IO_Insert_I2_Str"  statementType="CALLABLE" parameterType="HashMap" resultType="int">
+        {
+            call IO_Insert_I2_Str(#{in_date},#{cust_seq},#{order_code},#{iManager_seq},#{manager_seq})
+            }
+    </select>
+    <select id="IO_Insert_I3_Str"  statementType="CALLABLE" parameterType="HashMap" resultType="int">
+        {
+            call IO_Insert_I3_Str(#{out_date},#{cust_seq},#{order_code},#{iManager_seq},#{manager_seq})
+        }
+    </select>
+
+
+    <select id="Out_InsertOut_I1_Str"  statementType="CALLABLE" parameterType="HashMap" resultType="String">
+        {
+            call Out_InsertOut_I1_Str(#{ORDER_SEQ},#{ORDER_CODE},#{M_OUT_DATE},#{ORDER_DATE},#{CLOSE_DATE},
+                                    #{BUSINESS_NO},#{SUPPLY_NAME},#{SUPPLY_MANAGER_NAME},
+                                    #{SUPPLY_PHONENUMBER},#{M_OUT_STATUS},#{OUT_ADDR},#{BIGO},
+                                    #{SUPPLY_AMOUNT},#{TAX_AMOUNT},#{TOTAL_AMOUNT})
+
+
+            }
+    </select>
+     
+    <insert id="IO_InsertDetail_I1_Str"  statementType="CALLABLE" parameterType="HashMap">
+        {
+    	call IO_InsertDetail_I1_Str(#{io_type},#{io_seq},#{seq},#{pdt_cd},#{pdt_code},#{pdt_name},#{pdt_standard},#{good_qty},#{bad_qty},#{unit},#{from_type},#{from_location},#{to_type},#{to_location},#{bad_reason},#{bigo})
+    	}
+     </insert>
+
+    <insert id="Out_InsertOutMaterial_I1_Str"  statementType="CALLABLE" parameterType="HashMap">
+        {
+            call Out_InsertOutMaterial_I1_Str(#{ORDER_CODE},#{NO},#{CODE},#{PDT_NAME},
+            #{PDT_STANDARD},#{QTY},#{REAL_QTY},#{UNIT},#{UNIT_PRICE},#{VAT},#{SUPPLY_PRICE},#{STORAGE_NAME1},
+            #{STORAGE_NAME2},#{STORAGE_NAME3},#{OUT_CHECK})
+
+            }
+    </insert>
+
+    <select id="getProductCategory_Depth1_List" resultType="Map">
+        SELECT
+            CAT_KEY AS cat_key
+             ,CAT_CD AS cat_cd
+             ,CAT_NAME AS cat_name
+             ,CAT_DEPTH AS cat_depth
+             ,CAT_SORT AS cat_sort
+        FROM shop_category_new where CAT_DEPTH = 1 order by cat_sort
+    </select>
+
+    <select id="depthInfo" parameterType="HashMap" resultType="Map">
+        SELECT
+            a.cat_key
+             ,a.cat_upper
+             ,IFNULL((select cat_name from shop_category_new where cat_key = a.cat_upper),'')parent_cat_name
+             ,a.cat_name
+             ,a.cat_sort
+             ,a.cat_depth
+        FROM shop_category_new a where a.cat_cd = #{cat_cd}
+    </select>
+
+    <select id="viewDepth" parameterType="HashMap" resultType="Map">
+        SELECT
+            CAT_KEY AS cat_key
+             ,CAT_CD AS cat_cd
+             ,CAT_NAME AS cat_name
+             ,CAT_DEPTH AS cat_depth
+             ,CAT_SORT AS cat_sort
+        FROM shop_category_new where cat_upper = #{cat_cd}  order by cat_sort
+    </select>
+
+    <select id="Product_Category_i1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="String">
+        {  call Product_Category_i1_Str (
+                #{cat_upper},
+                #{cat_name},
+                #{cat_sort},
+                #{cat_depth}
+            )
+        }
+    </select>
+
+    <select id="Product_Category_U1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="String">
+        {
+            call Product_Category_U1_Str(
+                #{cat_key},
+                #{cat_name},
+                #{cat_sort}
+            )
+        }
+    </select>
+
+
+    <select id="getProductList" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        select
+            K.no as no,
+			K.PDT_CD AS PDT_CD,
+			K.PROD_CD AS PROD_CD,
+			K.PROD_DES AS PROD_DES,
+			K.PROD_TYPE as PROD_TYPE,
+			K.SIZE_DES as SIZE_DES,
+            K.CAT_NAME as CAT_NAME,
+			K.REMARKS_WIN as REMARKS_WIN,
+			K.USE_YN as USE_YN
+        FROM
+        (
+            SELECT
+                (@ROWNUM:=@ROWNUM+1) as no,
+                U.*
+            FROM
+            (
+                SELECT
+                    A.PDT_CD AS PDT_CD,
+                    A.PDT_CODE AS PROD_CD,
+                    A.PDT_NAME AS PROD_DES,
+                    (CASE A.PROD_TYPE WHEN 'PG001' THEN '원재료' WHEN 'PG002' THEN '부재료' WHEN 'PG003' THEN '제품' WHEN 'PG004' THEN '반제품' WHEN 'PG005' THEN '상품' WHEN 'PG006' THEN '무형상품' ELSE '' END ) AS PROD_TYPE,
+                    A.PDT_STANDARD AS SIZE_DES,
+                    C.CAT_NAME AS CAT_NAME,
+                    A.REMARKS_WIN AS REMARKS_WIN,
+                    (CASE A.USE_YN WHEN 'Y' THEN '사용' ELSE '미사용' END) AS USE_YN
+                    FROM  shop_product A
+                        INNER JOIN shop_by_category B ON A.pdt_cd = B.bypdt_cd
+                        INNER JOIN shop_category_new C ON B.bycat_cd = C.cat_cd
+                    where
+                        ${sQuery}
+                        AND B.bycat_cd IN (SELECT cat_cd from shop_category_new where cat_depth = 1)
+                        order by A.PDT_CD DESC
+            ) U, (SELECT @ROWNUM := 0) R
+        )K WHERE K.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+
+    </select>
+
+    <select id="getProductList2" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        select
+            K.no as no,
+			K.PDT_CD AS PDT_CD,
+			K.PROD_CD AS PROD_CD,
+			K.PROD_DES AS PROD_DES,
+			K.PROD_TYPE as PROD_TYPE,
+			K.SIZE_DES as SIZE_DES,
+            K.CAT_NAME as CAT_NAME,
+			K.REMARKS_WIN as REMARKS_WIN,
+			K.USE_YN as USE_YN
+        FROM
+            (
+            SELECT
+            (@ROWNUM := @ROWNUM+1) as no,
+            U.*
+            FROM
+            (
+            SELECT
+            A.PDT_CD AS PDT_CD,
+            A.PDT_CODE AS PROD_CD,
+            A.PDT_NAME AS PROD_DES,
+            (CASE A.PROD_TYPE WHEN 'PG001' THEN '원재료' WHEN 'PG002' THEN '부재료' WHEN 'PG003' THEN '제품' WHEN 'PG004' THEN '반제품' WHEN 'PG005' THEN '상품' WHEN 'PG006' THEN '무형상품' ELSE '' END ) AS PROD_TYPE,
+            A.PDT_STANDARD AS SIZE_DES,
+            C.CAT_NAME AS CAT_NAME,
+            A.REMARKS_WIN AS REMARKS_WIN,
+            (CASE A.USE_YN WHEN 'Y' THEN '사용' ELSE '미사용' END) AS USE_YN
+            FROM (SELECT C.* FROM shop_product C WHERE PDT_CD IN (SELECT B.PDT_CD FROM mes_bom B where B.BOM_VERSION = C.BOM_BASIC GROUP BY pdt_cd )) A
+            INNER JOIN shop_by_category B ON A.pdt_cd = B.bypdt_cd
+            INNER JOIN shop_category_new C ON B.bycat_cd = C.cat_cd
+            where
+                 ${sQuery}
+            AND B.bycat_cd IN (SELECT cat_cd from shop_category_new where cat_depth = 1)
+            order by A.PDT_CD DESC
+            ) U, (SELECT @ROWNUM := 0) R
+            ) K
+        WHERE K.no BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1
+          AND #{currentPage} * #{rowsPerPage}
+
+    </select>
+
+    <select id="getProductList3" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        select
+            K.no as no,
+			K.PDT_CD AS PDT_CD,
+			K.PROD_CD AS PROD_CD,
+			K.PROD_DES AS PROD_DES,
+			K.PROD_TYPE as PROD_TYPE,
+			K.SIZE_DES as SIZE_DES,
+            K.CAT_NAME as CAT_NAME,
+			K.REMARKS_WIN as REMARKS_WIN,
+			K.USE_YN as USE_YN
+        FROM
+            (
+            SELECT
+            (@ROWNUM := @ROWNUM+1) as no,
+            U.*
+            FROM
+            (
+            SELECT
+            A.PDT_CD AS PDT_CD,
+            A.PDT_CODE AS PROD_CD,
+            A.PDT_NAME AS PROD_DES,
+            (CASE A.PROD_TYPE WHEN 'PG001' THEN '원재료' WHEN 'PG002' THEN '부재료' WHEN 'PG003' THEN '제품' WHEN 'PG004' THEN '반제품' WHEN 'PG005' THEN '상품' WHEN 'PG006' THEN '무형상품' ELSE '' END ) AS PROD_TYPE,
+            A.PDT_STANDARD AS SIZE_DES,
+            C.CAT_NAME AS CAT_NAME,
+            A.REMARKS_WIN AS REMARKS_WIN,
+            (CASE A.USE_YN WHEN 'Y' THEN '사용' ELSE '미사용' END) AS USE_YN
+            FROM shop_product A
+            INNER JOIN shop_by_category B ON A.pdt_cd = B.bypdt_cd
+            INNER JOIN shop_category_new C ON B.bycat_cd = C.cat_cd
+            where
+            ${sQuery}
+            AND B.bycat_cd IN (SELECT cat_cd from shop_category_new where cat_depth = 1)
+            order by A.PDT_CD DESC
+            ) U, (SELECT @ROWNUM := 0) R
+            ) K
+        WHERE K.no BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1
+          AND #{currentPage} * #{rowsPerPage}
+
+    </select>
+
+
+    <select id="getProductListTotal"  parameterType="HashMap" resultType="int">
+        SELECT
+               COUNT(*)
+        FROM SHOP_PRODUCT A
+                 INNER JOIN shop_by_category B
+                            ON A.pdt_cd = B.bypdt_cd
+                 INNER JOIN shop_category_new c
+                            ON B.BYCAT_CD = C.CAT_CD
+        WHERE ${sQuery} AND B.bycat_cd IN (SELECT cat_cd from shop_category_new where cat_depth = 1)
+    </select>
+
+    <select id="getProductListTotal2"  parameterType="HashMap" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM (SELECT C.* FROM shop_product C WHERE PDT_CD IN (SELECT B.PDT_CD FROM mes_partlist B GROUP BY pdt_cd)) A
+                 INNER JOIN shop_by_category B
+                            ON A.pdt_cd = B.bypdt_cd
+                 INNER JOIN shop_category_new c
+                            ON B.BYCAT_CD = C.CAT_CD
+        WHERE ${sQuery} AND B.bycat_cd IN (SELECT cat_cd from shop_category_new where cat_depth = 1)
+    </select>
+
+    <select id="getProductListTotal3"  parameterType="HashMap" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM shop_product A
+            INNER JOIN shop_by_category B ON A.pdt_cd = B.bypdt_cd
+            INNER JOIN shop_category_new c ON B.BYCAT_CD = C.CAT_CD
+        WHERE ${sQuery} AND B.bycat_cd IN (SELECT cat_cd from shop_category_new where cat_depth = 1)
+    </select>
+
+    <select id="getProductInfo" statementType="CALLABLE" parameterType="HashMap" resultType="HashMap">
+        {
+            call Product_Info_S1_Str(
+                #{PDT_CD}
+            )
+        }
+    </select>
+
+    <insert id="Product_Create_I2_Str" statementType="CALLABLE" parameterType="HashMap">
+        {
+            call Product_Create_I2_Str(
+                #{CATE1}, #{CATE2}, #{CATE3},
+                #{PDT_CODE},#{PDT_NAME},#{PDT_STANDARD},#{UNIT},
+                #{PROD_TYPE},#{SET_FLAG},#{BAL_FLAG},#{WH_CD},
+                #{USE_YN},#{CUST_SEQ},#{BAR_CODE},#{REMARKS_WIN},
+                #{VAT_YN},#{TAX},#{VAT_RATE_BY_BASE_YN},#{VAT_RATE_BY},
+                #{CLASS_CD2},#{PDT_BIGO},#{INSPECT_STATUS},#{SAMPLE_PERCENT},
+                #{EXCH_RATE},#{DENO_RATE}, #{SAFE_A0001},#{SAFE_A0002},#{SAFE_A0003},
+                #{SAFE_A0004}, #{SAFE_A0005},#{SAFE_A0006}, #{SAFE_A0007},
+                #{CSORD_C0001},#{CSORD_TEXT},#{CSORD_C0003},
+                #{IN_PRICE}, #{OUT_PRICE},#{OUT_PRICE1},#{OUT_PRICE2},
+                #{OUT_PRICE3},#{LABOR_WEIGHT},#{EXPENSES_WEIGHT},#{MATERIAL_COST},
+                #{EXPENSE_COST}, #{LABOR_COST},#{OUT_COST}, #{ITEM_TYPE},
+                #{SERIAL_TYPE},#{PROD_SELL_TYPE},#{PROD_WHMOVE_TYPE},#{QC_BUY_TYPE},
+                #{QC_YN},#{loginUserSeq},#{loginUserId},#{CS_FLAG},
+                #{IN_PRICE_VAT_YN},#{OUT_PRICE_VAT_YN},#{OUT_PRICE1_VAT_YN},#{OUT_PRICE2_VAT_YN},
+                #{OUT_PRICE3_VAT_YN},#{PDT_STOCK}, #{SAFE_STOCK}, #{IN_TERM}, #{MIN_QTY}
+            )
+         }
+    </insert>
+
+    <insert id="Product_Update_U2_Str" statementType="CALLABLE" parameterType="HashMap">
+        {
+            call Product_Update_U2_Str(
+                #{PDT_CD}, #{CATE1}, #{CATE2}, #{CATE3},
+                #{PDT_CODE},#{PDT_NAME},#{PDT_STANDARD},#{UNIT},
+                #{PROD_TYPE},#{SET_FLAG},#{BAL_FLAG},#{WH_CD},
+                #{USE_YN},#{CUST_SEQ},#{BAR_CODE},#{REMARKS_WIN},
+                #{VAT_YN},#{TAX},#{VAT_RATE_BY_BASE_YN},#{VAT_RATE_BY},
+                #{CLASS_CD2},#{PDT_BIGO},#{INSPECT_STATUS},#{SAMPLE_PERCENT},
+                #{EXCH_RATE},#{DENO_RATE}, #{SAFE_A0001},#{SAFE_A0002},#{SAFE_A0003},
+                #{SAFE_A0004}, #{SAFE_A0005},#{SAFE_A0006}, #{SAFE_A0007},
+                #{CSORD_C0001},#{CSORD_TEXT},#{CSORD_C0003},
+                #{IN_PRICE}, #{OUT_PRICE},#{OUT_PRICE1},#{OUT_PRICE2},
+                #{OUT_PRICE3},#{LABOR_WEIGHT},#{EXPENSES_WEIGHT},#{MATERIAL_COST},
+                #{EXPENSE_COST}, #{LABOR_COST},#{OUT_COST}, #{ITEM_TYPE},
+                #{SERIAL_TYPE},#{PROD_SELL_TYPE},#{PROD_WHMOVE_TYPE},#{QC_BUY_TYPE},
+                #{QC_YN},#{loginUserSeq},#{loginUserId},#{CS_FLAG},
+                #{IN_PRICE_VAT_YN},#{OUT_PRICE_VAT_YN},#{OUT_PRICE1_VAT_YN},#{OUT_PRICE2_VAT_YN},
+                #{OUT_PRICE3_VAT_YN},#{PDT_STOCK}, #{SAFE_STOCK}, #{IN_TERM}, #{MIN_QTY}
+            )
+        }
+    </insert>
+</mapper>

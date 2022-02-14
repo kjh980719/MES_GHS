@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.supervisor.ManagerAuthGroupMapper">
+    <select id="Manager_Auth_Group_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Manager_Auth_Group_S1_Str (
+            #{authGroupSeq},
+            #{authGroupName},
+            #{useYn},
+            #{rowsPerPage},
+            #{currentPage}
+            )
+        }
+    </select>
+    <select id="Manager_Menu_S2_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Manager_Menu_S2_Str ()
+        }
+    </select>
+    <select id="Manager_Auth_Group_S2_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Manager_Auth_Group_S2_Str (
+            #{authGroupSeq}
+            )
+        }
+    </select>
+    <select id="Manager_Auth_Group_i1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="int">
+        {  call Manager_Auth_Group_i1_Str (
+            #{loginUserSeq},
+            #{useYn},
+            #{authGroupName}
+            )
+        }
+    </select>
+    <select id="Manager_Menu_Group_i1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Manager_Menu_Group_i1_Str (
+            #{loginUserSeq},
+            #{authGroupSeq},
+            #{authGroupName},
+            #{menuSeq}
+            )
+        }
+    </select>
+    <update id="Manager_Menu_Group_U1_Str" statementType="CALLABLE" parameterType="HashMap">
+        {  call Manager_Menu_Group_U1_Str (
+            #{loginUserSeq},
+            #{authGroupSeq},
+            #{authGroupName},
+            #{menuSeq}
+            )
+        }
+    </update>
+    <update id="Manager_Auth_Group_U1_Str" statementType="CALLABLE" parameterType="HashMap">
+        {  call Manager_Auth_Group_U1_Str (
+            #{loginUserSeq},
+            #{authGroupSeq},
+            #{authGroupName},
+            #{useYn}
+            )
+        }
+    </update>
+
+    <update id="mes_department_update" parameterType="Map">
+        UPDATE mes_department SET
+            DPT_NAME = #{authGroupName}
+            ,USE_YN = #{useYn}
+        WHERE
+            DPT_NAME = #{oldAuthGroupName}
+    </update>
+
+    <delete id="Manager_Auth_Group_D1_Str" statementType="CALLABLE" parameterType="HashMap">
+        {  call Manager_Auth_Group_D1_Str (
+            #{authGroupSeq}
+            )
+        }
+    </delete>
+
+    <delete id="mes_department_delete" parameterType="Map">
+        delete from mes_department where DPT_NAME = #{oldAuthGroupName}
+    </delete>
+</mapper>

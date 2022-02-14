@@ -1,0 +1,290 @@
+@charset "utf-8";
+
+
+/******************************** 온라인구매상담 ***********************************/
+
+ul.estimateTab_step {overflow:hidden; margin:10px 0 0 0;}
+ul.estimateTab_step li {float:left;}
+
+.estTitline {padding-bottom:10px;border-bottom:1px solid #cccccc;}
+
+dl.txtonlineTop {overflow:hidden; width:550px; height:193px; padding-right:270px; background:url("../../images/business/bg_online_req.gif") no-repeat right center;}
+dl.txtonlineTop dt {margin-bottom:20px;}
+
+.estReqBox {padding:84px 0 70px 120px; border-bottom:1px solid #cccccc;}
+.estReqBox .bg_estReq02 {padding-left:115px; background:url('../../images/business/estimate/bg_estReq02.gif') no-repeat left 0px;}
+	dl.estReqinfo02 {width:470px;}
+	dl.estReqinfo02 dt {font-size:16px;font-weight:bold;}
+	dl.estReqinfo02 dd {padding-top:13px;} 
+
+.estArea {margin:10px 0 0 0 ;padding-top:7px; background:url("../../images/business/estimate/bg_etctopbox.gif") no-repeat 0 0;}
+.estAreaBot { padding:25px 32px 40px 32px; background:url("../../images/business/estimate/bg_etcbotbox.gif") no-repeat 0 bottom;}
+.estTitline {padding-bottom:10px; border-bottom:1px solid #cccccc;}
+
+.schTitArea {overflow:hidden; margin-top:20px;}
+	.schTitArea span {float:left; padding:0 0 0 10px; display:block;}
+	.schTit {float:left;}
+
+.estProchk {margin-top:10px; width:693px; overflow:hidden; border:1px solid #cfcfcf; border-top:none; }
+	dl.estproLleft {float:left;width:472px;}
+	dl.estproLleft dt {height:36px; background:#6f5b72;line-height:36px; color:#ffffff; font-weight:bold; text-align:center;}
+
+	dl.estproLRight {float:left; width:221px; }
+	dl.estproLRight dt {height:36px; line-height:36px; color:#ffffff; font-weight:bold; text-align:center; background:#7e6e84 url("../../images/business/estimate/bl_est.gif") no-repeat 0 0;}
+	ul.estPorlist {float:left; padding-left:20px; padding-top:20px; width:216px; height:180px; background:url("../../images/business/estimate/bg_estPorlist.gif") no-repeat 0 0;}
+	ul.estPorlist.first {background:none;}
+
+	ul.estPorlist li {height:10px; padding-bottom:11px; font-size:11px; color:#7e7e7e;} 
+	ul.estPorlist li.last{margin-bottom:0px;}
+	ul.estPorlist li label{float:left; height:12px; padding-top:1px; cursor:pointer;}
+	ul.estPorlist li input{float:left; vertical-align:top; width:13px; height:13px;}
+	ul.estPorlist li a {float:left; line-height:13px; cursor:pointer; text-decoration:none; vertical-align:top;}
+	ul.estPorlist li .active {color:#555a75; font-weight:bold; letter-spacing:-1px; line-height:1.4;}
+	ul.estPorlist li .inputs {float:left; text-indent:-999999px;}
+	ul.estPorlist li .radio {overflow:hidden; display:inline-block; width:13px; height:13px; margin:0 4px 0 1px; vertical-align:middle; background:transparent url('../../images/common/radio02.png') 0 0 no-repeat; text-indent:-9999px;}
+	ul.estPorlist li .on{background-position:0 -13px;}
+
+.etc_search_bar {margin-top:15px; overflow:hidden;height:40px; background-color:#7e6e84;}
+.etc_search_bar strong { float:left; width:100px; margin-left:30px;display:block; line-height:40px; color:#ffffff;}
+	.etc_entry {float:left; display:block; margin-top:4px; width:463px; height:32px;  background:url("../../images/business/estimate/bg_etc_input.gif") no-repeat 0 0;}
+	.etc_entry input.intxt { width:443px; height:32px; line-height:32px; color:#000; font-weight:bold; padding:0 10px 0 10px;  border:0; background:transparent;}
+	.btn_search_renew.support_search02{ margin-left:20px;width:81px; background:url("../../images/business/bg_sch_input02.gif") no-repeat left 10px;}
+
+ul.estProList{overflow:hidden;text-align:center;margin-top:20px;background:url("../../images/common/bg_dashed_1.gif") repeat-x 0 bottom; padding-bottom:20px;}
+ul.estProList li img{width:160px;height:160px;} 
+ul.estProList li{padding-top:20px;
+	float:left;
+	width:231px;
+	height:238px;}
+ul.estProList li.first{margin-left:0;}
+ul.estProList .txtArea{
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	width:210px;
+	margin:17px auto 0;}
+	
+ul.estProList .txtArea span {margin-top:10px;display:block; line-height:16px;}
+ul.estProList .txtArea span strong{display:block; color:#333666;}
+ul.estProList .txtArea input[type=checkbox]{margin-top:-2px;}
+
+
+dl.estPronone {margin-top:86px; margin-left:;margin-left:110px; margin-bottom:110px;}
+dl.estPronone dt {font-size:16px; font-weight:bold;}
+dl.estPronone dt span {margin-top:10px; font-size:14px; display:block; color:#333333;}
+dl.estPronone dd {margin-top:22px;}
+
+ul.TxtestPronone li {padding-left:10px;  background:transparent url('../../images/common/bl_square.gif') 0 7px no-repeat; }
+
+.estSchinfo {margin-top:60px; margin-bottom:80px; text-align:center; padding-top:95px;}
+		.bg_estSch01{background:url('../../images/business/estimate/bg_estSch01.gif') no-repeat center 0px;}
+		.bg_estSch02{background:url('../../images/business/estimate/bg_estSch02.gif') no-repeat center 0px;}
+.estSchinfo dt {font-size:16px; font-weight:bold; margin-bottom:15px;}
+
+.estSchinfo01 {text-align:left; padding-left:90px;padding-top:5px; }
+		.bg_estSch{background:url('../../images/business/estimate/bg_estSch01.gif') no-repeat left 0px;}
+.estSchinfo01 dt {font-size:16px; font-weight:bold; margin-bottom:5px;}
+
+
+.putProBox {margin-top:50px; border-top:2px solid #555a75; border-left:1px solid #cccccc;border-right:1px solid #cccccc;border-bottom:1px solid #cccccc;}
+.putProTit {height:36px; border-bottom:1px solid #e4e4e4; line-height:36px; text-align:center; background:#f4f4f4; color:#333333;}
+	ul.putProlist {overflow:hidden; margin-top:30px; margin-left:32px; margin-right:32px;}
+	ul.putProlist li {width:138px;float:left;text-align:center; padding-bottom:20px;}
+	ul.putProlist .txtArea {margin-top:30px;}
+	ul.putProlist .txtArea span {margin-top:10px;display:block; line-height:16px;}
+	ul.putProlist .txtArea span strong{display:block; color:#333666;}
+	ul.putProlist .txtArea input[type=checkbox]{margin-top:-2px;}
+
+.putPronone {height:215px;}
+.putPronone p {font-size:16px; font-weight:bold; text-align:center; line-height:215px;}
+
+dl.onlineReqbox {overflow:hidden; margin-top:50px; height:66px; border:1px solid #e4e4e4;}
+dl.onlineReqbox dt { float:left; margin-left:20px; margin-top:25px;}
+dl.onlineReqbox dd { float:right; margin-right:20px; margin-top:21px;}
+
+.bg_dashed {width:100%;background:url("../../images/common/bg_dashed_1.gif") repeat-x 0 bottom;  padding-bottom:20px;}
+
+.scrollBox {overflow:scroll; overflow-x:hidden; border:1px solid #d2d2d2;}
+	.personalTtx { margin:10px;height:111px; text-align:justify}
+	.personalTtx .tit {margin-top:15px; font-weight:bold;}
+	.personalTtx .list_type02 {margin-top:5px; margin-bottom:5px; margin-left:17px;}
+	.personalTtx .list_type01 {margin-top:5px;} 
+	.personalTtx .list_type01 > li { margin-left:20px;}
+
+.bdbox {clear:both; border:1px solid #d2d2d2; padding:10px; margin-bottom:5px;}
+
+/******************************** 다운로드 ***********************************/
+.downSubTit {margin-top:40px;}
+
+.downloadBox {overflow:hidden; padding:40px 0 40px 0;margin-top:20px; overflow:hidden; border:1px solid #e4e4e4;}
+	dl.downListType01  { float:left; width:252px; border-left:1px solid #e4e4e4; text-align:center;}
+	dl.downListType01:first-child { border-left:none;}
+	dl.downListType01 dt {margin:0 0 20px 0;}
+	dl.downListType01 dd a {display:block; margin:20px 0 0 0; }
+
+	dl.downListType02 { float:left; width:252px; height:325px; border-left:1px solid #e4e4e4; text-align:center;}
+	dl.downListType02:first-child { border-left:none;}
+	dl.downListType02 dt {margin:0 0 20px 0;}
+	dl.downListType02 dd a {display:block; margin:20px 0 0 0; }
+		dd.SpecInfo { overflow:hidden; width:230px; padding-top:30px; margin-left:10px;}
+		 .txtSpecInfo {width:115px; float:left; }
+		 .txtSpecInfo strong {display:block;text-align:left;margin-bottom:3px;margin-left:15px;}
+		 .txtSpecInfo ul {height:70px;}
+		 .txtSpecInfo ul li {line-height:14px;}
+		 .txtSpecInfo a.btn {margin-top:10px;}
+
+	ul.alphaTxtinfo {text-align:left; height:200px;}
+	ul.alphaTxtinfo li {padding-left:5px;background:url("../../images/common/bl_square02.gif") no-repeat 0 10px; }
+	ul.bgAlpha01 {padding-left:34px;background:url("../../images/business/download/img_alppro01.gif") no-repeat 88px bottom; }
+	ul.bgAlpha02 {padding-left:13px;background:url("../../images/business/download/img_alppro02.gif") no-repeat center bottom; }
+	ul.bgAlpha03 {padding-left:6px;background:url("../../images/business/download/img_alppro03.gif") no-repeat center bottom; }
+
+	.alphaTopbox {overflow:hidden; margin:0 0 20px 0;}
+	ul.alphaBox { overflow:hidden; padding-top:30px;background:url('../../images/common/bg_dashed_1.gif') repeat-x left top;}
+	ul.alphaBox li { overflow:hidden; float:left; padding-top:30px; width:252px; background:url('../../images/common/bg_detail_y.gif') repeat-y left 0; text-align:center;}
+	ul.alphaBox li:first-child {background:none;}
+	ul.alphaBox dl dt {margin:0 0 15px;}
+
+.downloadBox02 { overflow:hidden; border:1px solid #e4e4e4; background:#f7f7f8; padding:30px 0; margin:40px 0 0 0;}
+	ul.downListType03 li{ width:189px; height:135px; float:left;background:url('../../images/common/bg_detail_y.gif') repeat-y left 0; text-align: center;}
+	ul.downListType03 li:first-child { background:none;} 
+	ul.downListType03 li dt {padding-top:67px;}
+		dt.bgDonw01 {background:url("../../images/business/download/img_pro_direc.gif") no-repeat center 0; }
+		dt.bgDonw02 {background:url("../../images/business/download/img_driver.gif") no-repeat center 0; }
+		dt.bgDonw03 {background:url("../../images/business/download/img_pro_guide.gif") no-repeat center 0; }
+		dt.bgDonw04 {background:url("../../images/business/download/img_window_update.gif") no-repeat center 14px; }
+	ul.downListType03 li dd {margin:15px;}
+
+/********************** 납품전문점 안내 ****************************/
+/* map */
+.mapWap {clear:both;overflow:hidden; margin-bottom:20px;}
+.mapWap .map {overflow:hidden;width: 377px; float:left; position:relative;}
+.mapWap .mapAddress {overflow:hidden;width: 382px; float:left; position:relative;}
+
+.mapWap_tb {clear:both;overflow:hidden;margin-top:50px;} 
+
+.mapData {float:left; width:380px; height: 250px; }
+
+.mapDataTitle { width:383px; height:34px;  background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/map_data_top_bg.gif') top left no-repeat; font-size:13px; font-weight:bold; line-height:34px; color:#fff; text-indent:22px;}
+
+.mapDataTitle { width:383px; height:34px; display:block; background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/map_data_top_bg.gif') top left no-repeat; font-size:13px; font-weight:bold; line-height:34px; color:#fff; text-indent:22px;}
+
+.localGu { overflow:hidden; position:absolute; height:165px; width:384px; background:url('../../images/business/map_data_bottom_bg.gif') left bottom no-repeat;  }
+.localGu .overview{height:146px;overflow:hidden;position:relative;}
+	ul.mapDataList {overflow:hidden; /*height:136px;*/ width:345px; padding:10px 0 0 20px; position:absolute;}
+	ul.mapDataList li a {text-decoration:none; }
+	ul.mapDataList li dl {margin-bottom:26px; }
+	ul.mapDataList li dl dt {text-decoration:none; color:#555a75; font-weight:bold;}
+	ul.mapDataList li dl dd {line-height:18px;}
+	
+	.draggerMap {position:absolute; right:27px; top:5px; width:1px; height:119px !important; background:#999999;}
+	.draggerMap .dragger {background:url("../../images/common/btn_dragger02.png") no-repeat; cursor:pointer; position:absolute; width:13px; right:-7px; height:42px !important; line-height:35px !important; overflow:hidden; }
+
+	ul.shopBanner{overflow:hidden;}
+	ul.shopBanner li {float:left; margin-left:4px;}
+	ul.shopBanner li:first-child  {margin-left:0px;}
+
+	ul.mapdatalist02 {width:361px; background:url('../../images/business/bg_map_data_bottom.gif') no-repeat 0 bottom; padding:7px 15px 20px 15px; overflow:hidden;}
+	ul.mapdatalist02 li { float:left;width:60px; display:block;line-height:24px;}
+	ul.mapdatalist02 li a {text-decoration:none; }
+
+#apDiv1 {position:absolute;left:167px;top:37px;width:49px;height:47px;z-index:11;background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/inc.gif') top right no-repeat;}
+#apDiv1 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv1 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/inc.gif') bottom right no-repeat;}
+
+#apDiv2 {position:absolute;left:197px;top:17px;width:55px;height:73px;z-index:3;background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/kug.gif') top right no-repeat;}
+#apDiv2 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv2 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/kug.gif') bottom right no-repeat;}
+
+#apDiv3 {position:absolute;top:45px;left:209px;width:34px;height:18px;z-index:6;	background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/seo.gif') top right no-repeat;}
+#apDiv3 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv3 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/seo.gif') bottom right no-repeat;}
+
+#apDiv4 {position:absolute;top:2px;left:221px;width:93px;	height:79px;z-index:2;	background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/gan.gif') top right no-repeat;}
+#apDiv4 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv4 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/gan.gif') bottom right no-repeat;}
+
+#apDiv5 {position:absolute;	top:69px;left:229px;width:56px;height:66px;z-index:4;background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/chb.gif') top right no-repeat;}
+#apDiv5 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv5 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/chb.gif') bottom right no-repeat;}
+
+#apDiv6 {position:absolute;top:78px;left:177px;width:66px;height:59px;z-index:11;background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/chm.gif') top right no-repeat;}
+#apDiv6 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv6 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/chm.gif') bottom right no-repeat;}
+
+#apDiv7 {position:absolute;top:104px;left:223px;width:32px;height:18px;z-index:12;background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/dae.gif') top right no-repeat;}
+#apDiv7 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv7 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/dae.gif') bottom right no-repeat;}
+
+#apDiv8 {position:absolute;top:73px;left:249px;width:76px;height:85px;z-index:3;background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/kub.gif') top right no-repeat;}
+#apDiv8 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv8 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/kub.gif') bottom right no-repeat;}
+
+#apDiv9 {position:absolute;top:139px;left:240px;width:68px;height:65px;z-index:2;background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/kum.gif') top right no-repeat;}
+#apDiv9 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv9 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/kum.gif') bottom right no-repeat;}
+
+#apDiv10 {position:absolute;top:124px;left:190px;width:64px;	height:49px;z-index:3;	background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/jub.gif') top right no-repeat;}
+#apDiv10 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv10 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/jub.gif') bottom right no-repeat;}
+
+#apDiv11 {	position:absolute;top:160px;	left:165px;width:87px;height:72px;z-index:3;background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/jum.gif') top right no-repeat;}
+#apDiv11 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv11 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/jum.gif') bottom right no-repeat;}
+
+#apDiv12 {	position:absolute;top:132px;	left:271px;	width:35px;	height:21px;z-index:13;background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/dag.gif') top right no-repeat;}
+#apDiv12 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv12 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/dag.gif') bottom right no-repeat;}
+
+#apDiv13 {position:absolute;top:148px;left:297px;	width:38px;	height:20px;z-index:14;background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/uls.gif') top right no-repeat;}
+#apDiv13 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv13 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/uls.gif') bottom right no-repeat;}
+
+#apDiv14 {	position:absolute;top:167px;left:273px;width:53px;height:29px;z-index:17;background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/bus.gif') top right no-repeat;}
+#apDiv14 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv14 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/bus.gif') bottom right no-repeat;}
+
+#apDiv15 {position:absolute;top:170px;left:200px;	width:34px;height:16px;z-index:30;background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/gwa.gif') top right no-repeat;}
+#apDiv15 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv15 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/gwa.gif') bottom right no-repeat;}
+
+#apDiv16 {position:absolute;top:170px;left:80px;width:48px;height:24px;z-index:60;background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/jae.gif') top right no-repeat;}
+#apDiv16 a {display:block; width:100%; height:100%; text-indent:-10000px; overflow:hidden;}
+#apDiv16 a:hover {background:url('http://www.lge.co.kr/brand/lighting/asset/images/sub05/jae.gif') bottom right no-repeat;}
+
+
+div.check_all{margin-top:30px;width:760px; background:url('../../images/business/cus_img_01.gif') no-repeat left top; height:419px;}
+div.check_left{float:left; width:35px;}
+div.check_center{width:611px; margin-left:40px;}
+div.check_right{float:left; width:35px;}
+.check_text{padding:20px 0 18px 0; width:611px;}
+.check_text_01{padding:10px 20px 10px 20px; _padding:10px 10px 10px 10px; width:571px; background-color:#f3f3f3; margin:5px 0 10px 0; _margin:10px 0 10px 0;}
+.check_text_02{width:611px;}
+
+
+
+
+/* step01.html 레이어 팝업css */
+
+.stepPopWrap{position:absolute;left:50%;top:50%;width:700px;color:#333;margin:-353px 0 0 -355px;border:3px solid #555a75;}
+	.stepPopHeader{padding:11px 0 12px 22px;background-color:#555a75;}
+	.stepPopCon{padding:20px;background:#fff;}
+	.stepPopList{overflow:hidden;}
+	dl.stepPopTxt{float:left;}
+	dl.stepPopTxt dt{font-weight:bold;margin-top:6px;}
+	dl.stepPopTxt dd{margin-top:14px;}
+
+/* 제품 카테고리 바로가기 */
+	dl.popShortBtn dt{font-weight:bold;}
+	dl.popShortBtn dd{overflow:hidden;}
+		ul.stepBtnBox {overflow:hidden;}
+		ul.stepBtnBox li {float:left;width:106px;height:44px;padding-left:3px;padding-top:4px;}
+		ul.stepBtnBox li a.rollover img {border-width:0px; display:inline;}
+		ul.stepBtnBox li a.rollover img.over {display:none;}
+		ul.stepBtnBox li a.rollover:hover {border:0px;}
+		ul.stepBtnBox li a.rollover:hover img {display:none;}
+		ul.stepBtnBox li a.rollover:hover img.over {display:inline;}
+		ul.stepBtnBox li a.rollover:focus img.over {display:inline}
+		ul.stepBtnBox li a.rollover:focus img {display:none}
+
+	.stepPopClose{position:absolute;left:664px;top:8px;}

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.board.NoticeMapper">
+    <select id="createNotice" statementType="CALLABLE" parameterType="HashMap" >
+     	{  call Notice_Create_I1_Str (
+            #{cust_seq},
+            #{cust_choice},
+            #{cust_name},
+            #{title},
+            #{contents},
+            #{loginUserSeq},
+            #{loginUserId},
+            #{iLoginUserName},
+            #{iLoginUserIp},
+            #{file1},
+            #{showYN} 
+            )
+        }
+    </select>
+ 	
+ 	<select id="editNotice" statementType="CALLABLE" parameterType="HashMap" >
+     	{  call Notice_Update_U1_Str (
+            #{cust_seq},
+            #{notice_seq},
+            #{cust_choice},
+            #{showYN},
+            #{cust_name},
+            #{title},
+            #{contents},
+            #{loginUserSeq},
+            #{loginUserId},
+            #{iLoginUserName},
+            #{iLoginUserIp},
+            #{file1} 
+            )
+        }
+    </select>
+    
+ 	
+ 	<select id="noticeList"  parameterType="HashMap" resultType="HashMap">
+ 		
+ 		SELECT * FROM (
+			SELECT 
+				@ROWNUM := @ROWNUM+1 AS no
+				,k.NOTICE_SEQ AS notice_seq
+				,k.CUST_SEQ AS cust_seq
+				,k.CUST_NAME AS cust_name
+				,k.TITLE AS title
+				,k.CONTENTS AS contents
+				,k.VIEWCNT AS viewCnt
+				,k.WRITERID AS writerId
+				,k.WRITERNAME AS writerName
+				,convert(date_format(k.REGDATE, '%Y-%m-%d'), char(10)) as regDate
+			FROM
+			    (
+					select 		
+						A.NOTICE_SEQ			
+						,A.CUST_SEQ		
+						,B.CUST_NAME		
+						,A.TITLE
+						,A.CONTENTS
+						,A.VIEWCNT
+						,A.WRITERID
+						,A.WRITERNAME
+						,A.REGDATE
+					from notice A left outer join cust B on A.cust_seq = B.cust_seq,
+					(SELECT @ROWNUM:=0) R
+					where A.DELETEYN = 'N'
+						${sQuery}
+						
+						order by A.REGDATE DESC
+			        ) k
+			)sub
+			WHERE sub.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+ 		
+
+ 		
+ 	</select>
+    
+    <select id="noticeListTotal"  parameterType="HashMap" resultType="int">
+       	SELECT
+       	 	COUNT(*) 
+       	from notice A	
+       	WHERE A.DELETEYN = 'N'
+			${sQuery}
+
+    </select>
+   
+   <select id="noticeInfo"  parameterType="HashMap" resultType="Map">
+
+        	SELECT
+      		A.NOTICE_SEQ as notice_seq
+ 			,A.CUST_SEQ as cust_seq
+			,IFNULL(B.CUST_NAME,'')  as cust_name
+ 			,A.TITLE as title
+			,A.CONTENTS as contents
+			,A.NOTICEYN as noticeYN
+			,A.DELETEYN as deleteYN
+			,A.MAINYN as mainYN
+			,A.SHOWYN as showYN
+			,A.VIEWCNT as viewCnt
+			,IFNULL(A.WRITERID,'') as writerId
+			,IFNULL(A.WRITERNAME,'') as writerName
+			,IFNULL(A.WRITERIP,'') as writerIp
+			,IFNULL(A.MODID,'') as modId
+			,IFNULL(A.MODNAME,'') as modName
+			,IFNULL(A.MODIP,'') as modIp
+			,IFNULL(A.DELID,'') as delId
+			,IFNULL(A.DELNAME,'') as delName
+			,IFNULL(A.DELIP,'') as delIp
+			,IFNULL(convert(date_format(A.REGDATE, '%Y-%m-%d'), char(10)),'') as regDate
+			,IFNULL(convert(date_format(A.UPTDATE, '%Y-%m-%d'), char(10)),'') as uptDate
+			,IFNULL(convert(date_format(A.DETDATE, '%Y-%m-%d'), char(10)),'') as detDate
+			,IFNULL(A.FILE1,'') as file1
+       	 FROM notice A left outer join cust B on A.CUST_SEQ = B.CUST_SEQ 
+         where A.notice_seq = #{notice_seq}
+
+    </select>   
+   	
+   	
+   	  <select id="noticeFileListSql" parameterType="Map" resultType="java.util.LinkedHashMap">
+	    select
+	             b.file_key
+	           , b.file_name
+	           , b.file_path
+	           , b.file_size
+	           , b.file_date
+	   from
+	      notice a, file_info b
+	   where
+	      b.file_key in (a.file1)
+	      and a.notice_seq = #{notice_seq}
+	</select> 
+ 
+	
+	<select id="deleteFile" statementType="CALLABLE" parameterType="HashMap" >
+     	{  
+     		call Notice_DeleteFile_D1_Str (#{notice_seq},#{type})
+        }
+    </select>
+    
+  	<select id="deleteNotice"  parameterType="HashMap" >
+ 		UPDATE NOTICE SET 
+ 			DELETEYN = 'Y'
+ 			,DELID = #{loginUserId}
+ 			,DELNAME = #{iLoginUserName}
+ 			,DELIP = #{iLoginUserIp}
+			,DETDATE = NOW()
+ 		WHERE NOTICE_SEQ = #{notice_seq}
+    </select>
+</mapper>

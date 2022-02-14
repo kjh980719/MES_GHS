@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.calculation.CalculationMapper">
+
+    <select id="calculationListTotal"  parameterType="HashMap" resultType="int">
+      
+
+
+    </select>
+   
+    
+    
+   <select id="calculationList" parameterType="HashMap" resultType="Map">
+	
+    </select>
+    
+ 	
+</mapper>

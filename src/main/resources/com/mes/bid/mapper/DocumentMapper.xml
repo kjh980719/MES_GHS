@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.document.DocumentMapper">
+
+       <select id="writeDocumentDetail" statementType="CALLABLE" parameterType="HashMap">
+	    {
+	    	call Document_Detail_Create_I1_Str
+	    	(
+	    	    #{document_code},
+			    #{seq},
+			    #{amend},
+			    #{mg_name},
+				#{bigo}
+			)
+			
+	    }  	     
+    </select>
+
+
+
+      <select id="writeDocument" statementType="CALLABLE" parameterType="HashMap" resultType="String">
+	    {call Document_Create_I1_Str (
+	    		#{document_name},
+	    		#{distributor_to},
+				#{distributor_from},
+	    		#{document_type},
+	    		#{enact_date},
+	    		#{iManagerSeq}	
+	    	)
+	    }
+	</select>
+
+	<select id="documentList" parameterType="HashMap" resultType="Map">
+		SELECT * FROM (
+			SELECT 
+				@ROWNUM := @ROWNUM+1 AS no,
+				IFNULL(k.DOCUMENT_CODE, '') AS document_code,
+				IFNULL(k.DOCUMENT_NAME, '') AS document_name,
+				convert(date_format(k.REG_DATE, '%Y-%m-%d'), char(10)) as reg_date,
+				IFNULL(k.DOCUMENT_TYPE, '') AS document_type,
+				IFNULL(k.DISTRIBUTOR_TO, '') AS distrubutor_to,
+				IFNULL(k.DISTRIBUTOR_FROM, '') AS distributor_from,
+				k.WRITER AS writer
+			FROM
+			    (
+					select
+						A.DOCUMENT_CODE,
+						A.DOCUMENT_NAME,
+						A.REG_DATE,
+			  			IFNULL(B.MANAGER_NAME , '') AS WRITER,
+						A.DOCUMENT_TYPE,
+						A.DISTRIBUTOR_TO,
+						A.DISTRIBUTOR_FROM
+					from document A
+						inner join manager_list B ON A.REGIST_BY = B.MANAGER_SEQ
+			  			,(SELECT @ROWNUM:=0) R
+					where 			   
+						 A.DELETE_YN = 'N'
+						 ${sQuery}
+						order by A.reg_date desc
+			     ) k
+			)sub
+			WHERE sub.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+
+    </select>
+
+    
+     <select id="documentListTotal"  parameterType="HashMap" resultType="int">
+   
+     	SELECT
+       	 	COUNT(*) 
+       	from document A 	
+       	WHERE
+       		A.DELETE_YN = 'N' 
+			${sQuery}	
+			
+
+    </select>
+    
+    <update id="delete" parameterType="hashMap">
+    	UPDATE document
+    		SET
+    			DELETE_YN = 'Y'
+    			,DELETE_DATE = now()
+    			,DELETE_BY = #{iManagerSeq}
+    		WHERE 
+    			document_code = #{document_code}
+    </update>
+    
+    
+    <select id="editDocument" statementType="CALLABLE" parameterType="HashMap" >
+	    {
+	    	call Document_Update_U1_Str
+	    	(
+	    	    #{document_code},
+	    		#{document_name},
+	    		#{distributor_to},
+				#{distributor_from},
+	    		#{enact_date},
+	    		#{document_type},
+	    		#{iManagerSeq}	
+	    	)
+	    }
+	</select>
+	
+	
+	<select id="editDocumentDetail" statementType="CALLABLE" parameterType="HashMap">
+	    {
+	    	call Document_Detail_Update_U1_Str
+	    	(
+			    #{document_code},
+			    #{seq},
+			    #{amend},
+			    #{mg_name},
+				#{bigo}
+			)
+			
+	    }  	     
+    </select>
+	
+	
+	
+	<select id="view" parameterType="HashMap" resultType="HashMap">
+			select 					
+				IFNULL(A.DOCUMENT_CODE,'') AS document_code,
+				IFNULL(A.DOCUMENT_NAME,'') AS document_name,
+			    IFNULL(C.MANAGER_NAME, '') AS writer,
+				A.distributor_to AS distributor_to,
+				A.distributor_from AS distributor_from,
+			  	convert(date_format(A.REG_DATE, '%Y-%m-%d'), char(10)) as reg_date,
+				convert(date_format(A.enact_date, '%Y-%m-%d'), char(10)) as enact_date,
+				A.document_type AS document_type,
+				IFNULL(convert(date_format(B.AMEND, '%Y-%m-%d'), char(10)),'') as amend,
+				B.MG_NAME AS mg_name,
+				IFNULL(B.BIGO,'') as bigo
+      		from document A
+      		     inner join document_detail B on A.document_code = B.document_code
+				 inner join manager_list C on A.regist_by = C.manager_seq
+			WHERE 
+				A.DOCUMENT_CODE = #{document_code}
+		
+    </select>
+
+
+
+
+</mapper>

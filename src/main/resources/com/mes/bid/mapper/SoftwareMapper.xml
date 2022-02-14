@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.software.SoftwareMapper">
+
+<select id="writeSoftwareDetail" statementType="CALLABLE" parameterType="HashMap">
+	    {
+	    	call Software_Detail_Create_I1_Str
+	    	(
+			    #{seq},
+			    #{sw_no},
+			    #{recodedate},
+			    #{purpose_use},
+			    #{mg_name},
+			    #{use_department},
+				#{bigo}
+			)
+			
+	    }  	     
+    </select>
+    
+    <select id="writeSoftware" statementType="CALLABLE" parameterType="HashMap" resultType="String">
+	    {
+	    	call Software_Create_I1_Str
+	    	(
+	    		#{sw_code},
+	    		#{sw_name},
+	    		#{start_date},
+	    		#{end_date},
+	    		#{message},
+	    		#{use_yn},
+	    		#{iManagerSeq},
+	    		#{manager_seq},
+	    		#{manager_phonenumber}
+	    	)
+	    }
+
+	</select>
+	
+	 <select id="softwareListTotal"  parameterType="HashMap" resultType="int">
+       	SELECT
+       	 	COUNT(*) 
+       	from software A
+			inner join software_detail B on A.sw_no = B.sw_no
+			inner join manager_list C on A.manager_seq = C.manager_seq
+			inner join manager_auth_group D on C.auth_group_seq = D.auth_group_seq
+       	WHERE B.no = 1  
+       		AND A.DELETE_YN = 'N' 
+			${sQuery}		
+			<![CDATA[
+				AND (A.STARTDATE >= #{startDate} and A.STARTDATE <= #{endDate} OR A.EndDate >= #{startDate} and A.ENDDATE <= #{endDate})
+			]]>
+    </select>
+	
+	
+	<select id="softwareList" parameterType="HashMap" resultType="Map">
+		SELECT * FROM (
+			SELECT 
+				@ROWNUM := @ROWNUM+1 AS no,
+				k.sw_code AS sw_code,
+				IFNULL(k.sw_name, '') AS sw_name,
+				convert(date_format(k.STARTDATE, '%Y-%m-%d'), char(10)) as startDate,
+				convert(date_format(k.ENDDATE, '%Y-%m-%d'), char(10)) as endDate,
+				convert(date_format(k.REG_DATE, '%Y-%m-%d'), char(10)) as regDate,
+				k.sw_no AS sw_no,
+				k.MANAGER_PHONENUMBER as manager_phonenumber,
+				k.USE_YN AS use_yn,
+				k.MANAGER_NAME AS managerName,
+				k.AUTH_GROUP_NAME AS groupName
+			FROM
+			    (
+					select 
+					    A.sw_no, 					
+						A.sw_code,
+						A.sw_name,
+						A.STARTDATE,
+						A.MANAGER_PHONENUMBER,
+						A.ENDDATE,
+			  			A.REG_DATE,
+						A.USE_YN,
+						C.MANAGER_NAME,
+						D.AUTH_GROUP_NAME
+					from software A 
+						inner join software_detail B on A.sw_no = B.sw_no
+						inner join manager_list C on A.manager_seq = C.manager_seq
+						inner join manager_auth_group D on C.auth_group_seq = D.auth_group_seq
+					 ,(SELECT @ROWNUM:=0) R
+					where B.no = 1 
+						AND A.DELETE_YN = 'N'
+						${sQuery}
+						<![CDATA[
+							AND A.STARTDATE between #{startDate} and #{endDate}
+						]]>
+						order by A.reg_date desc
+			        ) k
+			)sub
+			WHERE sub.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+	
+    </select>
+    
+    <select id="view" parameterType="HashMap" resultType="HashMap">
+		select
+			IFNULL(A.SW_NO,'') AS sw_no,
+			IFNULL(A.SW_CODE,'') AS sw_code,
+			IFNULL(A.SW_NAME,'') AS sw_name,
+			A.MANAGER_PHONENUMBER as manager_phonenumber,
+			A.MESSAGE AS message,
+			convert(date_format(A.STARTDATE, '%Y-%m-%d'), char(20)) as startDate,
+			convert(date_format(A.ENDDATE, '%Y-%m-%d'), char(20)) as endDate,
+			convert(date_format(A.REG_DATE, '%Y-%m-%d'), char(20)) as reg_date,
+			A.USE_YN AS use_yn,
+			IFNULL(C.MANAGER_NAME,'') AS manager_name,
+			IFNULL(D.AUTH_GROUP_NAME,'') AS auth_group_name,
+			IFNULL(A.MANAGER_SEQ,'') AS manager_seq,
+			IFNULL(C.MANAGER_POSITION,'') AS manager_position,
+			B.NO AS no,
+			IFNULL(convert(date_format(B.RECODEDATE, '%Y-%m-%d'), char(20)),'')  as recodedate,
+			IFNULL(B.PURPOSE_USE,'') as purpose_use,
+			IFNULL(B.MG_NAME,'') as mg_name,
+			IFNULL(B.use_department,'') as use_department,
+			IFNULL(B.BIGO,'') as bigo
+		from software A
+			inner join software_detail B on A.sw_no = B.sw_no
+			inner join manager_list C on A.manager_seq = C.manager_seq
+			inner join manager_auth_group D on C.auth_group_seq = D.auth_group_seq
+		WHERE
+		A.SW_NO = #{sw_no}
+
+    </select>
+
+    <update id="delete" parameterType="hashMap">
+    	UPDATE software
+    		SET
+    			DELETE_YN = 'Y'
+    			,DELETE_DATE = now()
+    			,DELETE_BY = #{iManagerSeq}
+    		WHERE 
+    			SW_NO = #{sw_no}
+    </update>
+    
+     <select id="editSoftwareDetail" statementType="CALLABLE" parameterType="HashMap">
+	    {
+	    	call Software_Detail_Update_U1_Str
+	    	(
+			    #{seq},
+			    #{sw_no},
+			    #{recodedate},
+			    #{purpose_use},
+			    #{mg_name},
+			    #{use_department},
+				#{bigo}
+			)
+			
+	    }  	     
+    </select>
+    
+    <select id="editSoftware" statementType="CALLABLE" parameterType="HashMap" resultType="String">
+	    {
+	    	call Software_Update_U1_Str
+	    	(
+	    		#{sw_no},#{sw_code},#{sw_name},#{start_date},#{end_date},#{message},#{use_yn},#{iManagerSeq},#{manager_seq},#{manager_phonenumber}
+	    	)
+	    }
+
+	</select>
+
+
+    <select id="getMangerListTotal"  parameterType="HashMap" resultType="int">
+       	SELECT
+       	 	COUNT(*)
+       	from manager_list A inner join manager_auth_group B
+					 on A.auth_group_seq = B.auth_group_seq
+       	WHERE
+			${sQuery}
+    </select>
+
+
+
+   <select id="getMangerList" parameterType="HashMap" resultType="Map">
+		SELECT * FROM (
+			SELECT
+				@ROWNUM := @ROWNUM+1 AS no
+ 				,k.manager_name
+ 				,k.manager_position
+ 				,k.auth_group_name
+ 				,k.manager_seq
+			FROM
+			    (
+					select
+ 						IFNULL(A.manager_name,'') as manager_name
+ 					 	,IFNULL(A.manager_position,'') as manager_position
+ 					 	,IFNULL(B.auth_group_name,'') as auth_group_name
+ 					 	,IFNULL(A.manager_seq,'') as manager_seq
+
+					from manager_list A inner join manager_auth_group B
+					 on A.auth_group_seq = B.auth_group_seq
+				INNER JOIN MES_DEPARTMENT D  ON B.AUTH_GROUP_NAME  = D.DPT_NAME
+					,(SELECT @ROWNUM:=0) R
+					where
+						${sQuery}
+						order by A.REGIST_DATE asc
+			        ) k
+			)sub
+			WHERE sub.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+
+    </select>
+
+</mapper>

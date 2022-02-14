@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.department.DepartmentMapper">
+
+    <select id="departmentListTotal"  parameterType="HashMap" resultType="int">
+       	SELECT
+       	 	COUNT(*) 
+       	from mes_department A 
+       	WHERE
+			${sQuery}
+    </select>
+   
+    
+    
+   <select id="departmentList" parameterType="HashMap" resultType="Map">
+		SELECT * FROM (
+			SELECT 
+				@ROWNUM := @ROWNUM+1 AS no
+				,k.dpt_code
+				,k.dpt_name
+				,k.regDate
+				,k.use_yn
+				,k.dpt_tel
+
+				,authGroupSeq
+			FROM
+			    (
+					select 					
+						A.DPT_CODE AS dpt_code
+						,A.DPT_NAME AS dpt_name
+						,convert(date_format(A.REGDATE, '%Y-%m-%d'), char(10)) AS regDate
+						,A.USE_YN AS use_yn
+						,A.DPT_TEL AS dpt_tel
+
+						,(select auth_group_seq from manager_auth_group where auth_group_name = A.DPT_NAME) as authGroupSeq
+					from mes_department A, (SELECT @ROWNUM:=0) R
+					where
+						${sQuery}
+						order by A.REGDATE desc
+			        ) k
+			)sub
+			WHERE sub.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+	
+    </select>
+    
+ 	
+
+    
+     <select id="departmentInfo"  parameterType="HashMap" resultType="HashMap">
+		SELECT 					
+			A.DPT_CODE AS dpt_code
+			,A.DPT_NAME AS dpt_name
+			,convert(date_format(A.REGDATE, '%Y-%m-%d'), char(10)) AS regDate
+			,A.USE_YN AS use_yn
+		FROM mes_department A
+		WHERE
+			A.DPT_CODE = #{dpt_code}
+    </select>
+    
+    
+    <insert id="createDepartment"  parameterType="HashMap" >
+		INSERT INTO mes_department(
+			DPT_CODE
+			,DPT_NAME
+			,REGDATE
+			,USE_YN
+		)VALUES(
+			#{dpt_code}
+			,#{dpt_name}
+			,now()
+			,#{use_yn}
+		)
+    </insert>
+    
+    <update id="editDepartment"  parameterType="HashMap" >
+		UPDATE mes_department SET
+			DPT_CODE = #{dpt_code}
+			,DPT_NAME = #{dpt_name}
+			,USE_YN = #{use_yn}
+		WHERE
+			DPT_CODE = #{old_dpt_code}
+    </update>
+        
+	
+
+
+
+</mapper>

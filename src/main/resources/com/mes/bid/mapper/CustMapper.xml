@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.cust.CustMapper">
+    
+    <select id="Cust_Search_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+           select
+
+			U.no as no,
+			U.CUST_SEQ AS CUST_SEQ,
+			U.BUSINESS_NO AS BUSINESS_NO,
+			U.CUST_NAME AS CUST_NAME,
+			U.BOSS_NAME as BOSS_NAME,
+			U.TEL as TEL,
+            U.HP_NO as HP_NO,
+			U.REMARKS_WIN as REMARKS_WIN,
+			U.USE_YN as USE_YN,
+			U.CUST_GROUP1 as CUST_GROUP1
+		from
+				(SELECT
+					(@ROWNUM:=@ROWNUM+1) as no,
+					A.CUST_SEQ AS CUST_SEQ,
+                    A.BUSINESS_NO AS BUSINESS_NO,
+					A.CUST_NAME AS CUST_NAME,
+					A.BOSS_NAME AS BOSS_NAME,
+					A.TEL AS TEL,
+					A.HP_NO AS HP_NO,
+					A.REMARKS_WIN AS REMARKS_WIN,
+					A.USE_YN AS USE_YN,
+					A.CUST_GROUP1 as CUST_GROUP1
+				FROM (SELECT @ROWNUM:=0) R,cust A
+		<if test="REMARKS_WIN != ''">
+        		where 
+					${sQuery}
+		</if>
+					order by A.CUST_SEQ DESC		
+		        ) U
+		WHERE
+			 U.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+			 
+
+    </select>
+    
+    <select id="Cust_Row_S1_Str" statementType="CALLABLE" parameterType="HashMap" resultType="Map">
+        {  call Cust_Row_S1_Str (
+            #{CUST_SEQ}
+            )
+        }
+    </select>
+    
+
+    <insert id="Cust_Create_I1_Str" statementType="CALLABLE" parameterType="HashMap">
+    {call Cust_Create_I1_Str(#{BUSINESS_NO},#{CUST_NAME},#{BOSS_NAME},#{UPTAE},#{JONGMOK},#{TEL},#{EMAIL},#{POST_NO},#{ADDR},#{ADDR_INFO},#{G_GUBUN},#{G_BUSINESS_TYPE},#{G_BUSINESS_CD},#{TAX_REG_ID},#{FAX},#{HP_NO},#{DM_POST},#{DM_ADDR},#{DM_ADDR_INFO},#{REMARKS_WIN},#{GUBUN},#{EXCHANGE_CODE},
+    #{CUST_GROUP1},#{CUST_GROUP2},#{URL_PATH},#{REMARKS},#{OUTORDER_YN},#{IO_CODE_SL},#{MANAGER_SEQ},#{MANAGE_BOND_NO},#{MANAGE_DEBIT_NO},#{CUST_LIMIT},#{O_RATE},#{I_RATE},#{PRICE_GROUP},#{PRICE_GROUP2},#{CUST_LIMIT_TERM},#{USE_YN},#{PAY_DATE})
+    }
+    </insert>
+    
+    <select id="Cust_EXchange_S1_Str" statementType="CALLABLE" resultType="Map">
+          SELECT EXCHANGE_CODE,EXCHANGE_DES,EXCHANGE_RATE,EXCHANGE_DECIMAL,USE_YN FROM exchange_foreign
+        
+    </select>
+    
+     
+    
+    <update id="Cust_Update_U1_Str" statementType="CALLABLE" parameterType="HashMap">
+    {call Cust_Update_U1_Str(#{CUST_SEQ},#{BUSINESS_NO},#{CUST_NAME},#{BOSS_NAME},#{UPTAE},#{JONGMOK},#{TEL},#{EMAIL},#{POST_NO},#{ADDR},#{ADDR_INFO},#{G_GUBUN},#{G_BUSINESS_TYPE},#{G_BUSINESS_CD},#{TAX_REG_ID},#{FAX},#{HP_NO},#{DM_POST},#{DM_ADDR},#{DM_ADDR_INFO},#{REMARKS_WIN},#{GUBUN},#{EXCHANGE_CODE},
+    #{CUST_GROUP1},#{CUST_GROUP2},#{URL_PATH},#{REMARKS},#{OUTORDER_YN},#{IO_CODE_SL},#{MANAGER_SEQ},#{MANAGE_BOND_NO},#{MANAGE_DEBIT_NO},#{CUST_LIMIT},#{O_RATE},#{I_RATE},#{PRICE_GROUP},#{PRICE_GROUP2},#{CUST_LIMIT_TERM},#{USE_YN},#{PAY_DATE})
+    }
+    </update>
+    
+    
+     <select id="custListTotal"  parameterType="HashMap" resultType="int">
+       	SELECT
+       	 	COUNT(*) 
+       	from cust A	
+       	WHERE
+			${sQuery}
+			
+    </select>
+   
+    
+    
+   <select id="custList" parameterType="HashMap" resultType="Map">
+		SELECT 
+			k.no as no,
+			k.CUST_SEQ AS CUST_SEQ,
+			k.BUSINESS_NO AS BUSINESS_NO,
+			k.CUST_NAME AS CUST_NAME,
+			k.BOSS_NAME as BOSS_NAME,
+			k.TEL as TEL,
+            k.HP_NO as HP_NO,
+			k.REMARKS_WIN as REMARKS_WIN,
+			k.USE_YN as USE_YN
+		FROM
+		    (
+				select
+					(@ROWNUM:=@ROWNUM+1) AS no,
+					A.CUST_SEQ AS CUST_SEQ,				
+					A.BUSINESS_NO AS BUSINESS_NO,
+					A.CUST_NAME AS CUST_NAME,
+					IFNULL(A.BOSS_NAME,'') AS BOSS_NAME,
+					A.TEL AS TEL,
+					A.HP_NO AS HP_NO,
+					A.REMARKS_WIN AS REMARKS_WIN,
+					A.USE_YN AS USE_YN
+				FROM cust A , (SELECT @ROWNUM:=0) R
+				where
+					${sQuery}			
+					order by A.CUST_SEQ DESC	
+		        ) k
+		WHERE
+			 k.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+	
+    </select>
+    
+</mapper>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.asplan.AsPlanMapper">
+
+
+   <select id="writeAsPlanDetail" statementType="CALLABLE" parameterType="HashMap">
+	    {
+	    	call ASPlan_Detail_Create_I1_Str
+	    	(
+			    #{seq},
+			    #{as_code},
+	    	    #{pdt_cd},
+			    #{pdt_code},
+			    #{pdt_name},
+			    #{pdt_standard},
+			    #{asqty},
+				#{bigo}
+			)
+			
+	    }  	     
+    </select>
+    
+    <select id="writeAsPlan" statementType="CALLABLE" parameterType="HashMap" resultType="String">
+	    {
+	    	call ASPlan_Create_I1_Str
+	    	(
+	    		#{cust_seq},#{manager_seq},#{iManagerSeq},#{cost},#{title},#{div_work},#{reason},#{as_status},#{start_date},#{end_date}
+	    	)
+	    }
+
+	</select>
+	
+	
+	
+	<select id="asPlanList" parameterType="HashMap" resultType="Map">
+        SELECT * FROM (
+			SELECT 
+				@ROWNUM := @ROWNUM+1 AS no,
+				k.AS_CODE AS as_code,
+				IFNULL(k.CUST_NAME, '') AS cust_name,
+				convert(date_format(k.STARTDATE, '%Y-%m-%d'), char(10)) as startDate,
+				convert(date_format(k.ENDDATE, '%Y-%m-%d'), char(10)) as endDate,
+				convert(date_format(k.REG_DATE, '%Y-%m-%d'), char(10)) as regDate,
+				k.ASQTY AS asQty,
+				k.AS_STATUS AS as_status,
+				format(k.COST , 0 ) as cost,
+				k.TITLE as title,
+				k.DIV_WORK as div_work,
+				k.REASON as reason,
+			   	case k.cnt when 1 then k.pdt_name_one else  concat(k.pdt_name_one, ' 외', (k.cnt-1), '건') end AS pdt_name,
+				k.MANAGER_NAME AS managerName,
+				k.AUTH_GROUP_NAME AS groupName
+			FROM
+			    (
+					select 					
+						A.AS_CODE as AS_CODE,
+						IFNULL(F.CUST_NAME, '') as CUST_NAME,
+						A.STARTDATE,
+						A.ENDDATE,
+						A.AS_STATUS,
+						A.COST,
+						A.REG_DATE,
+						A.TITLE,
+						A.DIV_WORK,
+						A.REASON,
+						( SELECT SUM(E.ASQTY) FROM mes_asdetail E WHERE E.as_code = A.as_code)  as ASQTY,
+					 	B.pdt_name as pdt_name_one ,
+	                    ( SELECT COUNT(*) FROM mes_asdetail E WHERE E.as_code = A.as_code) AS cnt ,
+	                    ( SELECT MAX(E.PDT_NAME) FROM mes_asdetail E WHERE E.as_code = A.as_code) AS pdt,
+						C.MANAGER_NAME,
+						D.AUTH_GROUP_NAME
+					from mes_asmaster A 
+						inner join mes_asdetail B on A.as_code = B.as_code
+						inner join cust F on A.cust_seq = F.cust_seq
+						inner join manager_list C on A.manager_seq = C.manager_seq
+						inner join manager_auth_group D on C.auth_group_seq = D.auth_group_seq
+					 ,(SELECT @ROWNUM:=0) R
+					where B.no = 1 
+						AND A.DELETE_YN = 'N'
+						${sQuery}
+						<![CDATA[
+							AND (A.STARTDATE >= #{startDate} and A.STARTDATE <= #{endDate} OR A.EndDate >= #{startDate} and A.ENDDATE <= #{endDate})
+						]]>
+						order by A.reg_date desc
+			        ) k
+			)sub
+			WHERE sub.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+	
+    </select>
+    
+    
+    
+    <select id="asPlanListTotal"  parameterType="HashMap" resultType="int">
+       	SELECT
+       	 	COUNT(*)
+       	from mes_asmaster A
+			inner join mes_asdetail B on A.as_code = B.as_code
+			inner join cust F on A.cust_seq = F.cust_seq
+			inner join manager_list C on A.manager_seq = C.manager_seq
+			inner join manager_auth_group D on C.auth_group_seq = D.auth_group_seq
+       	WHERE B.no = 1  
+       		AND A.DELETE_YN = 'N' 
+			${sQuery}		
+			<![CDATA[
+				AND (A.STARTDATE >= #{startDate} and A.STARTDATE <= #{endDate} OR A.EndDate >= #{startDate} and A.ENDDATE <= #{endDate})
+			]]>
+    </select>
+    
+    
+    
+     <update id="delete" parameterType="hashMap">
+    	UPDATE mes_asmaster
+    		SET
+    			DELETE_YN = 'Y'
+    			,DELETE_DATE = now()
+    			,DELETE_BY = #{iManagerSeq}
+    		WHERE 
+    			AS_CODE = #{as_code}
+    </update>
+    
+    
+    
+    <select id="view" parameterType="HashMap" resultType="HashMap">
+            select 					
+				A.AS_CODE AS as_code,
+				IFNULL(A.cust_seq, 0) AS cust_seq,
+				IFNULL(F.CUST_NAME, '') AS cust_name,
+				A.REASON AS reason,
+				convert(date_format(A.STARTDATE, '%Y-%m-%d %H:%i:%S'), char(20)) as startDate,
+				convert(date_format(A.ENDDATE, '%Y-%m-%d %H:%i:%S'), char(20)) as endDate,
+				convert(date_format(A.REG_DATE , '%Y-%m-%d %H:%i:%S'), char(20)) as regDate,
+				A.AS_STATUS AS as_status,
+				A.DIV_WORK AS div_work,	
+				IFNULL(C.MANAGER_NAME,'') AS managerName,
+				IFNULL(D.AUTH_GROUP_NAME,'') AS groupName,
+				IFNULL(A.MANAGER_SEQ,'') AS manager_seq,
+				IFNULL(C.MANAGER_POSITION,'') AS manager_position,
+				IFNULL(A.TITLE,'') AS title,
+				IFNULL(A.COST,'') as cost,
+				B.NO AS no,
+				B.PDT_CD AS pdt_cd,
+				B.PDT_CODE AS pdt_code,
+				B.PDT_NAME AS pdt_name,
+				IFNULL(B.PDT_STANDARD,'') as pdt_standard,
+				B.ASQTY as asqty,
+				IFNULL(B.BIGO,'') as bigo
+      		from mes_asmaster A 
+				inner join mes_asdetail B on A.as_code = B.as_code
+				inner join manager_list C on A.manager_seq = C.manager_seq
+				inner join manager_auth_group D on C.auth_group_seq = D.auth_group_seq
+				inner join cust F on A.cust_seq = F.cust_seq
+			WHERE 
+				A.AS_CODE = #{as_code}	
+		
+    </select>
+    
+    
+     <select id="editAsPlanDetail" statementType="CALLABLE" parameterType="HashMap">
+	    {
+	    	call ASPlan_Detail_Update_U1_Str
+	    	(
+			    #{seq},
+			    #{as_code},
+	    	    #{pdt_cd},
+			    #{pdt_code},
+			    #{pdt_name},
+			    #{pdt_standard},
+			    #{asqty},
+				#{bigo}
+			)
+			
+	    }  	     
+    </select>
+    
+    <select id="editAsPlan" statementType="CALLABLE" parameterType="HashMap" resultType="String">
+	    {
+	    	call ASPlan_Update_U1_Str
+	    	(
+	    		#{as_code},#{manager_seq},#{start_date},#{end_date},#{reason},#{cust_seq},#{div_work},#{iManagerSeq},#{as_status},#{title},#{cost}
+	    	)
+	    }
+
+	</select>
+	
+	
+	<select id="getMangerListTotal"  parameterType="HashMap" resultType="int">
+       	SELECT
+       	 	COUNT(*) 
+       	from manager_list A
+			INNER JOIN manager_auth_group B on A.auth_group_seq = B.auth_group_seq
+			INNER JOIN MES_DEPARTMENT D  ON B.AUTH_GROUP_NAME  = D.DPT_NAME
+       	WHERE 
+			${sQuery}
+    </select>
+    
+    
+    <select id="getMangerList" parameterType="HashMap" resultType="Map">
+		SELECT * FROM (
+			SELECT 
+				@ROWNUM := @ROWNUM+1 AS no
+ 				,k.manager_name
+ 				,k.manager_position
+ 				,k.auth_group_name
+ 				,k.manager_seq 
+			FROM
+			    (
+					select 					
+ 						IFNULL(A.manager_name,'') as manager_name
+ 					 	,IFNULL(A.manager_position,'') as manager_position
+ 					 	,IFNULL(B.auth_group_name,'') as auth_group_name
+ 					 	,IFNULL(A.manager_seq,'') as manager_seq
+ 					 	
+					from manager_list A
+						INNER JOIN manager_auth_group B on A.auth_group_seq = B.auth_group_seq
+						INNER JOIN MES_DEPARTMENT D  ON B.AUTH_GROUP_NAME  = D.DPT_NAME
+					,(SELECT @ROWNUM:=0) R
+					where
+						${sQuery}					
+						order by A.REGIST_DATE asc
+			        ) k
+			)sub
+			WHERE sub.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+	
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

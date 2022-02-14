@@ -1,0 +1,213 @@
+@charset "utf-8";
+
+/* basic */
+body {font-family: "돋움,Verdana, Geneva, Arial, Helvetica, sans-serif"; font-size: 11px; color: #333666;
+	margin-left : 0;
+	margin-top : 0;
+	margin-right : 0;
+	margin-bottom: 0;
+	scrollbar-face-color: #F8F8F8; 
+	scrollbar-shadow-color:#B3B3B3; 
+	scrollbar-highlight-color:#B3B3B3; 
+	scrollbar-3dlight-color: #FFFFFF; 
+	scrollbar-darkshadow-color: #FFFFFF; 
+	scrollbar-track-color: #DDDDDD; 
+	scrollbar-arrow-color: #8B9EA6;
+}
+
+a:link {color: #333666; text-decoration: none ; selector-dummy : expression(this.hideFocus=true);}
+a:visited {color: #333666; text-decoration: none ;selector-dummy : expression(this.hideFocus=true);}
+a:active {color: #333666; text-decoration:underline ;selector-dummy : expression(this.hideFocus=true);}
+a:hover {color: #333666; text-decoration: underline ;selector-dummy : expression(this.hideFocus=true);}
+
+img{	border:0;}
+
+/* table */
+table
+{
+	border: 0;
+	font-family:"돋움,Verdana, Geneva, Arial, Helvetica, sans-serif";
+	font-size: 11px;
+	line-height:140%;
+}
+
+/* selectBox_이미지설렉트박스 스타일 */
+  .selectBoxSelectedArea{color:#333666; background-color:#FFFFFF; font-size:11px; font-family:돋움;  line-height:16px; padding-left:4px;}
+  .selectBoxSelectedAreaFocus {color:#333666; background-color:#FFFFFF; font-size:11px; font-family:"돋움";  line-height:16px; padding-left:4px;}
+  .selectBoxOption {color:#4A5053; background-color:#FFFFFF; font-size:11px; font-family:"돋움";  line-height:16px; padding-left:4px;}
+  .selectBoxOptionOver {color:#4A5053; background-color:#C8C9C9; font-size:11px; font-family:"돋움";  line-height:16x; padding-left:4px;}
+  .selectBoxOptionInnerLayer {overflow:auto; background-color:#C8C9C9; border:solid 1px #C8C9C9;}
+
+  .selectBoxSelectedArea2{color:#379A80; background-color:#FFFFFF; font-size:11px; font-family:돋움;  line-height:16px; padding-left:4px;}
+  .selectBoxSelectedAreaFocus2 {color:#379A80; background-color:#FFFFFF; font-size:11px; font-family:"돋움";  line-height:16px; padding-left:4px;}
+  .selectBoxOption2 {color:#379A80; background-color:#FFFFFF; font-size:11px; font-family:"돋움";  line-height:16px; padding-left:4px;}
+  .selectBoxOptionOver2 {color:#379A80; background-color:#C8C9C9; font-size:11px; font-family:"돋움";  line-height:16x; padding-left:4px;}
+  .selectBoxOptionInnerLayer {overflow:auto; background-color:#C8C9C9; border:solid 1px #C8C9C9;}
+
+
+/* form CSS */
+input {border-left:1px solid #B4B4B4; border-top:1px solid #B4B4B4; font:11px 돋움,Verdana, Geneva, Arial, Helvetica, sans-serif; padding-left:3; padding-top:2; color:#333666; height:20px; background-color:#F2F2F2}
+
+.input_search {border:1px solid #B4B4B4; font:11px 돋움,Verdana, Geneva, Arial, Helvetica, sans-serif; padding-left:3; padding-top:2; color:#333666; height:20px; background-color:#F2F2F2}
+
+.input_no {border:0px; background-color:white}
+
+textarea {border-left:1px solid #B4B4B4; border-top:1px solid #B4B4B4; font:11px 돋움,Verdana, Geneva, Arial, Helvetica, sans-serif; padding:5 5 5 5; color:#333666; background-color:#F2F2F2; line-height:150%}
+
+select {border:1px solid #AEB3B8; font: 11px 돋움,Verdana, Geneva, Arial, Helvetica, sans-serif; color:#333666;}
+
+.input_num {border:1px solid #cccccc; font:11px 돋움,Verdana, Geneva, Arial, Helvetica, sans-serif; padding-top:3px;}
+
+
+
+
+/*LG 패밀리*/
+.fa_etc {font-size: 11px; font-family: "돋움"; color: #E43F68;}
+.fa_etc a.:link { color: #333666; text-decoration:none;}
+.fa_etc a.:visited { color: #333666; text-decoration:none;}
+.fa_etc a.:active { color: #E43F68; text-decoration:none;}
+.fa_etc a.:hover { color: #E43F68; text-decoration:none;}
+
+.priv_tit {color:black; font-weight:bold}
+.priv_st {color:#CA013B;}
+
+
+
+
+/*B2B 제품*/
+.sp_etc {font-size: 11px; font-family: "돋움"; color: #108e93;}
+.sp_etc a.:link { color: #333666; text-decoration:none;}
+.sp_etc a.:visited { color: #333666; text-decoration:none;}
+.sp_etc a.:active { color: #108e93; text-decoration:none;}
+.sp_etc a.:hover { color: #108e93; text-decoration:none;}
+
+.product_title {color:#333333; font-weight:bold}
+.list_count {color:#379A80; font-weight:bold}
+
+.sp_cate {font-size: 11px; font-family: "돋움"; color: #505050; font-weight:bold}
+.sp_cate a.:link { color: #505050; text-decoration:none; font-weight:normal}
+.sp_cate a.:visited { color: #505050; text-decoration:none; font-weight:normal}
+.sp_cate a.:active { color: #505050; text-decoration:none; font-weight:bold}
+.sp_cate a.:hover { color: #505050; text-decoration:none; font-weight:bold}
+
+.product_title_b {color:#108E93; font-weight:bold; font-size:14px}
+.product_txt {color:#108E93;}
+
+.sn_cate {font-size: 11px; font-family: "돋움"; color: #108E93;}
+.sn_cate a.:link { color: #505050; text-decoration:none;}
+.sn_cate a.:visited { color: #505050; text-decoration:none;}
+.sn_cate a.:active { color: #108E93; text-decoration:none;}
+.sn_cate a.:hover { color: #108E93; text-decoration:none;}
+
+
+
+
+/*업종별견적*/
+.ca_etc {font-size: 11px; font-family: "돋움"; color: #712a85;}
+.ca_etc a.:link { color: #333666; text-decoration:none;}
+.ca_etc a.:visited { color: #333666; text-decoration:none;}
+.ca_etc a.:active { color: #712a85; text-decoration:none;}
+.ca_etc a.:hover { color: #712a85; text-decoration:none;}
+
+.esta_title {color:#712a85; font-weight:bold; font-size:14px}
+.esta_txt {color:#712a85; font-weight:bold}
+
+
+
+
+/*B2B 소식*/
+.si_etc {font-size: 11px; font-family: "돋움"; color: #9a7637;}
+.si_etc a.:link { color: #333666; text-decoration:none;}
+.si_etc a.:visited { color: #333666; text-decoration:none;}
+.si_etc a.:active { color: #9a7637; text-decoration:none;}
+.si_etc a.:hover { color: #9a7637; text-decoration:none;}
+
+.si_main:link { color: #333666; text-decoration:none;}
+.si_main:visited { color: #333666; text-decoration:none;}
+.si_main:active { color: #9a7637; text-decoration:underline;}
+.si_main:hover { color: #9a7637; text-decoration:underline;}
+
+.tv_title {color:#9a7637; font-weight:bold}
+
+
+
+/*서비스*/
+.se_etc {font-size: 11px; font-family: "돋움"; color: #72ab4a;}
+.se_etc a.:link { color: #333666; text-decoration:none;}
+.se_etc a.:visited { color: #333666; text-decoration:none;}
+.se_etc a.:active { color: #72ab4a; text-decoration:none;}
+.se_etc a.:hover { color: #72ab4a; text-decoration:none;}
+
+.sms_main:link { font-size: 12px; color: #333666; text-decoration:none;}
+.sms_main:visited { font-size: 12px; color: #333666; text-decoration:none;}
+.sms_main:active { font-size: 12px; color: #72ab4a; text-decoration:none;}
+.sms_main:hover { font-size: 12px; color: #72ab4a; text-decoration:none;}
+
+
+
+
+/*고객지원*/
+.su_etc {font-size: 11px; font-family: "돋움"; color: #C8013A;}
+.su_etc a.:link { color: #333666; text-decoration:none;}
+.su_etc a.:visited { color: #333666; text-decoration:none;}
+.su_etc a.:active { color: #C8013A; text-decoration:none;}
+.su_etc a.:hover { color: #C8013A; text-decoration:none;}
+
+.faq_stitle {color:#C8031A}
+.manual_txt {color:#003183; font-weight:bold}
+
+.su_main:link { color: #333666; text-decoration:underline;}
+.su_main:visited { color: #333666; text-decoration:underline;}
+.su_main:active { color: #C8013A; text-decoration:underline;}
+.su_main:hover { color: #C8013A; text-decoration:underline;}
+
+
+
+
+
+
+.list_num {font-size:11px; font-family:"돋움"; color: #333666;}/*하단_리스트번호*/
+ .list_num:link { color: #333666; text-decoration:none;}
+ .list_num:visited { color:#333666; text-decoration:none;}
+ .list_num:active { color:#C8013A; text-decoration:none;}
+ .list_num:hover { color:#C8013A; text-decoration:none;}
+  
+.list_num_B {font-size:11px; font-family:"돋움"; color: #C8013A; font-weight:bold;}/*하단_리스트번호_선택*/
+ .list_num_B:link { color: #C8013A; text-decoration:none; font-weight:bold;}
+ .list_num_B:visited { color:#C8013A; text-decoration:none; font-weight:bold;}
+ .list_num_B:active { color:#C8013A; text-decoration:none; font-weight:bold;}
+ .list_num_B:hover { color:#C8013A; text-decoration:none; font-weight:bold;}
+
+
+/*온라인견적*/
+.es_etc {font-size: 11px; font-family: "돋움"; color: #712A85;}
+.es_etc a.:link { color: #333666; text-decoration:none;}
+.es_etc a.:visited { color: #333666; text-decoration:none;}
+.es_etc a.:active { color: #712A85; text-decoration:none;}
+.es_etc a.:hover { color: #712A85; text-decoration:none;}
+
+.esti_model {font-size: 9px; font-family: "Tahoma"; color: #333333;}
+.esti_model_bold {font-size: 9px; font-family: "Tahoma"; color: #333333; font-weight:bold}
+.esti_model_bold2 {font-size: 11px; font-family: "굴림"; color: #333333; font-weight:bold}
+.esti_model_bold3 {font-size: 11px; font-family: "Tahoma"; color: #333333; font-weight:bold}
+.esti_pd_bold {font-size: 11px; font-family: "돋음"; color: #712A85; font-weight:bold}
+.esti_pd {font-size: 11px; font-family: "돋음"; color: #505050;}
+
+
+/*메인*/
+.m_set_B {font-size:11px; font-family:"돋움"; color: #E43F68; font-weight:bold;}
+/*공지사항*/
+.m_list {font-size:11px; font-family:"돋움"; color: #E43F68;}
+.m_list_num {font-size:11px; font-family:"돋움"; color: #333666;}/*하단_리스트번호*/
+ .m_list_num:link { color: #333666; text-decoration:none;}
+ .m_list_num:visited { color:#333666; text-decoration:none;}
+ .m_list_num:active { color:#E43F68; text-decoration:none;}
+ .m_list_num:hover { color:#E43F68; text-decoration:none;}
+ 
+ /*뉴스*/
+.m_news {font-size:11px; font-family:"돋움"; color: #6B6006;}
+.m_news_num {font-size:11px; font-family:"돋움"; color: #333666;}/*하단_리스트번호*/
+ .m_news_num:link { color: #333666; text-decoration:none;}
+ .m_news_num:visited { color:#333666; text-decoration:none;}
+ .m_news_num:active { color:#6B6006; text-decoration:none;}
+ .m_news_num:hover { color:#6B6006; text-decoration:none;}

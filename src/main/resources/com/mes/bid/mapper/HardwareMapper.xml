@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.hardware.HardwareMapper">
+
+
+
+<select id="writeHardwareDetail" statementType="CALLABLE" parameterType="HashMap">
+	    {
+	    	call Hardware_Detail_Create_I1_Str
+	    	(
+			    #{seq},
+			    #{hard_no},
+			    #{recodedate},
+			    #{purpose_use},
+			    #{mg_name},
+			    #{use_department},
+				#{bigo}
+			)
+			
+	    }  	     
+    </select>
+    
+    <select id="writeHardware" statementType="CALLABLE" parameterType="HashMap" resultType="String">
+	    {
+	    	call Hardware_Create_I1_Str
+	    	(
+	    		#{hard_code},
+	    		#{hard_name},
+	    		#{manu_company},
+	    		#{purchase_date},
+	    		#{purchase_price},
+	    		#{place},
+	    		#{as_phone},
+	    		#{spec},
+	    		#{part},
+	    		#{rating},
+	    		#{iManagerSeq},
+	    		#{file1}
+	    		
+	    	)
+	    }
+
+	</select>
+	
+	
+	<select id="hardwareInfo"  parameterType="HashMap" resultType="Map">
+
+        SELECT
+      		IFNULL(A.hard_code,'') as hard_code
+			,IFNULL(A.hard_name,'') as hard_name
+			,IFNULL(A.manu_company,'') as manu_company
+			,IFNULL(A.purchase_price,0) as purchase_price
+			,IFNULL(A.place,'') as place
+			,IFNULL(A.as_phone,'') as as_phone
+			,IFNULL(A.spec,'') as spec
+			,IFNULL(A.part,'') as part
+			,IFNULL(A.rating,'') as rating
+			,IFNULL(convert(date_format(A.REG_DATE, '%Y-%m-%d'), char(10)),'') as reg_date
+			,IFNULL(convert(date_format(A.purchase_date, '%Y-%m-%d'), char(10)),'') as purchase_date
+			,B.NO as no
+			,B.hard_no as hard_no
+			,IFNULL(convert(date_format(B.RECODEDATE, '%Y-%m-%d'), char(10)),'') as recodedate
+			,IFNULL(B.PURPOSE_USE,'') as purpose_use
+			,IFNULL(B.MG_NAME,'') as mg_name
+			,IFNULL(B.use_department,'') as use_department
+			,IFNULL(B.BIGO,'') as bigo
+			,IFNULL(A.FILE1,'') as file1
+       	 FROM hardware A 
+       	      inner join hardware_detail B on A.hard_no = B.hard_no
+         where A.hard_no = #{hard_no}
+
+    </select>   
+
+
+    <select id="hardwareFileListSql" parameterType="Map" resultType="java.util.LinkedHashMap">
+	     select
+	             b.file_key
+	           , b.file_name
+	           , b.file_path
+	           , b.file_size
+	           , b.file_date
+	   from
+	      hardware a, file_info b
+	   where
+	      b.file_key in (a.file1)
+	       and a.hard_no =  #{hard_no}
+	</select> 
+	
+	
+	<select id="hardwareListTotal"  parameterType="HashMap" resultType="int">
+   
+       	SELECT
+       	 	COUNT(*) 
+       	from hardware A 	
+       	WHERE
+       		A.DELETE_YN = 'N' 
+			${sQuery}
+					
+			
+	
+
+    </select>
+    
+    
+    
+    <select id="hardwareList" parameterType="HashMap" resultType="Map">
+		SELECT * FROM (
+			SELECT 
+				@ROWNUM := @ROWNUM+1 AS no,
+				k.hard_no AS hard_no,
+				IFNULL(k.hard_code, '') AS hard_code,
+				IFNULL(k.hard_name, '') AS hard_name,
+				IFNULL(k.purchase_price,0) as purchase_price,
+				convert(date_format(k.purchase_date, '%Y-%m-%d'), char(10)) as purchase_date,
+				convert(date_format(k.reg_date, '%Y-%m-%d'), char(10)) as reg_date,
+				IFNULL(k.place, '') AS place,
+				IFNULL(k.spec, '') AS spec,		   
+				IFNULL(k.rating, '') AS rating,
+				IFNULL(k.as_phone, '') AS as_phone
+			FROM
+			    (
+					select
+					    A.hard_no,
+					    A.reg_date, 
+					    A.as_phone, 					
+						A.hard_code,
+						A.hard_name,
+						A.place,
+						A.purchase_price,
+						A.purchase_date,
+						A.spec,
+						A.rating
+					from hardware A ,(SELECT @ROWNUM:=0) R
+					where 			   
+						 A.DELETE_YN = 'N'
+						${sQuery}
+						order by A.reg_date desc
+			     ) k
+			)sub
+			WHERE sub.no  BETWEEN ((#{currentPage}-1) * #{rowsPerPage}) + 1 AND #{currentPage} * #{rowsPerPage}
+	
+    </select>
+    
+    <update id="delete" parameterType="hashMap">
+    	UPDATE hardware
+    		SET
+    			DELETE_YN = 'Y'
+    			,DELETE_DATE = now()
+    			,DELETE_BY = #{iManagerSeq}
+    		WHERE 
+    			hard_no = #{hard_no}
+    </update>
+    
+    
+     <select id="editHardwareDetail" statementType="CALLABLE" parameterType="HashMap">
+	    {
+	    	call Hardware_Detail_Update_U1_Str
+	    	(
+			    #{seq},
+			    #{hard_no},
+			    #{recodedate},
+			    #{purpose_use},
+			    #{mg_name},
+			    #{use_department},
+				#{bigo}
+			)
+			
+	    }  	     
+    </select>
+    
+    <select id="editHardware" statementType="CALLABLE" parameterType="HashMap" resultType="String">
+	    {
+	    	call Hardware_Update_U1_Str
+	    	(
+	    		#{hard_no},
+	    		#{hard_code},
+	    		#{hard_name},
+	    		#{purchase_price},
+	    		#{manu_company},
+	    		#{place},
+	    		#{as_phone},
+	    		#{purchase_date},
+	    		#{spec},
+	    		#{part},
+	    		#{rating},
+	    		#{iManagerSeq},
+	    		#{file1}
+	    	)
+	    }
+
+	</select>
+
+
+
+   <select id="deleteFile" statementType="CALLABLE" parameterType="HashMap" >
+     	{  
+     		call Hardware_DeleteFile_D1_Str (#{hard_no},#{type})
+        }
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

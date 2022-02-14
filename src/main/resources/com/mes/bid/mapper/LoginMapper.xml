@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.app.mapper.LoginMapper">
+    <select id="Manager_List_For_Login_S1_Str" statementType="CALLABLE" parameterType="String" resultType="mes.security.UserInfo">
+        {  call Manager_List_For_Login_S1_Str (
+            #{managerId}
+            )
+        }
+    </select>
+    <update id="Manager_List_For_Password_U1_Str" statementType="CALLABLE" parameterType="HashMap">
+        {  call Manager_List_For_Password_U1_Str (
+            #{loginUserSeq},
+            #{password},
+            #{loginUserSeq}
+            )
+        }
+    </update>
+    <update id="Manager_List_For_FailCount_U1_Str" statementType="CALLABLE" parameterType="HashMap">
+        {  call Manager_List_For_FailCount_U1_Str (
+            #{managerId},
+            #{loginFailCount}
+            )
+        }
+    </update>
+    <select id="Manager_Menu_S4_Str" statementType="CALLABLE" parameterType="int" resultType="mes.common.model.MenuItem">
+        {  call Manager_Menu_S4_Str (
+            #{authGroupSeq}
+            )
+        }
+    </select>
+</mapper>

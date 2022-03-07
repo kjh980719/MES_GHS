@@ -1,6 +1,11 @@
 package mes.config;
 
 import mes.config.interceptor.DefaultInterceptor;
+import mes.config.interceptor.LoginInterceptor;
+import mes.config.interceptor.ShopInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,10 +30,26 @@ import java.util.List;
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
 
+	@Value("${default.upload.folder}")
+	private String DefaultPath;
+
+	@Bean
+	public DefaultInterceptor defaultInter() {
+		return new DefaultInterceptor();
+	}
+
+	@Autowired
+	private ShopInterceptor sInterceptor;
+
+	@Autowired
+	private LoginInterceptor loginInterceptor;
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/css/**", "/images/**", "/js/**", "/se2/**", "/c-market/**", "/daum_editor/**", "/editor/**")
-				.addResourceLocations("/css/", "/images/", "/js/", "/se2/", "/c-market/", "/daum_editor/", "/editor/");
+		registry.addResourceHandler("/css/**", "/summernote/**", "/img/**", "/images/**", "/js/**", "/se2/**", "/shop/**", "/erp/**", "/excelDownload/**",
+				"/innopayResource/**\", \"/downloadItems/**", "/home/upload/shopfile/summernote/**", "/favicon.ico")
+				.addResourceLocations("/css/", "/summernote/", "/img/", "/images/", "/js/", "/se2/", "/shop/", "/erp/", "/excelDownload/", "/innopayResource/", "/downloadItems/",
+						"/home/upload/shopfile/summernote/");    // 임시로 함
 	}
 
 	@Bean
@@ -37,7 +58,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	}
 
 	/**
-	 * json �쓣 �젣�쇅�븳 紐⑤뱺 而⑦듃濡ㅻ윭�쓽 �씤�꽣�뀎�꽣. �꽑�깮�븳 硫붾돱瑜� 醫뚯륫 硫붾돱援ъ“�뿉�꽌 �솢�꽦�솕瑜� �쐞�븳 �옉�뾽�벑�쓣 �떞�떦�븳�떎.
+	 * json 을 제외한 모든 컨트롤러의 인터셉터. 선택한 메뉴를 좌측 메뉴구조에서 활성화를 위한 작업등을 담당한다.
 	 */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
@@ -46,27 +67,29 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(wci);
 		registry.addInterceptor(new DefaultInterceptor()).excludePathPatterns(
 				"/*/*.json"
-				,"/favicon.ico"
+				, "/favicon.ico"
 				, "/se2/**"
 				, "/css/**"
+				, "/**/css/**"
 				, "/js/**"
+				, "/img/**"
 				, "/images/**"
 				, "/common/**"
-				, "/login"
 				, "/error"
-				, "/determineDefaultUrl"
-				, "/index"
-				, "/memo/**"
-				, "/c-market/**"
-				, "/showImage/**"
-				, "/daum_editor/**"
-				, "/editor/**"
-				, "/pdftest"
-				, "/pdf/**"
-				, "/"
-
+				, "/shop/**"
+				, "/erp/**"
+				, "/master/**"
+				, "/excelDownload/**"
+				, "/innopayResource/**"
+				, "/downloadItems/**"
 		);
+
+		registry.addInterceptor(sInterceptor).excludePathPatterns("/shop/member/**", "/board/**", "/master/**", "/**/css/**", "/css/**", "/**/font/**", "/shop/login.do")
+				.addPathPatterns("/shop/**");    // shop 들어갈 때 shopInterceptor 거치기
+		registry.addInterceptor(loginInterceptor).addPathPatterns("/shop/**").addPathPatterns("/master/**")
+				.excludePathPatterns("/shop/login.do", "/**/css/**", "/css/**", "/master/login.do", "/favicon.ico", "/board/**", "/shop/member/**");
 	}
+
 	@Bean
 	public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager) {
 		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
@@ -88,20 +111,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	}
 
 	@Bean
-	public TilesConfigurer tilesConfigurer(){
+	public TilesConfigurer tilesConfigurer() {
 		TilesConfigurer tilesConfigurer = new TilesConfigurer();
-		tilesConfigurer.setDefinitions(new String[] {"/WEB-INF/views/tiles/tiles.xml"});
+		tilesConfigurer.setDefinitions(new String[]{"/WEB-INF/views/tiles/tiles.xml"});
 		tilesConfigurer.setCheckRefresh(true);
 		return tilesConfigurer;
 	}
 
 	@Bean
-	public MessageSource messageSource(){
+	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:/messages/message");
 		messageSource.setDefaultEncoding("UTF-8");
 		messageSource.setCacheSeconds(10);
 		return messageSource;
 	}
-
 }

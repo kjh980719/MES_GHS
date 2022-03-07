@@ -1,189 +1,6 @@
 /*
     jqGrid 생성 function
 */
-
-$(document).ready(function() {
-	$('.pop_bg').attr("onclick",null);
-
-	$('.layer_pop').draggable({
-		handle: ".handle",
-		iframeFix: true,
-		scroll: false,
-		start : function( event, ui ){
-			$('.layer_pop').removeClass('focus');
-			$(this).addClass('focus');
-			
-			
-		},
-		
-	});
-	
-})
-$(window).resize(function() {
-	
-	changeFrame()
-	changeFrame2()
-	changeFrame3()
-	changeFrame4()
-	changeFrame5()
-	changeFrame6()
-	changeFrame7()
-})
-$("#popupframe").onload = function(){
-	changeFrame()
-};
-$("#product_popupframe").onload = function(){
-	changeFrame2()
-};
-$("#manager_popupframe").onload = function(){
-	changeFrame3()
-};
-$("#department_popupframe").onload = function(){
-	changeFrame4()
-};
-$("#material_popupframe").onload = function(){
-	changeFrame5()
-};
-$("#order_popupframe").onload = function(){
-	changeFrame6()
-};
-$("#location_popupframe").onload = function(){
-	changeFrame7()
-};
-
-function changeFrame() {
-	var winW = $(window).innerWidth();
-	$('.layer_pop').removeClass('focus')
-	$('#popupframe').parent('.layer_pop').addClass('focus');
-/*	setTimeout(function() {
-		var frameH = $('#popupframe').contents().find(".master_body").height();
-		$('#popupframe').parent('.layer_pop').css('height',frameH)
-		
-	},500)*/
-	var frameH = $('#popupframe').contents().find(".master_body").height();
-	$('#popupframe').parent('.layer_pop').css('height',frameH)
-	if(winW < 1025) {
-		$('#popupframe').contents().find("body").removeClass('pc');
-	}else {
-		$('#popupframe').contents().find("body").addClass('pc');
-
-		
-	}
-}
-function changeFrame2() {
-	var winW = $(window).innerWidth();
-	$('.layer_pop').removeClass('focus')
-	$('#product_popupframe').parent('.layer_pop').addClass('focus');
-/*	setTimeout(function() {
-		var frameH = $('#product_popupframe').contents().find(".master_body").height();
-		$('#product_popupframe').parent('.layer_pop').css('height',frameH)
-	},500)
- */
-	var frameH = $('#product_popupframe').contents().find(".master_body").height();
-	$('#product_popupframe').parent('.layer_pop').css('height',frameH)
-	if(winW < 1025) {
-		$('#product_popupframe').contents().find("body").removeClass('pc');
-	}else {
-		$('#product_popupframe').contents().find("body").addClass('pc');
-
-		
-	}
-}
-function changeFrame3() {
-	var winW = $(window).innerWidth();
-	$('.layer_pop').removeClass('focus')
-	$('#manager_popupframe').parent('.layer_pop').addClass('focus');
-	setTimeout(function() {
-		var frameH = $('#manager_popupframe').contents().find(".master_body").height();
-		$('#manager_popupframe').parent('.layer_pop').css('height',frameH)
-		
-	},500)
-	
-	if(winW < 1025) {
-		
-		$('#manager_popupframe').contents().find("body").removeClass('pc');
-	}else {
-		$('#manager_popupframe').contents().find("body").addClass('pc');
-
-		
-	}
-}
-function changeFrame4() {
-	var winW = $(window).innerWidth();
-	$('.layer_pop').removeClass('focus')
-	$('#department_popupframe').parent('.layer_pop').addClass('focus');
-	setTimeout(function() {
-		var frameH = $('#department_popupframe').contents().find(".master_body").height();
-		$('#department_popupframe').parent('.layer_pop').css('height',frameH)
-		
-	},500)
-	
-	if(winW < 1025) {
-		
-		$('#department_popupframe').contents().find("body").removeClass('pc');
-	}else {
-		$('#department_popupframe').contents().find("body").addClass('pc');
-
-		
-	}
-}
-function changeFrame5() {
-	var winW = $(window).innerWidth();
-	$('.layer_pop').removeClass('focus')
-	$('#material_popupframe').parent('.layer_pop').addClass('focus');
-	setTimeout(function() {
-		var frameH = $('#material_popupframe').contents().find(".master_body").height();
-		$('#material_popupframe').parent('.layer_pop').css('height',frameH)
-		
-	},500)
-	
-	if(winW < 1025) {
-		
-		$('#material_popupframe').contents().find("body").removeClass('pc');
-	}else {
-		$('#material_popupframe').contents().find("body").addClass('pc');
-
-		
-	}
-}
-
-function changeFrame6() {
-	var winW = $(window).innerWidth();
-	$('.layer_pop').removeClass('focus')
-	$('#order_popupframe').parent('.layer_pop').addClass('focus');
-	setTimeout(function() {
-		var frameH = $('#order_popupframe').contents().find(".master_body").height();
-		$('#order_popupframe').parent('.layer_pop').css('height',frameH)
-	},500)
-
-	if(winW < 1025) {
-
-		$('#order_popupframe').contents().find("body").removeClass('pc');
-	}else {
-		$('#order_popupframe').contents().find("body").addClass('pc');
-
-
-	}
-}
-function changeFrame7() {
-	var winW = $(window).innerWidth();
-	$('.layer_pop').removeClass('focus')
-	$('#location_popupframe').parent('.layer_pop').addClass('focus');
-	setTimeout(function() {
-		var frameH = $('#location_popupframe').contents().find(".master_body").height();
-		$('#location_popupframe').parent('.layer_pop').css('height',frameH)
-	},500)
-
-	if(winW < 1025) {
-
-		$('#location_popupframe').contents().find("body").removeClass('pc');
-	}else {
-		$('#location_popupframe').contents().find("body").addClass('pc');
-
-
-	}
-}
-
 function creatJqGrid(gridId, url, colModel, setPostData, pagerId, dataCntId, rowPerPage, gridParent, callback){
     
 	$("#" + gridId).jqGrid({
@@ -247,7 +64,7 @@ function creatJqGrid(gridId, url, colModel, setPostData, pagerId, dataCntId, row
         height: "auto",
         autowidth : true
     });
-	
+
     resizeJqGridWidth(gridId, gridParent);
 
 
@@ -334,30 +151,30 @@ function initPage(gridId, totalSize, currentPage, pagerId){
 
     // 페이지 리스트가 1이나 데이터가 없을 경우 (링크 빼고 흐린 이미지로 변경)
     if(pageList < 2){
-        pageInner += '<span class="mjbtn_prev mjir_pm">이전</span> ';
+        pageInner += ' ';
         //pageInner+="<img src='prePage2.gif'>";
     }
     // 이전 페이지 리스트가 있을 경우 (링크넣고 뚜렷한 이미지로 변경)
     if(pageList > 1){
         //pageInner+="<a class='first' href='javascript:firstPage()'><img src='firstPage.gif'></a>";
-        pageInner += "<a href=\"javascript:prePage('" + gridId + "', "+totalSize+", '" + pagerId + "');\" class='mjbtn_prev'><span class='mjir_pm'>이전</span></a> ";
-    }
+        pageInner += "<a href='javascript:prePage('" + gridId + "', "+totalSize+", '" + pagerId + "');'  class='prev'><img src=\"/images/egovframework/com/cmm/icon/prev_arrow.png\" alt=\"이전\"></a>";
+    }				
     // 페이지 숫자를 찍으며 태그생성 (현재페이지는 강조태그)
     for(var i = startPageList; i <= endPageList ; i++){
         if(i == currentPage){
-            pageInner = pageInner + "<span class='mjscreen_out'>현재페이지</span><em class='mjlink_page'>"+(i)+"</em> ";
+            pageInner = pageInner + "<strong class='current'><span>"+(i)+"</span></strong> ";
         }else{
-            pageInner = pageInner + "<a href=\"javascript:goPage('" + gridId + "', "+(i)+");\" class='mjlink_page'>"+(i)+"</a> ";
+            pageInner = pageInner + "<a href=\"javascript:goPage('" + gridId + "', "+(i)+");\" >"+(i)+"</a> ";
         }
     }
     // 다음 페이지 리스트가 있을 경우
     if(totalPageList > pageList){
-        pageInner += "<a href=\"javascript:nextPage('" + gridId + "', "+totalSize+", '" + pagerId + "');\" class='mjbtn_next'><span class='mjir_pm'>다음</span></a> ";
+        pageInner += "<a href=\"javascript:nextPage('" + gridId + "', "+totalSize+", '" + pagerId + "');\" class='next'><img src=\"/images/egovframework/com/cmm/icon/next_arrow.png\" alt=\"다음\"></a> ";
         //pageInner += "<a class='last' href='javascript:lastPage("+totalPage+")'><img src='lastPage.gif'></a>";
     }
     // 현재 페이지리스트가 마지막 페이지 리스트일 경우
     if(totalPageList == pageList){
-        pageInner += "<span class='mjbtn_next mjir_pm'>다음</span>";
+        pageInner += "";
         //pageInner+="<img src='nextPage2.gif'>";
         //pageInner+="<img src='lastPage2.gif'>";
     }
@@ -596,7 +413,7 @@ function setTagValue(obj, val, addValue, arr){
 }
 
 function checkPassword(passwordStr) {
-    var regexPattern = /^.*(?=^.{8,16}$)(?=.*\d)(?=.*[a-zA-Z]).*$/;
+    var regexPattern = /^([a-zA-Z0-9]{8,16})$/;
     return (new RegExp(regexPattern)).test(passwordStr);
 }
 
@@ -655,30 +472,39 @@ function nts(str){
 	return str==null?'':str;
 }
 
+$.ajaxSetup({
+    error: function(xhr, status, err) {
+        if (xhr.status == 401)
+           alert("세션이 종료되었습니다.\n재접속 하시기 바랍니다.");
+    }
+});
 
 
-function sessionCheck(){
 
-	var status = true;
-	$.ajax({
-        type : "post",
-        url : "/test",
-        async : false,
-        data : "",
-     	error : function (result){            
-            status = false;     	
-        }
-	})
-	
-	return status;
+function timerFormat00(date, maxTime){
+	if(isNaN(date))
+		return "00";
+	if(date < 10) {
+		return "0" + String(date);
+	}else if(date < maxTime){
+		return date;
+	}else{
+		return "00";
+	}
 }
-
+function checkImage(str){
+	var str_ = str.toLowerCase();
+	if(str_.endsWith(".jpg") || str_.endsWith(".jpeg") || str_.endsWith(".gif") || str_.endsWith(".png") ){
+		return true;
+	}
+	return false;
+}
 function imageUploadProcess(image){
 	var formData = new FormData;
 	formData.append("uploadImage", image);
 	$.ajax({
 		type : "post",
-		url : "/uploadDescImage",
+		url : "/bid/uploadDescImage",
 		contentType : false,
 		processData : false,
 		async : false,
@@ -687,52 +513,80 @@ function imageUploadProcess(image){
 		if (response.success) {
 
 			for(var i = 0; i < response.storeData.length; i++){
-				oEditors.getById["contents"].exec("PASTE_HTML", ["<p class='buy_desc_images' onclick='return false;'><img src='"+response.storeData[i]+"' alt='image' style='max-width:100%'></p><br>"]);
+				oEditors.getById["cmBuyDesc"].exec("PASTE_HTML", ["<p class='buy_desc_images' onclick='return false;'><img src='"+response.storeData[i]+"' alt='image' style='max-width:100%'></p><br>"]);
 			}
 
 		}
 	});
 }
 
-function imageUploadProcess2(image){
-	var formData = new FormData;
-	formData.append("uploadImage", image);
-	$.ajax({
-		type : "post",
-		url : "/uploadDescImage",
-		contentType : false,
-		processData : false,
-		async : false,
-		data: formData
-	}).done(function(response) {
-		if (response.success) {
-
-			for(var i = 0; i < response.storeData.length; i++){
-				oEditors.getById["contents2"].exec("PASTE_HTML", ["<p class='buy_desc_images' onclick='return false;'><img src='"+response.storeData[i]+"' alt='image' style='max-width:100%'></p><br>"]);
-			}
-
-		}
-	});
+function numchk(obj){
+	var num=obj.value;
+	var val = num.replace(/,/gi,"");  // ,를 삭제하고 넘김
+	var regExp=/[^0-9]/gi; //0~9를 제외한 모든문자
+	if(regExp.test(val)){
+		alert("숫자만 입력 가능합니다.");
+		new_num=numchk1(val.replace(regExp,""));
+		obj.value=new_num;
+	}else{
+		new_num= numchk1(val);
+		obj.value=new_num;
+	}
 }
 
+function numchk1(num){
+	if(num==0) {
+		return num;
+	}else{                  //0으로 시작하는 숫자는 1을 곱해서 0을 없애줌
+		num=num*1;
+	}
+	num = new String(num)
+	var temp="";
+	var pos=3;
+	num_len=num.length;
+	while (num_len>0){
+		num_len=num_len-pos;
+		if(num_len<0) {
+			pos=num_len+pos;
+			num_len=0;
+		}
+		temp=","+num.substr(num_len,pos)+temp;
+	}
+	return temp.substr(1);
+}
+//숫자를 제외하곤 ""처리
+function SetNum(obj){
+	var val=obj.value;
+	var regExp=/[^0-9]/gi; //0~9를 제외한 모든문자
+	if(regExp.test(obj.value)){
+		alert("숫자만 입력 가능합니다.");
+		obj.value=val.replace(regExp,"");
+	}
+}
 
-
-
-
-
+//숫자와 - 를 제외하고 "" 처리
+function SetNum2(obj){
+	var val=obj.value;
+	var regExp=/[^0-9-]/gi;
+	if(regExp.test(obj.value)){
+		alert("숫자와 -만  입력 가능합니다.");
+		obj.value=val.replace(regExp,"");
+	}
+}
 
 function pop_memo4(groupCode){
 	var url = "/memo/buyerGroupMemoList?groupCode="+groupCode;
-	$('#memoPop').attr('src',url);
-	$('.pop_box').css('display','block');
-	//var pop_memo4 = window.open(url,'pop_memo4','width=700,height=500,top=50,left=140, resizable=1, scrollbars=1');
-	//pop_memo4.focus();
+	var pop_memo4 = window.open(url,'pop_memo4','width=700,height=500,top=50,left=140, resizable=1, scrollbars=1');
+	pop_memo4.focus();
 }
 
-function popFrame(url){
-	$('#popFrame').attr('src',url);
-	$('.pop_box').css('display','block');
-}
+
+
+
+
+
+
+
 
 // 파일 리스트 번호
 var fileIndex = 0;
@@ -747,7 +601,10 @@ var uploadSize = 20;
 // 등록 가능한 총 파일 사이즈 MB
 var maxUploadSize = 600;
 
-
+$(function (){
+	// 파일 드롭 다운
+	fileDropDown();
+});
 
 // 파일 드롭 다운
 function fileDropDown(){
@@ -873,24 +730,43 @@ function deleteFile(fIndex){
 	// 업로드 파일 테이블 목록에서 삭제
 	$("#fileTr_" + fIndex).remove();
 }
-
-//매개변수로 문자열 값과 바꿀 n번째문자열
-function Left(str, n){
-    if (n<= 0) // 만약 n 이 0보다 작거나 같다면 Left함수에서 0보다 작은경우는 없기에
-        return "";
-    else if (n>String(str).length) //n이 바꿀 문자열보다 짧다면
-        return str; // str을 그냥 리턴
-    else // 정상적이라면
-        return String(str).substring(0,n); // 0번째 문자열 부터 n번째 문자열을 substring한다
+function excFile(rn, d){
+	if(rn != null && rn > 0)
+		$(".ufile_"+rn).remove();
+	$(d).closest("li").remove();
 }
 
-function Right(str, n){ //매개변수로 문자열 값과 바꿀 n번째문자열
-    if (n<= 0) // 만약 n 이 0보다 작거나 같다면 Right 함수에서 0보다 작은경우는 없기에
-        return "";
-    else if (n>String(str).length) //n이 바꿀 문자열보다 짧다면
-        return str;
-    else { //정상적이라면
-        var iLen = String(str).length;
-        return String(str).substring(iLen, iLen - n); // 문자열 끝에서 문자열의 길이 - n까지
-    }
+function allFileDown(dom, zipName){
+	var itemClass = $(dom).data("for");
+	if($("."+itemClass).length <= 0)
+		return false;
+	var zip = new JSZip();
+	$("."+itemClass).each(function(idx, item){
+		zip.file($(item).data("fileName"), urlToPromise($(item).attr("href")));
+	})
+	zip.generateAsync({ type: "blob", compression: "STORE", binary: true })
+		.then(function(blob){
+			saveAs(blob, zipName);
+		})
+}
+
+function urlToPromise(url) {
+	return new Promise(function (resolve, reject) {
+		JSZipUtils.getBinaryContent(url, function (err, data) {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(data);
+			}
+		});
+	});
+}
+
+function downloadEstimate(dom, zipName){
+	if($(".estimate_file").length <= 1){
+		self.location = $(".estimate_file").attr("href");
+		return false;
+	}else{
+		allFileDown(dom, zipName);
+	}
 }

@@ -1303,6 +1303,44 @@ function isNumeric(value){
 	return regExp.test(value);
 }
 
+// 소수 2자리까지
+function isPrimeNumeric(evt){
+	var charCode = (evt.which) ? evt.which : evt.keyCode;
+	var _value = event.srcElement.value;
+
+	if (charCode < 48 || charCode > 57) {
+		if (charCode != 46) { // 숫자와 . 만 입력가능
+			return false;
+		}
+	}
+
+	var _pattern0 = /^\d*[.]\d*$/; // 현재 value에 소수점(.) 이 있으면 . 입력불가
+	if (_pattern0.test(_value)) {
+		if (charCode == 46) {
+			return false;
+		}
+	}
+
+	// 두자리 이하의 숫자만 입력가능
+	var _pattern1 = /^\d{2}$/; // 현재 value가 2자리 숫자이면 . 만 입력가능
+	// {숫자}의 값을 변경하면 자리수를 조정할 수 있다.
+	if (_pattern1.test(_value)) {
+		if (charCode != 46) {
+			alert("두자리 이하의 숫자만 입력가능합니다.");
+			return false;
+		}
+	}
+
+	// 소수점 둘째자리까지만 입력가능
+	var _pattern2 = /^\d*[.]\d{2}$/; // 현재 value가 소수점 둘째자리 숫자면 더이상 입력불가
+	if (_pattern2.test(_value)) {
+		alert("소수점 둘째자리까지만 입력가능합니다.");
+		return false;
+	}
+
+	return true;
+}
+
 function currencyFormatter(amount){
 	return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
 }
@@ -1351,3 +1389,54 @@ function hangul(){ //한글 입력(onkeyPress)
 	}
 }
 
+function summernoteSet (id){
+	$("#"+id).summernote({
+		tabsize: 2,
+		height: 750,
+		lang: "ko-KR",
+		toolbar: [
+			// [groupName, [list of button]]
+			['fontname', ['fontname']],
+			['fontsize', ['fontsize']],
+			['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+			['color', ['forecolor','color']],
+			['table', ['table']],
+			['para', ['ul', 'ol', 'paragraph']],
+			['height', ['height']],
+			['insert',['picture','link','video']],
+			['view', ['codeview','help']]
+		],
+		fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+		fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'] ,
+		callbacks: {
+			onImageUpload: function(files, editor, welEditable) {
+				for (var i = files.length - 1; i >= 0; i--) {
+					summernotSendFile(files[i], $("#"+id));
+				}
+			}
+		}
+	});
+}
+
+function summernotSendFile(file, el) {
+	var form_data = new FormData();
+	form_data.append('file', file);
+	$.ajax({
+		data: form_data,
+		type: "POST",
+		url: '/master/file/editorUpload.json',
+		cache: false,
+		contentType: false,
+		enctype: 'multipart/form-data',
+		processData: false,
+		success: function (data) {
+			if (data.success) {
+				$(el).summernote('editor.insertImage', data.resultMap.contextPathFile);
+				console.log(data.resultMap);
+				$('#imageBoard > ul').append('<li><img src="'+data.resultMap.contextPathFile+'" width="480" height="auto"/></li>');
+			} else {
+				alert("오류가 발생하였습니다." + data.message);
+			}
+		}
+	});
+}

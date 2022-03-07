@@ -9,6 +9,7 @@ public class MenuItem {
 	private int menuSeq;
 	private String menuName;
 	private String programUrl;
+	private String programParameter;
 	private int depth;
 	private int parentMenuSeq;
 	private int displayOrder;

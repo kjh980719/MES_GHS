@@ -1,6 +1,6 @@
 package mes.security.authentication;
 
-import mes.app.mapper.LoginMapper;
+import mes.app.mapper.user.common.LoginMapper;
 import mes.security.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

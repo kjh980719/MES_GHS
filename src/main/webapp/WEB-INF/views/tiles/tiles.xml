@@ -1,35 +1,120 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
-<tiles-definitions>  
- 
-   <!-- Base Definition -->
-	<definition name="base-definition" template="/WEB-INF/views/tiles/layouts/defaultLayout.jsp">
-		<put-attribute name="header" value="/WEB-INF/views/tiles/template/defaultHeader.jsp" />
-		<put-attribute name="menu" value="/WEB-INF/views/tiles/template/defaultMenu.jsp" /> 
-		<put-attribute name="body" value=""/>
- 		<put-attribute name="footer" value="/WEB-INF/views/tiles/template/defaultFooter.jsp" />
+<tiles-definitions>
+
+	<!-- Base Definition -->
+	<definition name="base-definition" template="/WEB-INF/views/tiles/layouts/layout_shop.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/tiles/template/header_shop.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/tiles/template/footer_shop.jsp" />
+	</definition>
+
+	<!-- Shop User -->
+	<definition name="shop:/*/*" extends="base-definition">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}.jsp" />
+	</definition>
+	<definition name="shop:/*/*/*" extends="base-definition">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}/{3}.jsp" />
+	</definition>
+	<definition name="shop:/*/*/*/*" extends="base-definition">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}/{3}/{4}.jsp" />
+	</definition>
+
+	<definition name="sub" template="/WEB-INF/views/tiles/layouts/layout_sub.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/tiles/template/header_shop.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/tiles/template/footer_shop.jsp" />
+	</definition>
+	<definition name="sub:/*/*" extends="sub">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}.jsp" />
+	</definition>
+	<definition name="sub:/*/*/*" extends="sub">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}/{3}.jsp" />
+	</definition>
+	<definition name="sub:/*/*/*/*" extends="sub">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}/{3}/{4}.jsp" />
+	</definition>
+
+	<definition name="empty" template="/WEB-INF/views/tiles/template/empty.jsp">
+		<put-attribute name="content" value=""/>
+	</definition>
+	<definition name="empty:/*/*" extends="empty">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}.jsp" />
+	</definition>
+	<definition name="empty:/*/*/*" extends="empty">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}/{3}.jsp" />
+	</definition>
+	<definition name="empty:/*/*/*/*" extends="empty">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}/{3}/{4}.jsp" />
+	</definition>
+
+	<definition name="join" template="/WEB-INF/views/tiles/template/join.jsp">
+		<put-attribute name="content" value=""/>
+	</definition>
+	<definition name="join:/*/*" extends="join">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}.jsp"/>
+	</definition>
+	<definition name="join:/*/*/*" extends="join">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}/{3}.jsp"/>
+	</definition>
+	<definition name="join:/*/*/*/*" extends="join">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}/{3}/{4}.jsp"/>
+	</definition>
+
+	<definition name="board" template="/WEB-INF/views/tiles/template/board.jsp">
+		<put-attribute name="content" value=""/>
+	</definition>
+	<definition name="board:/*/*" extends="board">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}.jsp"/>
+	</definition>
+	<definition name="board:/*/*/*" extends="board">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}/{3}.jsp"/>
+	</definition>
+	<definition name="board:/*/*/*/*" extends="board">
+		<put-attribute name="content" value="/WEB-INF/views/pages/shop/{1}/{2}/{3}/{4}.jsp"/>
 	</definition>
 
 
 
-	<definition name="/pdf/*" template="/WEB-INF/views/pages/pdf/{1}.jsp">
+	<!-- Shop Admin -->
+	<definition name="master" template="/WEB-INF/views/tiles/layouts/layout_master.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/tiles/template/header_master.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/tiles/template/footer_master.jsp" />
 	</definition>
-<!-- 	<definition name="/cust/*" template="/WEB-INF/views/pages/cust/{1}.jsp">
+	<definition name="master:/*/*" extends="master">
+		<put-attribute name="content" value="/WEB-INF/views/pages/master/{1}/{2}.jsp" />
 	</definition>
-	<definition name="/pallet/*" template="/WEB-INF/views/pages/pallet/{1}.jsp">
+	<definition name="master:/*/*/*" extends="master">
+		<put-attribute name="content" value="/WEB-INF/views/pages/master/{1}/{2}/{3}.jsp" />
 	</definition>
-	
-	<definition name="/material/*" template="/WEB-INF/views/pages/material/{1}.jsp">
+	<definition name="master:/*/*/*/*" extends="master">
+		<put-attribute name="content" value="/WEB-INF/views/pages/master/{1}/{2}/{3}/{4}.jsp" />
 	</definition>
-	
-	<definition name="/partner/*" template="/WEB-INF/views/pages/partner/{1}.jsp">
-	</definition>
-	
-	<definition name="/product/*" template="/WEB-INF/views/pages/product/{1}.jsp">
-	</definition> -->
-	
 
+	<definition name="M_empty" template="/WEB-INF/views/tiles/template/empty_master.jsp">
+		<put-attribute name="content" value=""/>
+	</definition>
+	<definition name="M_empty:/*/*" extends="M_empty">
+		<put-attribute name="content" value="/WEB-INF/views/pages/master/{1}/{2}.jsp" />
+	</definition>
+	<definition name="M_empty:/*/*/*" extends="M_empty">
+		<put-attribute name="content" value="/WEB-INF/views/pages/master/{1}/{2}/{3}.jsp" />
+	</definition>
+	<definition name="M_empty:/*/*/*/*" extends="M_empty">
+		<put-attribute name="content" value="/WEB-INF/views/pages/master/{1}/{2}/{3}/{4}.jsp" />
+	</definition>
+
+	<!-- Login Page -->
+	<definition name="/login" template="/WEB-INF/views/pages/shop/login/login.jsp">
+	</definition>
+	<!-- Admin Login Page -->
+	<definition name="/master/login" template="/WEB-INF/views/pages/master/login/login.jsp">
+	</definition>
+
+	<definition name="/innopay/*" template="/WEB-INF/views/pages/innopay/{1}.jsp">
+	</definition>
 
 
 	<definition name="/*/*" extends="base-definition">
@@ -39,38 +124,30 @@
 	<definition name="/common/memo/*" template="/WEB-INF/views/pages/common/memo/{1}.jsp">
 	</definition>
 
-	<definition name="/c-market/memo/*" template="/WEB-INF/views/pages/common/memo/{1}.jsp">
+	<definition name="/*/popup/*" template="/WEB-INF/views/pages/{1}/popup/{2}.jsp">
+	</definition>
+
+	<definition name="/board/include/*" template="/WEB-INF/views/pages/board/include/{1}.jsp">
 	</definition>
 
 	<definition name="/*/*/*" extends="base-definition">
 		<put-attribute name="body" value="/WEB-INF/views/pages/{1}/{2}/{3}.jsp" />
 	</definition>
 
-	<!-- Login Page -->
-	<definition name="/login" template="/WEB-INF/views/pages/login.jsp">
+	<!-- 리턴페이지 리턴 -->
+	<definition name="/*/*/*" extends="base-definition">
+		<put-attribute name="content" value="/WEB-INF/views/pages/{1}/{2}/{3}.jsp" />
 	</definition>
 
 	<!-- Error Page -->
-	<definition name="/error" extends="base-definition">
-		<put-attribute name="body" value="/WEB-INF/views/pages/common/error.jsp" />
+	<definition name="error" template="/WEB-INF/views/pages/common/error/default.jsp">
 	</definition>
+	<!--	<definition name="/error" extends="base-definition">-->
+	<!--		<put-attribute name="body" value="/WEB-INF/views/pages/common/error.jsp" />-->
+	<!--	</definition>-->
 
 	<!-- Blank Page for only load css -->
 	<definition name="/common/blank" template="/WEB-INF/views/tiles/template/blank.jsp">
 	</definition>
-
-
-	<definition name="/bid/apiRequestGoods" template="/WEB-INF/views/pages/bid/apiRequestGoods.jsp">
-	</definition>
-	
-	
-	<definition name="empty" template="/WEB-INF/views/tiles/layouts/defaultPopupLayout.jsp">
-        <put-attribute name="content" value=""/>  
-    </definition>
-
-
-	<definition name="empty:/*" extends="empty">
-		<put-attribute name="content" value="/WEB-INF/views/pages/popup/{1}.jsp" />
-    </definition>
 
 </tiles-definitions>

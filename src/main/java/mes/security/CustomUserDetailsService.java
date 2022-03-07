@@ -1,8 +1,7 @@
 package mes.security;
 
 
-import mes.app.mapper.HomeMapper;
-import mes.app.mapper.LoginMapper;
+import mes.app.mapper.user.common.LoginMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

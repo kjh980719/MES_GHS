@@ -1,8 +1,14 @@
 package mes.common.controller.adviser;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import mes.common.model.JsonResponse;
 import mes.config.WebSecurityConfig;
 import mes.exception.ServiceException;
-import mes.common.model.JsonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -14,13 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.Locale;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 같은 컨텍스트 내에 모든 컨트롤러에서 발생한 예외를 처리하는 리졸버. 
@@ -40,7 +40,7 @@ public class ExceptionResolver {
 	 */
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
-	public Object defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) throws IOException {
+	public Object defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, RedirectAttributes attr, Exception e) throws IOException {
 		e.printStackTrace();
 		response.setContentType("text/html; charset=UTF-8");
 		String message = e.getCause()==null?e.getMessage():e.getCause().getMessage();
@@ -52,14 +52,6 @@ public class ExceptionResolver {
 			out.println("<script language='javascript' type='text/javascript'>alert('" + e.getMessage() + "');location.href='" + WebSecurityConfig.LOGIN_PAGE + "';</script>");
 			out.flush();
 			return null;
-/*
-		} else if(e instanceof DuplicateKeyException) {
-			message = messageSource.getMessage("fail.common.sql.dup", null, Locale.getDefault());
-		} else if(e instanceof DataIntegrityViolationException) {
-			message = messageSource.getMessage("fail.common.sql.toolong", null, Locale.getDefault());
-		} else if(e instanceof DataAccessException) {
-			message = messageSource.getMessage("fail.common.db", null, Locale.getDefault());
-*/
 		} else if(e instanceof SQLException) {
 			Object[] rep = {((SQLException) e).getSQLState(), e.getMessage()};
 			message = messageSource.getMessage("fail.common.sql", rep, Locale.getDefault());
@@ -75,9 +67,9 @@ public class ExceptionResolver {
 			return JsonResponse.asFailure(fieldName, message);
 		} else {
 			ModelAndView mav = new ModelAndView();
-			mav.setViewName(DEFAULT_ERROR_VIEW);
-		    mav.addObject("exception", message);
-		    mav.addObject("url", request.getRequestURL());
+			mav.setViewName("/common/error/default");
+		    mav.addObject("errorStatusCode", "500");
+		    mav.addObject("errorMessage", message);
 		    return mav;
 		}
 	}

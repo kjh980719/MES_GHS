@@ -1,5 +1,6 @@
 package mes.security.authentication;
 
+import java.net.URLEncoder;
 import mes.config.WebSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -32,14 +33,22 @@ public class CustomLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticati
 			ajaxFlag = true;
 		}
 		if(ajaxFlag) {
-			//ajax request�뿉 ���븳 �꽭�뀡 醫낅즺硫붿떆吏��뒗 commonScript.js ajaxSetup() �뿉�꽌 蹂댁뿬以��떎.
+			//ajax request에 대한 세션 종료메시지는 commonScript.js ajaxSetup() 에서 보여준다.
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 		} else {
 			PrintWriter out = response.getWriter();
 			if(request.getRequestURI().equals("/")) {
-				out.println("<script language='javascript' type='text/javascript'>location.href='" + WebSecurityConfig.LOGIN_PAGE + "';</script>");
-			}else {
-				out.println("<script language='javascript' type='text/javascript'>alert('" + messageSource.getMessage("fail.common.session.expired", null, Locale.getDefault()) + "');location.href='" + WebSecurityConfig.LOGIN_PAGE + "';</script>");
+//				out.println("<script language='javascript' type='text/javascript'>location.href='/temp';</script>");
+				out.println("<script language='javascript' type='text/javascript'>location.href='" + WebSecurityConfig.LOGIN_PAGE + "?reqUrl=" + URLEncoder
+						.encode(request.getRequestURI()+"?"+request.getQueryString(), "UTF-8") + "';</script>");
+			} else {
+				if(request.getRequestURI().contains("/master")){
+//					out.println("<script language='javascript' type='text/javascript'>alert('" + messageSource.getMessage("fail.common.session.expired", null, Locale.getDefault()) + "');location.href='" + WebSecurityConfig.ADMIN_LOGIN_PAGE + "?reqUrl=" + URLEncoder.encode(request.getRequestURI()+(request.getQueryString()!=null?"?"+request.getQueryString():""), "UTF-8") + "';</script>");
+					out.println("<script language='javascript' type='text/javascript'>location.href='" + WebSecurityConfig.ADMIN_LOGIN_PAGE + "';</script>");
+				} else{
+//					out.println("<script language='javascript' type='text/javascript'>alert('" + messageSource.getMessage("fail.common.session.expired", null, Locale.getDefault()) + "');location.href='" + WebSecurityConfig.LOGIN_PAGE + "?reqUrl=" + URLEncoder.encode(request.getRequestURI()+(request.getQueryString()!=null?"?"+request.getQueryString():""), "UTF-8") + "';</script>");
+					out.println("<script language='javascript' type='text/javascript'>location.href='" + WebSecurityConfig.LOGIN_PAGE + "';</script>");
+				}
 			}
 			out.flush();
 		}

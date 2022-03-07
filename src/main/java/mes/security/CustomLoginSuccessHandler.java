@@ -1,51 +1,65 @@
 package mes.security;
 
-import mes.app.util.Util;
-import mes.common.service.APISend;
-import mes.config.PropertyConfig;
-import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
-
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.net.URLEncoder;
+import javax.servlet.http.HttpSession;
+import mes.app.util.Util;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
-    private String LOGIN_SUCCESS_URL;
+  @Override
+  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    HttpSession session = request.getSession();
 
-    public CustomLoginSuccessHandler(){}
+    session.setAttribute("mbCd", Util.getUserInfo().getMbCd());
+    session.setAttribute("mbType", Util.getUserInfo().getMbType());
+    session.setAttribute("mbAuth", Util.getUserInfo().getMbAuthYn());
 
-    public CustomLoginSuccessHandler(String LOGIN_SUCCESS_URL){
-        this.LOGIN_SUCCESS_URL = LOGIN_SUCCESS_URL;
+    String idsave = null;
+
+    if (request.getParameter("memSaveId") == null) {
+      idsave = "N";
+    } else {
+      idsave = request.getParameter("memSaveId");
     }
 
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        UserInfo user =  (UserInfo) authentication.getPrincipal();
-        JSONObject json = new JSONObject();
-        json.put("seq", user.getManagerSeq());
-        json.put("id", user.getManagerId());
-        json.put("name", user.getManagerName());
-        Cookie cookie = new Cookie("mCookie", URLEncoder.encode(json.toJSONString(), "utf-8"));
-        cookie.setDomain("mes.thethe.co.kr");
-        cookie.setMaxAge(12*60*60);
-        response.addCookie(cookie);
-
-        if(PropertyConfig.SERVER_TYPE.equals("prod")){
-            APISend apiSend = new APISend();
-            apiSend.sendLog("접속",0, request.getRemoteAddr(), user.getManagerId());
+    try {
+      Cookie[] cookies = request.getCookies();
+      Cookie enCookie = null;
+      for (Cookie c : cookies) {
+        if ("memSaveId".equals(c.getName())) {
+          enCookie = c;
         }
-
-        response.sendRedirect(LOGIN_SUCCESS_URL);
-
+      }
+      if (idsave.equals("Y")) {
+        Cookie cookie = new Cookie("memSaveId", "");
+        cookie = new Cookie("memSaveId", Util.getUserInfo().getMemberId());
+        cookie.setMaxAge(8 * 60 * 60);
+        cookie.setPath("/shop/");
+        response.addCookie(cookie);
+      } else {
+        Cookie cookie = new Cookie("memSaveId", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/shop/");
+        response.addCookie(cookie);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+
+    String reqUrl = request.getParameter("reqUrl");
+    if (reqUrl != null && reqUrl.length() > 0) {
+      response.sendRedirect(request.getParameter("reqUrl"));
+    } else {
+        response.sendRedirect("/");
+        return;
+    }
+  }
 
 }

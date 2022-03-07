@@ -1,6 +1,6 @@
 package mes.security;
 
-import mes.common.model.MenuItem;
+import java.awt.MenuItem;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,6 +20,8 @@ public class UserInfo implements CredentialsContainer, UserDetails {
 
 	private Collection<GrantedAuthority> authorities = new TreeSet<GrantedAuthority>();
 
+	private List<String> provideServices;
+
 	private final boolean accountNonExpired;
 
 	private final boolean accountNonLocked;
@@ -27,21 +29,37 @@ public class UserInfo implements CredentialsContainer, UserDetails {
 	private final boolean credentialsNonExpired;
 
 	private boolean enabled = true;
-	private int managerSeq;
-	private String managerId;
-	private String password;
-	private int loginFailCount;
-	private int authGroupSeq;
-	private String managerName;
-	private String managerEmail;
-	private String useYn;
-	private String groupUseYn;
-	private String managerTel;
-	private String managerPosition;
-	private String groupName;
-	
-	//�궗�슜�옄 硫붾돱 Map
+	private String memberId;
+	private String memberPass;
+	private String loginOk;
+	private boolean memberPassComp;
+
+	// TABLE : Member_User_Master
+	private int mbSeq;					// 회원 일련번호
+	private String mbType;			    // 회원 유형
+	private String mbCd;				// 회원 코드
+	private String mbNm;				// 회원 이름
+	private String mbEmail;				// 회원 이메일
+	private String mbIsPermit;			// 가입 승인여부
+	private String mbrGrpCd;			// 회원 그룹코드
+	private String mbrGrpNm;			// 회원 그룹이름
+	private byte mbIsLive;				// 사용(탈퇴) 여부
+	private byte mbIsSleep;				// 휴면계정 여부
+	private String isSns;				// sns 회원 구분
+	private int authGroupSeq;			// 관리자 메뉴 권한
+	private String mbAuthYn;			// 회원 본인인증 여부
+
+	private String gradSeq; // 회원등급 seq
+	private String gradNm; // 회원등급명
+
+
+
+
+	//사용자 메뉴 Map
 	private Map allowedMenuMap = new HashMap<String, ArrayList<MenuItem>>();
+
+	private String encryptKey;
+
 
 	public UserInfo() {
 		this.accountNonExpired = true;
@@ -55,7 +73,7 @@ public class UserInfo implements CredentialsContainer, UserDetails {
 
 	@Override
 	public String getUsername() {
-		return null;
+		return mbNm;
 	}
 
 	@Override
@@ -75,7 +93,8 @@ public class UserInfo implements CredentialsContainer, UserDetails {
 
 	@Override
 	public void eraseCredentials() {
-		this.password = "";
+		this.memberPass = "";
 	}
 
+	public String getPassword() { return this.memberPass; }
 }

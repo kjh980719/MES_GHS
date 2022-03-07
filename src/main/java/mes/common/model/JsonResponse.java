@@ -90,6 +90,9 @@ public class JsonResponse
 	public static Map asFailure(String code, String message){
 		return JsonResponse.newInstance().setSuccess(false).setCode(code).setMessage(message).getResponseData();		
 	}
+	public static Map asFailure(Object...obj){
+		return JsonResponse.newInstance().setSuccess(false).addAttributes(obj).getResponseData();
+	}
 /*	
 	public static Map asFailure(Exception e){
 		Throwable th = ServiceException.getRootCause(e);

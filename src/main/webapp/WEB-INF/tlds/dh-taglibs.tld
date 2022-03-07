@@ -6,19 +6,13 @@
     <description>Platform Paging Taglib</description>
     <tlib-version>2.0</tlib-version>
     <short-name>dh</short-name>
-
-
     <function>
         <description>
-            관리자 회원 페이징
+            플랫폼 페이징
         </description>
-        <name>pagingB</name>
+        <name>pagingA</name>
         <function-class>mes.app.util.DHTaglib</function-class>
-        <function-signature>java.lang.String pagingB(int,int,int,int,java.lang.String)</function-signature>
+        <function-signature>java.lang.String pagingA(int, int, int, int)</function-signature>
     </function>
-    
 
-
-    
-    
 </taglib>

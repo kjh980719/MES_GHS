@@ -40,7 +40,7 @@ public class TransactionConfig
 			ApplicationContext applicationContext) throws Exception {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(mainDataSource);
-		sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:com/mes/bid/mapper/*.xml"));
+		sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:com/ttcc/shop/mapper/*/*.xml"));
 		SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
 		sqlSessionFactory.getConfiguration().setMapUnderscoreToCamelCase(true);
 		return sqlSessionFactoryBean.getObject();

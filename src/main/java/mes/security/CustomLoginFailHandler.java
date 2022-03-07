@@ -13,20 +13,13 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 
 public class CustomLoginFailHandler implements AuthenticationFailureHandler {
 
-    private String LOGIN_SUCCESS_URL;
+  @Override
+  public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+      AuthenticationException exception) throws IOException, ServletException {
+    response.setContentType("text/html; charset=UTF-8");
+    PrintWriter out = response.getWriter();
 
-    public CustomLoginFailHandler(){}
-
-    public CustomLoginFailHandler(String LOGIN_SUCCESS_URL){
-        this.LOGIN_SUCCESS_URL = LOGIN_SUCCESS_URL;
-    }
-
-	@Override
-	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException exception) throws IOException, ServletException {
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = response.getWriter();
-
-		out.println("<script>alert('"+exception.getMessage()+"'); location.href='/login';</script>");
-	}
+    out.println("<script language='javascript' type='text/javascript'>alert('" + exception.getMessage() + "');location.href='/shop/login.do';</script>");
+		out.flush();
+  }
 }

@@ -1,9 +1,12 @@
 package mes.security.authentication;
 
-import mes.app.mapper.LoginMapper;
-import mes.config.WebSecurityConfig;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import mes.app.mapper.user.common.LoginMapper;
+import mes.app.util.StringUtil;
 import mes.security.UserInfo;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -13,13 +16,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * UsernamePasswordAuthenticationFilter
@@ -27,59 +27,50 @@ import java.util.*;
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-	@Autowired
-	private UserDetailsService detailsService;
+  @Autowired
+  private LoginMapper loginMapper;
 
-	@Autowired
-	private MenuLoaderService menuLoaderService;
+  @Autowired
+  private MessageSource messageSource;
 
-	@Autowired
-	private LoginMapper loginMapper;
+  @Autowired
+  MenuLoaderService menuLoaderService;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private String pattern = "([a-z0-9\\w-]+\\.*)+[a-z0-9]{2,4}";
 
-	@Autowired
-	private MessageSource messageSource;
+  @Override
+  public boolean supports(Class<?> authentication) {
+    return authentication.equals(UsernamePasswordAuthenticationToken.class);
+  }
 
-	@Override
-	public boolean supports(Class<?> authentication) {
-		return authentication.equals(UsernamePasswordAuthenticationToken.class);
-	}
+  @Override
+  public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    String memberId = authentication.getName();
+    UserInfo user = null;
+    UserInfo muser = null;
 
-	@Override
-	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		Map paramMap = new HashMap();
-		String managerId = authentication.getName();
-		String password = managerId + "_" + authentication.getCredentials().toString();
-		UserInfo user = (UserInfo) detailsService.loadUserByUsername(managerId);
-		if(user == null) {
-			throw new BadCredentialsException(messageSource.getMessage("fail.common.login", null, Locale.getDefault()));
-		} else if(user.getUseYn().equals("N")) {
-			throw new BadCredentialsException(messageSource.getMessage("fail.common.login", null, Locale.getDefault()));
-		} else if(user.getGroupUseYn().equals("N")) {
-			throw new BadCredentialsException(messageSource.getMessage("fail.common.auth.group", null, Locale.getDefault()));
-		} else if(user.getLoginFailCount() > 4) {
-			throw new BadCredentialsException(messageSource.getMessage("fail.common.account.lock", null, Locale.getDefault()));
-		} else if(!passwordEncoder.matches(password, user.getPassword())) {
-			paramMap.put("managerId", managerId);
-			paramMap.put("loginFailCount", user.getLoginFailCount() + 1);
-			loginMapper.Manager_List_For_FailCount_U1_Str(paramMap);
-			throw new BadCredentialsException(messageSource.getMessage("fail.common.pwd.diffrent", Arrays.asList(user.getLoginFailCount() + 1).toArray(), Locale.getDefault()));
-		}
-		paramMap.put("managerId", managerId);
-		paramMap.put("loginFailCount", 0);
-		loginMapper.Manager_List_For_FailCount_U1_Str(paramMap);
-		
-		user.getAllowedMenuMap().put(WebSecurityConfig.MES_MENU, menuLoaderService.setUserMenu(user));
+    ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 
-		List<GrantedAuthority> userAuthorities = new ArrayList<GrantedAuthority>();
-		//湲곕낯 role �쓣 �꽭�똿
-		userAuthorities.add((GrantedAuthority)new SimpleGrantedAuthority("ROLE_USER"));	//濡쒓렇�씤�쑀��
+    String type = attr.getRequest().getParameter("type");
+
+    user = (UserInfo) loginMapper.selectMemberInfo(memberId, BCrypt.hashpw(authentication.getCredentials().toString(), BCrypt.gensalt()), type);
+    String password = authentication.getCredentials().toString();
+    if (user == null) {
+      throw new BadCredentialsException(messageSource.getMessage("fail.common.login", null, Locale.getDefault()));
+    } else if (!password.matches(StringUtil.isNullToString(user.getPassword()))) {
+      throw new BadCredentialsException(messageSource.getMessage("fail.common.pwd.diffrent", null, Locale.getDefault()));
+    }
+
+    List<GrantedAuthority> userAuthorities = new ArrayList<GrantedAuthority>();
+
+    String mbName = "";
+
+    //기본 role 을 세팅
+		loginMapper.uptMbrAcsRec(user.getMbCd());
+		userAuthorities.add((GrantedAuthority) new SimpleGrantedAuthority("ROLE_USER"));  //로그인유저
 		user.setAuthorities(userAuthorities);
 
-		return new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities());
-	}
-
+    return new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities());
+  }
 
 }

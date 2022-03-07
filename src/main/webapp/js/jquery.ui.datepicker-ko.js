@@ -15,7 +15,7 @@ jQuery(function($){
 		dayNamesMin: ['일','월','화','수','목','금','토'],
 		weekHeader: 'Wk',
 		dateFormat: 'yy-mm-dd',
-		buttonImage: "/images/ico_carlendar.jpg",
+		buttonImage: "/images/icon/calendar.png",
         showOn: "both",
 		firstDay: 0,
 		isRTL: false,
